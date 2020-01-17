@@ -19,10 +19,10 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
@@ -33,7 +33,7 @@ import ca.gc.tri_agency.granting_data.app.GrantingDataApp;
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GrantingDataApp.class)
 @ActiveProfiles("test")
-@PropertySource("classpath:test\\resources\\application-test.properties")
+@TestPropertySource("classpath:test\\resources\\application-test.properties")
 public class AdminUseCasesTest {
 
 	@Autowired
@@ -58,6 +58,12 @@ public class AdminUseCasesTest {
 	public void testSelectFileForCopmarisonFilePageLinkRequests() throws Exception {
 		mvc.perform(get("/admin/analyzeFoUploadData").param("filename", "NAMIS-TestFile.xlsx"))
 				.andExpect(status().isOk());
+	}
+
+	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
+	@Test
+	public void testDatabaseIsPopulatedOnInstall() {
+		// TODO:
 	}
 
 //	@WithMockUser(username = "admin", roles = {"MDM ADMIN"})

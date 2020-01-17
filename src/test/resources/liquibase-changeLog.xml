@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog 
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog-ext
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd 
+   http://www.liquibase.org/xml/ns/dbchangelog 
+   http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
+   
+
+	<include file="db/version-0.0.1.xml"/>
+	<include file="db/populate_granting_systems-0.0.1.xml"/>
+	<include file="db/version-0.0.3.xml"/>
+	
+	<!-- <changeSet author="Alex Hamilton" id="create table for FundingCycleDatasetRows">
+		<createTable tableName="funding_cycle_dataset">
+			<column name="ID" type="BIGINT" autoIncrement="true">
+				<constraints primaryKey="true" nullable="false">
+				</constraints>
+			</column>
+			<column name="FO_Cycle" type="VARCHAR(25)"></column>
+			<column name="Fiscal_Year_Id" type="LONG"></column>
+			<column name="Program_ID" type="VARCHAR(25)" />
+			<column name="Program_English" type="VARCHAR(100)" />
+			<column name="Program_French" type="VARCHAR(100)" />
+			<column name="Num_Received_Apps" type="LONG" />
+		</createTable>
+	</changeSet> -->
+
+
+</databaseChangeLog>
