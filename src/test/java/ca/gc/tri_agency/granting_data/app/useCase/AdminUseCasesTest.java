@@ -53,11 +53,12 @@ public class AdminUseCasesTest {
 				.andExpect(status().isOk());
 	}
 
-//	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
-//	@Test
-//	public void testSelectFileForCopmarisonFilePageLinkRequests() throws Exception {
-//		mvc.perform(get("admin/analzyeFoUploadData"))
-//	}
+	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
+	@Test
+	public void testSelectFileForCopmarisonFilePageLinkRequests() throws Exception {
+		mvc.perform(get("/admin/analyzeFoUploadData").param("filename", "NAMIS-TestFile.xlsx"))
+				.andExpect(status().isOk());
+	}
 
 //	@WithMockUser(username = "admin", roles = {"MDM ADMIN"})
 //	@Test
