@@ -1,9 +1,9 @@
 package ca.gc.tri_agency.granting_data.app.useCase;
 
-//import static org.junit.Assert.assertTrue;
 //import static org.junit.Assert.assertArrayEquals;
 //import static org.junit.Assert.assertEquals;
 
+import static org.junit.Assert.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,24 +22,26 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import ca.gc.tri_agency.granting_data.app.GrantingDataApp;
+import ca.gc.tri_agency.granting_data.repo.FundingOpportunityRepository;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GrantingDataApp.class)
-@ActiveProfiles("test")
-@TestPropertySource("classpath:test\\resources\\application-test.properties")
+@ActiveProfiles("local")
 public class AdminUseCasesTest {
 
 	@Autowired
 	private WebApplicationContext context;
 
 	private MockMvc mvc;
+
+	@Autowired
+	private FundingOpportunityRepository foRepo;
 
 	@Before
 	public void setup() {
@@ -63,7 +65,7 @@ public class AdminUseCasesTest {
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void testDatabaseIsPopulatedOnInstall() {
-		// TODO:
+		assertTrue("There are " + foRepo.findAll().size() + " FOs in the db", foRepo.findAll().size() > 100);
 	}
 
 //	@WithMockUser(username = "admin", roles = {"MDM ADMIN"})
