@@ -1,5 +1,7 @@
 package ca.gc.tri_agency.granting_data.app.useCase;
 
+import static org.hamcrest.CoreMatchers.containsString;
+
 //import static org.junit.Assert.assertArrayEquals;
 //import static org.junit.Assert.assertEquals;
 
@@ -24,6 +26,7 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -58,8 +61,7 @@ public class AdminUseCasesTest {
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void testSelectFileForCopmarisonFilePageLinkRequests() throws Exception {
-		mvc.perform(get("/admin/analyzeFoUploadData").param("filename", "NAMIS-TestFile.xlsx"))
-				.andExpect(status().isOk());
+		mvc.perform(get("/admin/analyzeFoUploadData").param("filename", "NAMIS.xlsx")).andExpect(status().isOk());
 	}
 
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
@@ -68,55 +70,12 @@ public class AdminUseCasesTest {
 		assertTrue("There are " + foRepo.findAll().size() + " FOs in the db", foRepo.findAll().size() > 100);
 	}
 
-//	@WithMockUser(username = "admin", roles = {"MDM ADMIN"})
-//	@Test
-//	public void testUploadGoldenList() {
-//		Path uploadFromPath = Paths.get("C:\\Temp\\grantingData");
-//		assertTrue("Upload from path does not exist", Files.exists(uploadFromPath));
-////		assertTrue("Upload from path does not exist", Files.exists(Paths.get("C:\\Temp\\No folder here")));
-//		
-//		assertTrue("Can not open the upload from directory", Files.isExecutable(uploadFromPath));
-////		assertTrue("Can not open the upload from directory", Files.isExecutable(Paths.get("C:\\Temp\\Won\'t Open Dir")));
-//		
-//		assertTrue("Upload to path does not exist", Files.exists(Paths.get("src", "test", "resources", "datasets")));
-////		assertTrue("Upload to path does not exist", Files.exists(Paths.get("src", "test", "resources", "datasets - DNE")));
-//		
-//		String fileNamePass = "C:\\Temp\\grantingData\\programFile.xlsm";
-//		assertTrue("Upload file does not exist", Files.exists(Paths.get(fileNamePass)));
-////		assertTrue("Upload file does not exist", Files.exists(Paths.get("C:\\Temp\\grantingData\\programFile DNE.xlsm")));
-//		
-//		assertEquals("Upload file is of an incorrect type,", "xlsm", fileNamePass.substring(fileNamePass.lastIndexOf('.') + 1));
-////		String fileNameFail = "C:\\Temp\\grantingData\\programFile.txt";
-////		assertEquals("Upload file is of an incorrect type,", "xlms", fileNameFail.substring(fileNameFail.lastIndexOf('.') + 1));
-//		
-//		assertTrue("Upload file is not readable", Files.isReadable(Paths.get(fileNamePass)));
-////		assertTrue("Upload file is not readable", Files.isReadable(Paths.get("C:\\Temp\\grantingData\\programFile - Unreadable.xlsm")));
-//		
-//		assertTrue("Upload file can not be opened", Files.isExecutable(Paths.get(fileNamePass)));
-////		assertTrue("Upload file can not be opened", Files.isExecutable(Paths.get("C:\\Temp\\grantingData\\programFile - Can't be Opened.xlsm")));
-//		
-//		Path outDirPath = Paths.get("src", "test", "resources", "datasets");
-//		assertTrue("Can not write to the upload to directory", Files.isWritable(outDirPath));
-////		assertTrue("Can not write to the upload to directory", Files.isWritable(Paths.get("C:\\Temp\\Can\'t Write to Dir")));
-//		
-//		assertTrue("Can not open the upload to directory", Files.isExecutable(outDirPath));
-////		assertTrue("Can not open the upload to directory", Files.isExecutable(Paths.get("src", "test", "resources", "Purposely Won\'t Open")));
-//		
-//		Path uploadDestFilePath = Paths.get("src", "test", "resources", "datasets", "programFile.xlsm");
-//		assertTrue("Upload file was not written to the correct destination", Files.exists(uploadDestFilePath));
-////		assertTrue("Upload file was not written to the correct destination", 
-////				Files.exists(Paths.get("src", "test", "resources", "datasets", "progs.xlsm")));
-//		
-//		
-//		try {
-//			assertArrayEquals("Upload and destination files are not the same", 
-//					Files.readAllBytes(Paths.get(fileNamePass)), Files.readAllBytes(uploadDestFilePath));
-////			assertArrayEquals("Upload and destination files are not the same", 
-////					Files.readAllBytes(Paths.get(fileNamePass)), 
-////					Files.readAllBytes(Paths.get("src", "test", "resources", "application-test.properties")));
-//		} catch (IOException ioe) {
-//			ioe.printStackTrace();
-//		}
-//	}
-//
+	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
+	@Test
+	public void testChangeProgramLeadLink_withAdminUser() throws Exception {
+		mvc.perform(get("/manage/manageFo").param("id", "26")).andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string(containsString("href=\"editProgramLead?id=26\"")));
+		mvc.perform(get("/manage/editProgramLead").param("id", "26")).andExpect(status().isOk());
+	}
+
 }
