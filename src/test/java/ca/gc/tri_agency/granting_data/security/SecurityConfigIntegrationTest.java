@@ -1,5 +1,6 @@
 package ca.gc.tri_agency.granting_data.security;
 
+import static org.junit.Assert.assertFalse;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,7 +23,7 @@ import ca.gc.tri_agency.granting_data.app.GrantingDataApp;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(classes = GrantingDataApp.class)
-@ActiveProfiles("test")
+@ActiveProfiles("local")
 public class SecurityConfigIntegrationTest {
 
 	@Autowired
@@ -52,5 +53,28 @@ public class SecurityConfigIntegrationTest {
 	@Test
 	public void givenAdminAuthRequestOnAdminUrl_shouldSucceedWith200() throws Exception {
 		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().isOk());
+	}
+
+	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER", "nserc-user-edi" })
+	@Test
+	public void editProgramLead_nonAminUsers_linkNotVisible() throws Exception {
+		String mockResponse = mvc.perform(get("/manage/manageFo").param("id", "26")).andExpect(status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		assertFalse("Non-admin users should not be able to change a program\'s lead",
+				mockResponse.contains("id=\"changeProgramLeadLink\""));
+
+		// For use when findAll() is working for the FO Repository
+//		List<FundingOpportunity> foList = foRepo.findAll();
+//		foList.forEach(fo -> {
+//			try {
+//				System.out.println(foList.size());
+//				String foId = String.valueOf(fo.getId());
+//				mvc.perform(get("/manage/manageFo").param("id", foId)).andExpect(status().isOk()).andExpect(
+//						MockMvcResultMatchers.content().string(containsString("id=\"changeProgramLeadLink\"")));
+//				mvc.perform(get("/manage/editProgramLead").param("id", foId)).andExpect(status().isOk());
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		});
 	}
 }

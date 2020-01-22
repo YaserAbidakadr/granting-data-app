@@ -43,7 +43,7 @@
 			<div class="col-sm-2 col-form-label" th:utext="#{form.programLeadName}">Program Lead Name</div>
 			<div class="col-sm-2" th:text="${fo.programLeadName}"></div>
 			<div class="col-sm-2">
-				<a class="btn" th:href="@{editProgramLead(id=${fo.id})}">Change Program Lead</a>
+				<a class="btn" id="changeProgramLeadLink" th:href="@{editProgramLead(id=${fo.id})}">Change Program Lead</a>
 			</div>
 		</div>
 		<div class="form-group row">

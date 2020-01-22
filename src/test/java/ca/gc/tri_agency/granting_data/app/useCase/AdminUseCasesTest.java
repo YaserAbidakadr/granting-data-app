@@ -74,8 +74,22 @@ public class AdminUseCasesTest {
 	@Test
 	public void testChangeProgramLeadLink_withAdminUser() throws Exception {
 		mvc.perform(get("/manage/manageFo").param("id", "26")).andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.content().string(containsString("href=\"editProgramLead?id=26\"")));
+				.andExpect(MockMvcResultMatchers.content().string(containsString("id=\"changeProgramLeadLink\"")));
 		mvc.perform(get("/manage/editProgramLead").param("id", "26")).andExpect(status().isOk());
+
+		// For use when findAll() is working for the FO Repository
+//		List<FundingOpportunity> foList = foRepo.findAll();
+//		foList.forEach(fo -> {
+//			try {
+//				System.out.println(foList.size());
+//				String foId = String.valueOf(fo.getId());
+//				mvc.perform(get("/manage/manageFo").param("id", foId)).andExpect(status().isOk()).andExpect(
+//						MockMvcResultMatchers.content().string(containsString("id=\"changeProgramLeadLink\"")));
+//				mvc.perform(get("/manage/editProgramLead").param("id", foId)).andExpect(status().isOk());
+//			} catch (Exception e) {
+//				e.printStackTrace();
+//			}
+//		});
 	}
 
 }
