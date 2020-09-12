@@ -1,5 +1,6 @@
 package ca.gc.tri_agency.granting_data.app;
 
+import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -12,6 +13,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @ComponentScan("ca.gc.tri_agency.granting_data")
 @EntityScan("ca.gc.tri_agency.granting_data.model")
 @EnableJpaRepositories(basePackages = { "ca.gc.tri_agency.granting_data.repo" })
+@EnableBatchProcessing
 public class GrantingDataApp {
 
 //	@Autowired

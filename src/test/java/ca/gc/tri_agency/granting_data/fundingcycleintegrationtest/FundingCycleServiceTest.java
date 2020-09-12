@@ -339,7 +339,7 @@ public class FundingCycleServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findFCsForCalendar() {
-		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(3);
+		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(2);
 
 		assertEquals(1, fcProjections.size());
 		assertEquals(LocalDate.of(2020, 11, 26), fcProjections.get(0).getStartDateNOI());
