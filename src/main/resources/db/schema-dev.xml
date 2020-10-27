@@ -1,0 +1,557 @@
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
+    http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
+    
+    <changeSet id="00000000000002" author="jfs">
+        <createSequence sequenceName="seq_agency" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000003" author="jfs">
+        <createTable tableName="agency">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_agency">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="acronym_en" type="VARCHAR(255)"/>
+            <column name="acronym_fr" type="VARCHAR(255)"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000004" author="jfs">
+        <createSequence sequenceName="seq_fiscal_year" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000005" author="jfs">
+        <createTable tableName="fiscal_year">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_fiscal_year">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="year" type="BIGINT">
+                <constraints nullable="false" unique="true"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000006" author="jfs">
+        <createSequence sequenceName="seq_funding_opportunity" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000007" author="jfs">
+        <createTable tableName="funding_opportunity">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_funding_opportunity">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="frequency" type="VARCHAR(255)"/>
+            <column name="funding_type" type="VARCHAR(255)"/>
+            <column name="is_complex" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_edi_required" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_joint_initiative" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+            <column name="partner_org" type="VARCHAR(255)"/>
+            <column name="isloi" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="isnoi" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000008" author="jfs">
+        <createSequence sequenceName="seq_funding_cycle" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000009" author="jfs">
+        <createTable tableName="funding_cycle">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_funding_cycle">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="end_date" type="date"/>
+            <column name="expected_applications" type="BIGINT">
+                <constraints nullable="false"/>
+            </column>
+            <column name="is_open" type="BIT(1)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="start_date" type="date"/>
+            <column name="fiscal_year_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_funding_cycle_fiscal_year" references="fiscal_year(id)"/>
+            </column>
+            <column name="funding_opportunity_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_funding_cycle_funding_opportunity" references="funding_opportunity(id)"/>
+            </column>
+            <column name="end_dateloi" type="date"/>
+            <column name="end_datenoi" type="date"/>
+            <column name="start_dateloi" type="date"/>
+            <column name="start_datenoi" type="date"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000010" author="jfs">
+        <createTable tableName="funding_opportunity_participating_agencies">
+            <column name="funding_opportunity_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_funding_opportunity_participating_agencies_funding_opportunity" references="funding_opportunity(id)"/>
+            </column>
+            <column name="participating_agency_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_funding_opportunity_participating_agencies_agency" references="agency(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000011" author="jfs">
+        <createSequence sequenceName="seq_granting_capability" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000012" author="jfs">
+        <createTable tableName="granting_capability">
+            <column name="id" type="BIGINT"  valueSequenceNext="seq_granting_capability">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="description" type="VARCHAR(255)"/>
+            <column name="url" type="VARCHAR(255)"/>
+            <column name="funding_opportunity_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_granting_capability_funding_opportunity" references="funding_opportunity(id)"/>
+            </column>
+            <column name="granting_stage_id" type="BIGINT"/>
+            <column name="granting_system_id" type="BIGINT"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000013" author="jfs">
+        <createSequence sequenceName="seq_granting_stage" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000014" author="jfs">
+        <createTable tableName="granting_stage">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_granting_stage">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000015" author="jfs">
+        <createSequence sequenceName="seq_granting_system" startValue="1" incrementBy="1" />
+    </changeSet>
+    <changeSet id="00000000000016" author="jfs">
+        <createTable tableName="granting_system">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_granting_system">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="acronym" type="VARCHAR(255)"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000017" author="jfs">
+        <createSequence sequenceName="seq_system_funding_opportunity" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000018" author="jfs">
+        <createTable tableName="system_funding_opportunity">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_system_funding_opportunity">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="ext_id" type="VARCHAR(255)"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+            <column name="granting_system_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_system_funding_opportunity_granting_system" references="granting_system(id)"/>
+            </column>
+            <column name="linked_funding_opportunity_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_system_funding_opportunity_funding_opportunity" references="funding_opportunity(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000019" author="jfs">
+        <createSequence sequenceName="seq_system_funding_cycle" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000020" author="jfs">
+        <createTable tableName="system_funding_cycle">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_system_funding_cycle">
+                 <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="fiscal_year" type="BIGINT"/>
+            <column name="ext_id" type="VARCHAR(255)"/>
+            <column name="num_apps_received" type="BIGINT"/>
+            <column name="system_funding_opportunity_id" type="BIGINT">
+                <constraints nullable="false" foreignKeyName="fk_system_funding_cycle_system_funding_opportunity" references="system_funding_opportunity(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000021" author="jfs">
+        <addPrimaryKey columnNames="funding_opportunity_id, participating_agency_id" constraintName="PRIMARY5" tableName="funding_opportunity_participating_agencies"/>
+    </changeSet>
+    <changeSet id="00000000000022" author="dev_aha">
+        <createSequence sequenceName="seq_application_participation" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="000000000023" author="dev_aha">
+        <createTable tableName="application_participation">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_application_participation">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="application_identifier" type="VARCHAR(255)"/>
+            <column name="appl_id" type="VARCHAR(255)"/>
+            <column name="competition_year" type="BIGINT"/>
+            <column name="program_id" type="VARCHAR(255)"/>
+            <column name="program_en" type="VARCHAR(255)"/>
+            <column name="program_fr" type="VARCHAR(255)"/>
+            <column name="create_date" type="TIMESTAMP"/>
+            <column name="role_code" type="VARCHAR(255)"/>
+            <column name="role_en" type="VARCHAR(255)"/>
+            <column name="role_fr" type="VARCHAR(255)"/>
+            <column name="family_name" type="VARCHAR(255)"/>
+            <column name="given_name" type="VARCHAR(255)"/>
+            <column name="person_identifier" type="BIGINT"/>
+            <column name="organization_id" type="VARCHAR(255)"/>
+            <column name="organization_name_en" type="VARCHAR(255)"/>
+            <column name="organization_name_fr" type="VARCHAR(255)"/>
+            <column name="freeform_address_1" type="VARCHAR(255)"/>
+            <column name="freeform_address_2" type="VARCHAR(255)"/>
+            <column name="freeform_address_3" type="VARCHAR(255)"/>
+            <column name="freeform_address_4" type="VARCHAR(255)"/>
+            <column name="municipality" type="VARCHAR(255)"/>
+            <column name="postal_zip_code" type="VARCHAR(255)"/>
+            <column name="province_state_code" type="VARCHAR(255)"/>
+            <column name="country" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000023" author="dev_aha">
+        <createSequence sequenceName="seq_business_unit" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000024" author="dev_aha">
+        <createTable tableName="business_unit">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_business_unit">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+            <column name="acronym_en" type="VARCHAR(255)"/>
+            <column name="acronym_fr" type="VARCHAR(255)"/>
+            <column name="agency_id" type="BIGINT" >
+                <constraints foreignKeyName="fk_business_unit_agency" nullable="false" references="agency(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000025" author="dev_aha">
+        <addColumn tableName="funding_opportunity">
+            <column name="business_unit_id" type="BIGINT">
+                <constraints nullable="true" foreignKeyName="fk_funding_opportunity_business_unit" references="business_unit(id)"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    <changeSet id="00000000000026" author="dev_aha">
+        <createSequence sequenceName="seq_role" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000027" author="dev_aha">
+        <createTable tableName="role">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_role">
+                <constraints nullable="false" primaryKey="true"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000028" author="dev_aha">
+        <createSequence sequenceName="seq_member_role" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000029" author="dev_aha">
+        <createTable tableName="member_role">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_member_role">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="user_login" type="VARCHAR(255)"/>
+            <column name="role_id" type="BIGINT">
+                <constraints foreignKeyName="fk_member_role_role" nullable="false" references="role(id)"/>
+            </column>
+            <column name="business_unit_id" type="BIGINT">
+                <constraints foreignKeyName="fk_member_role_business_unit" nullable="false" references="business_unit(id)"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000030" author="dev_aha">
+        <createSequence sequenceName="seq_award" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000031" author="dev_aha">
+        <createTable tableName="award">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_award">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="awarded_amount" type="DOUBLE"/>
+            <column name="funding_year" type="BIGINT"/>
+            <column name="appl_id" type="VARCHAR(255)"/>
+            <column name="family_name" type="VARCHAR(255)"/>
+            <column name="given_name" type="VARCHAR(255)"/>
+            <column name="role_code" type="VARCHAR(255)"/>
+            <column name="role_en" type="VARCHAR(255)"/>
+            <column name="role_fr" type="VARCHAR(255)"/>
+        </createTable>   
+    </changeSet>
+    <changeSet id="00000000000032" author="dev_aha">
+        <addColumn tableName="application_participation">
+            <column name="edi_not_applicable" type="BIT(1)" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_birth_indicator" type="BIT(1)" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="date_of_birth" type="DATE"/>
+            <column name="ind_identity_pref_not_to" type="BIT(1)" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="disability_response" type="VARCHAR(255)"/>
+            <column name="visible_min_pref_not_to" type="BIT(1)" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+            <column name="create_user_id" type="VARCHAR(3)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="00000000000033" author="dev_aha">
+        <addColumn tableName="member_role">
+            <column name="edi_authorized" type="BIT(1)" defaultValueBoolean="false">
+                <constraints nullable="false"/>
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <!-- Added for the demo; should be removed afterwards -->
+    <changeSet id="00000000000034" author="dev_aha">
+        <addColumn tableName="application_participation">
+            <column name="is_deadline_passed" type="BIT(1)" defaultValueBoolean="false">
+                <constraints nullable="false" />
+            </column>
+        </addColumn>
+    </changeSet>
+    
+    <!-- Auditing Tables -->
+    <changeSet id="00000000000035" author="dev_aha">
+        <createSequence sequenceName="seq_revision_info" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000036" author="dev_aha">
+        <createTable tableName="revision_info">
+            <column name="revision" type="BIGINT" valueSequenceNext="seq_revision_info">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="revtstmp" type="TIMESTAMP"/>
+            <column name="username" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000037" author="dev_aha">
+        <createTable tableName="agency_history">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision_type" type="SMALLINT"/>
+            <column name="acronym_en" type="VARCHAR(255)"/>
+            <column name="acronym_fr" type="VARCHAR(255)"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_agency_history_revision_info" 
+                    referencedTableName="revision_info" baseColumnNames="revision" 
+                    baseTableName="agency_history" referencedColumnNames="revision"
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000038" author="dev_aha">
+        <createTable tableName="business_unit_history">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision_type" type="SMALLINT"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+            <column name="acronym_en" type="VARCHAR(255)"/>
+            <column name="acronym_fr" type="VARCHAR(255)"/>
+            <column name="agency_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_business_unit_history_revision_info" 
+                    referencedTableName="revision_info" baseColumnNames="revision" 
+                    baseTableName="business_unit_history" referencedColumnNames="revision"
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000039" author="dev_aha">
+        <createTable tableName="role_history">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="revision" type="BIGINT">
+                <constraints primaryKey="true" nullable="false" />
+            </column>
+            <column name="revision_type" type="SMALLINT" />
+            <column name="name_en" type="VARCHAR(255)" />
+            <column name="name_fr" type="VARCHAR(255)" />
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_role_history_revision_info" 
+                    referencedTableName="revision_info" baseColumnNames="revision" 
+                    baseTableName="role_history" referencedColumnNames="revision"
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000040" author="dev_aha">
+        <createTable tableName="member_role_history">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision_type" type="SMALLINT"/>
+            <column name="user_login" type="VARCHAR(255)"/>
+            <column name="edi_authorized" type="BIT(1)"/>
+            <column name="role_id" type="BIGINT"/>
+            <column name="business_unit_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_member_role_history_revision_info"
+                    referencedTableName="revision_info" baseColumnNames="revision" 
+                    baseTableName="member_role_history" referencedColumnNames="revision"
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000041" author="dev_aha">
+        <createTable tableName="granting_system_history">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision_type" type="SMALLINT"/>
+            <column name="acronym" type="VARCHAR(255)"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_granting_system_history_revision_info" 
+                    referencedTableName="revision_info" baseColumnNames="revision" 
+                    baseTableName="granting_system_history" referencedColumnNames="revision"
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000042" author="dev_aha">
+            <createTable tableName="funding_opportunity_history">
+                <column name="id" type="BIGINT">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="revision" type="BIGINT">
+                    <constraints primaryKey="true" nullable="false"/>
+                </column>
+                <column name="revision_type" type="SMALLINT"/>
+                <column name="frequency" type="VARCHAR(255)"/>
+                <column name="funding_type" type="VARCHAR(255)"/>
+                <column name="is_complex" type="BIT(1)"/>
+                <column name="is_edi_required" type="BIT(1)"/>
+                <column name="is_joint_initiative" type="BIT(1)"/>
+                <column name="name_en" type="VARCHAR(255)"/>
+                <column name="name_fr" type="VARCHAR(255)"/>
+                <column name="partner_org" type="VARCHAR(255)"/>
+                <column name="isloi" type="BIT(1)"/>
+                <column name="isnoi" type="BIT(1)"/>
+                <column name="business_unit_id" type="BIGINT"/>
+            </createTable>
+            <addForeignKeyConstraint constraintName="fk_funding_opportunity_revision_info" 
+                    referencedTableName="revision_info" baseColumnNames="revision" 
+                    baseTableName="funding_opportunity_history" referencedColumnNames="revision"
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000043" author="dev_aha">
+        <createTable tableName="system_funding_opportunity_history">
+            <column name="id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="revision_type" type="SMALLINT"/>
+            <column name="ext_id" type="VARCHAR(255)"/>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+            <column name="granting_system_id" type="BIGINT"/>
+            <column name="linked_funding_opportunity_id" type="BIGINT"/>
+        </createTable>
+        <addForeignKeyConstraint constraintName="fk_system_funding_opportunity_revision_info" 
+                    referencedTableName="revision_info" baseColumnNames="revision"  
+                    baseTableName="system_funding_opportunity_history" referencedColumnNames="revision" 
+                    onDelete="NO ACTION" onUpdate="NO ACTION"/>
+    </changeSet>
+    <changeSet id="00000000000044" author="dev_aha">
+        <createSequence sequenceName="seq_gender" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000045" author="dev_aha">
+        <createTable tableName="gender">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_gender">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000046" author="dev_aha">
+        <addColumn tableName="application_participation">
+            <column name="gender_id" type="BIGINT"/>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="fk_application_participation_gender_id" 
+                referencedTableName="gender" baseColumnNames="gender_id" 
+                baseTableName="application_participation" referencedColumnNames="id"/>
+    </changeSet>
+    <changeSet id="00000000000047" author="dev_aha">
+        <createSequence sequenceName="seq_indigenous_identity" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000048" author="dev_aha">
+        <createTable tableName="indigenous_identity">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_indigenous_identity">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="0000000000049" author="dev_aha">
+        <createTable tableName="app_part_indigenous_identity">
+            <column name="application_participation_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="indigenous_identity_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="00000000000050" author="dev_aha">
+        <createSequence sequenceName="seq_visible_minority" startValue="1" incrementBy="1"/>
+    </changeSet>
+    <changeSet id="00000000000051" author="dev_aha">
+        <createTable tableName="visible_minority">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_visible_minority">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="name_en" type="VARCHAR(255)"/>
+            <column name="name_fr" type="VARCHAR(255)"/>
+        </createTable>
+    </changeSet>
+    <changeSet id="0000000000052" author="dev_aha">
+        <createTable tableName="app_part_visible_minority">
+            <column name="application_participation_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+            <column name="visible_minority_id" type="BIGINT">
+                <constraints primaryKey="true" nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+    <changeSet id="0000000000053" author="dev_aha">
+        <addColumn tableName="award">
+            <column name="requested_amount" type="DOUBLE"/>
+            <column name="program_id" type="VARCHAR(255)"/>
+            <column name="program_name_en" type="VARCHAR(255)"/>
+            <column name="program_name_fr" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    <changeSet id="0000000000054" author="dev_aha">
+        <addColumn tableName="business_unit">
+            <column name="distribution" type="VARCHAR(255)"/>
+        </addColumn>
+        <addColumn tableName="business_unit_history">
+            <column name="distribution" type="VARCHAR(255)"/>
+        </addColumn>
+    </changeSet>
+    
+</databaseChangeLog>
