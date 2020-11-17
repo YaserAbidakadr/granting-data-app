@@ -64,6 +64,7 @@ public class FundingCycleServiceTest {
 		assertTrue(0 < fcService.findFundingCyclesByFundingOpportunityId(1L).size());
 	}
 
+	@Tag("user_story_19420")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingCyclesByFiscalYearId() {

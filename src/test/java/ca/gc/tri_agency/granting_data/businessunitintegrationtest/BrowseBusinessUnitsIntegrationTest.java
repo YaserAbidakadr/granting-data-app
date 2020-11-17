@@ -2,6 +2,7 @@ package ca.gc.tri_agency.granting_data.businessunitintegrationtest;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -30,6 +31,7 @@ public class BrowseBusinessUnitsIntegrationTest {
 		mvc = MockMvcBuilders.webAppContextSetup(ctx).apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
 
+	@Tag("user_story_19401")
 	@WithAnonymousUser
 	@Test
 	public void test_viewBULinkVisibleOnViewAgencyPage_shouldSucceedWith200() throws Exception {
@@ -38,6 +40,7 @@ public class BrowseBusinessUnitsIntegrationTest {
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"viewBULink\"")));
 	}
 
+	@Tag("user_story_19401")
 	@WithAnonymousUser
 	@Test
 	public void test_anonUserCanAccessViewBUPage_shouldSucceedWith200() throws Exception {

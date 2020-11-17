@@ -1,6 +1,7 @@
 package ca.gc.tri_agency.granting_data.awardintegrationtest;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,12 +22,14 @@ public class AwardServiceTest {
 	@Autowired
 	private AwardRepository awdRepo;
 
+	@Tag("user_story_19410")
 	@WithMockUser(username = "aha")
 	@Test
 	public void test_findAwardsForCurrentUser() {
 		Assertions.assertEquals(4, awdService.findAwardsForCurrentUser().size());
 	}
 
+	@Tag("user_story_19414")
 	@WithMockUser(roles = "MDM ADMIN")
 	@Test
 	public void test_adminCanFindAllAwards() {

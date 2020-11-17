@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -39,6 +40,7 @@ public class EditBusinessUnitIntegrationTest {
 		mvc = MockMvcBuilders.webAppContextSetup(ctx).apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_editBULinkVisibileToAdmin_shouldSucceedWith200() throws Exception {
@@ -47,6 +49,7 @@ public class EditBusinessUnitIntegrationTest {
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"editBULink\"")));
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_editBULinkNotVisibileToNonAdmin_shouldReturn200() throws Exception {
@@ -55,6 +58,7 @@ public class EditBusinessUnitIntegrationTest {
 						.string(Matchers.not(Matchers.containsString("id=\"editBULink\""))));
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_adminCanAccessEditBUPage_shouldSucceedWith200() throws Exception {
@@ -63,6 +67,7 @@ public class EditBusinessUnitIntegrationTest {
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"editBusinessUnitPage\"")));
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessEditBUPage_shouldReturn403() throws Exception {
@@ -71,6 +76,7 @@ public class EditBusinessUnitIntegrationTest {
 						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void testController_adminCanEditBU_shouldSucceedWith302() throws Exception {
@@ -102,6 +108,7 @@ public class EditBusinessUnitIntegrationTest {
 		assertEquals(buBeforeUpate.getId(), buAfterUpdate.getId());
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void testController_nonAdminCannotEditBU_shouldReturn403() throws Exception {
