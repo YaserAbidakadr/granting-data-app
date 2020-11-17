@@ -34,6 +34,7 @@ public class EdiControllerIntegrationTest {
 		mvc = MockMvcBuilders.webAppContextSetup(ctx).apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
 
+	@Tag("user_story_19351")
 	@WithAnonymousUser
 	@Test
 	public void test_ediVisualizationLinkVisibleOnHomePage_shouldSucceedWith200() throws Exception {
@@ -41,6 +42,7 @@ public class EdiControllerIntegrationTest {
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("href=\"browse/ediVisualization\"")));
 	}
 
+	@Tag("user_story_19351")
 	@WithAnonymousUser
 	@Test
 	public void test_nonAdminUserCanAccessEdiVisualizationPage_shouldSucceedWith200() throws Exception {
