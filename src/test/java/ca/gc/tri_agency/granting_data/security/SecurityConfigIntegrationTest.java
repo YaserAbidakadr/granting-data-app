@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -37,11 +38,13 @@ public class SecurityConfigIntegrationTest {
 		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
 
+	@Tag("web_configuration_test")
 	@Test
 	public void givenAnonymousRequestOnHomeUrl_shouldBeOk200() throws Exception {
 		mvc.perform(get("/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().isOk());
 	}
 
+	@Tag("web_configuration_test")
 	@Test
 	public void givenAnonymousRequestOnAdminUrl_shouldRedirectToLogin302() throws Exception {
 		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML))
@@ -49,12 +52,14 @@ public class SecurityConfigIntegrationTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
 	}
 
+	@Tag("web_configuration_test")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void givenAdminAuthRequestOnAdminUrl_shouldSucceedWith200() throws Exception {
 		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().isOk());
 	}
 
+	@Tag("web_configuration_test")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER", "nserc-user-edi" })
 	@Test
 	public void nonAdminUserCannotAccessEditFOPage_shouldBeForbidden() throws Exception {
@@ -64,6 +69,7 @@ public class SecurityConfigIntegrationTest {
 				"Non-admin users should not be able to access the \"Edit Funding Opportunity\" page");
 	}
 	
+	@Tag("web_configuration_test")
 	@WithMockUser(roles = { "MDM ADMIN", "NSERC_USER", "SSHRC_USER", "AGENCY_USER", "nserc-user-edi" })
 	@Test
         public void signOutButtonVisibleOnlyForAuthenticatedUsers() throws Exception {
@@ -72,6 +78,7 @@ public class SecurityConfigIntegrationTest {
                 assertFalse(resAction.andReturn().getResponse().getContentAsString().contains("Sign In"));
         }
     
+	@Tag("web_configuration_test")
         @WithAnonymousUser
         @Test
         public void signInButtonVisibleOnlyForUnauthenticatedUsers() throws Exception {

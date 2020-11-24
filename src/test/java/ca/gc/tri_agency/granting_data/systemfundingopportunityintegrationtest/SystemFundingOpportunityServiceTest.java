@@ -39,12 +39,14 @@ public class SystemFundingOpportunityServiceTest {
 	@Autowired
 	private SystemFundingOpportunityRepository sfoRepo;
 
+	@Tag("user_story_14593")
 	@WithAnonymousUser
 	@Test
 	public void test_findSystemFundingOpportunityById_shouldSucceed() {
 		assertNotNull(sfoService.findSystemFundingOpportunityById(1L));
 	}
 
+	@Tag("user_story_14593")
 	@WithAnonymousUser
 	@Test
 	public void test_findSystemFundingOpportunityById_shouldThrowDataRetrievalFailureException() {

@@ -43,6 +43,7 @@ public class FundingCycleServiceTest {
 	@Autowired
 	private FundingCycleRepository fcRepo;
 
+	@Tag("user_story_19207")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingCycleById() {
@@ -51,12 +52,14 @@ public class FundingCycleServiceTest {
 		assertThrows(DataRetrievalFailureException.class, () -> fcService.findFundingCycleById(Long.MIN_VALUE));
 	}
 
+	@Tag("user_story_19229")
 	@WithAnonymousUser
 	@Test
 	public void test_findAllFundingCycles() {
 		assertTrue(0 < fcService.findAllFundingCycles().size());
 	}
 
+	@Tag("user_story_14594")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingCyclesByFoId() {
