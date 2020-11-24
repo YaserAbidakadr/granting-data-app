@@ -5,11 +5,11 @@
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
     <!-- Constructs the database -->
-    <include file="db/schema-local.xml" />
+    <include file="db/schema-dev.xml" />
 
     <!-- Populates the database -->
-    <changeSet id="00000000000001" author="dev_aha" dbms="mssql">
+    <!-- <changeSet id="00000000000001" author="dev_aha" dbms="mssql">
         <sqlFile path="db/data-dev.sql" relativeToChangelogFile="true" />
-    </changeSet>
+    </changeSet> -->
 
 </databaseChangeLog>
