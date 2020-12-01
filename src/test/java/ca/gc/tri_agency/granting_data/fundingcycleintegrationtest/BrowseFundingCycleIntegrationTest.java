@@ -1,5 +1,7 @@
 package ca.gc.tri_agency.granting_data.fundingcycleintegrationtest;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -43,9 +45,11 @@ public class BrowseFundingCycleIntegrationTest {
 	@WithAnonymousUser
 	@Test
 	public void test_anonUserCanAccessViewCalendarPage_shouldSucceedWith200() throws Exception {
+		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2021, 1, 1)).getMonths();
+		
 		Pattern startDateNoiRegex = Pattern.compile("class=\"cihr endDate\"");
 
-		String response = mvc.perform(MockMvcRequestBuilders.get("/browse/viewCalendar").param("plusMinusMonth", "3"))
+		String response = mvc.perform(MockMvcRequestBuilders.get("/browse/viewCalendar").param("plusMinusMonth", String.valueOf(plusMinusMonth)))
 				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content()
 						.string(Matchers.containsString("id=\"viewFundingCycleCalendarPage\"")))
@@ -57,6 +61,9 @@ public class BrowseFundingCycleIntegrationTest {
 		while (startDateNoiMatcher.find()) {
 			++numMatches;
 		}
+		
+		System.out.println(plusMinusMonth);
+		System.out.println(response);
 
 		Assertions.assertEquals(2, numMatches, "At the beginning of every month, we have to adjust the plusMinusMonth request"
 				+ " param so that it corresponds to January 2021; there are 2 Funding Cycles for CIHR that have a start"

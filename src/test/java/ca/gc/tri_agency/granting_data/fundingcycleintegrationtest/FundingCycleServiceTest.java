@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import org.junit.jupiter.api.Tag;
@@ -258,7 +259,9 @@ public class FundingCycleServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findFCsForCalendar() {
-		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(0);
+		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2020, 11, 1)).getMonths();
+		
+		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(plusMinusMonth);
 
 		assertEquals(2, fcProjections.size(), "At the beginning of every month, we have to adjust the plusMinusMonth request"
 				+ " param so that it corresponds to November 2020 which has 1 FundingCycle.");
