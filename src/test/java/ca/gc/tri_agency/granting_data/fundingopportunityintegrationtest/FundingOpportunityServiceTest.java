@@ -137,6 +137,7 @@ public class FundingOpportunityServiceTest {
 				"SP Secure Upload", "NAMIS" }, tableRow);
 	}
 	
+	@Tag("user_story_19326")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingOpportunityAndBU() {

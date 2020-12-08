@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -35,6 +36,7 @@ public class UserRedirectionIntegrationTest {
 		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
 	}
 
+	@Tag("web_configuration_test")
 	@WithAnonymousUser
 	@Test
 	public void testBadUrlArgs_shouldDirectToManagedErrorPage404() throws Exception {
@@ -42,6 +44,7 @@ public class UserRedirectionIntegrationTest {
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"generalErrorPage\"")));
 	}
 
+	@Tag("web_configuration_test")
 	@WithAnonymousUser
 	@Test
 	public void testManageFOControllerAccess_withNonLoggedInUser_shouldRedirectToLogin302() throws Exception {
@@ -49,6 +52,7 @@ public class UserRedirectionIntegrationTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
 	}
 
+	@Tag("web_configuration_test")
 	@WithAnonymousUser
 	@Test
 	public void testAdminControllerAccess_withNonLoggedInUser_shouldRedirectToLogin302() throws Exception {
@@ -60,6 +64,7 @@ public class UserRedirectionIntegrationTest {
 				.andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
 	}
 
+	@Tag("web_configuration_test")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER", "nserc-user-edi" })
 	@Test
 	public void testAdminControllerAccess_withLoggedInNonAdminUser_shouldBeForbidden() throws Exception {
@@ -71,6 +76,7 @@ public class UserRedirectionIntegrationTest {
 		assertTrue(responseString.contains("id=\"forbiddenByRoleErrorPage\""));
 	}
 
+	@Tag("web_configuration_test")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void testAdminControllerAccess_withAdminUser_shouldSucceed200() throws Exception {

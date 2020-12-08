@@ -107,12 +107,14 @@ public class AdminControllerIntegrationTest {
 		assertEquals(numFos + 1, foRepo.count());
 	}
 
+	@Tag("web_configuration_test")
 	@WithAnonymousUser
 	@Test
 	public void givenAnonymousRequestOnAdminUrl_shouldFailWith301() throws Exception {
 		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().is3xxRedirection());
 	}
 
+	@Tag("web_configuration_test")
 	@WithMockUser(username = "sshrc-user", roles = { "SSHRC" })
 	@Test
 	public void givenSshrcRequestOnAdminUrl_shouldFailWithForbiddenByRoleError() throws Exception {
@@ -120,6 +122,7 @@ public class AdminControllerIntegrationTest {
 				.andExpect(content().string(containsString("id=\"forbiddenByRoleErrorPage\"")));
 	}
 
+	@Tag("web_configuration_test")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void givenAdminAuthRequestOnAdminUrl_shouldSucceedWith200() throws Exception {

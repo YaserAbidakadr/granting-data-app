@@ -63,7 +63,8 @@ public class BusinessUnitServiceTest {
 				agencyService.findAgencyById(1L));
 		assertThrows(AccessDeniedException.class, () -> buService.saveBusinessUnit(bu));
 	}
-
+	
+	@Tag("user_story_19389")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_adminCanEditBU() {
@@ -79,6 +80,7 @@ public class BusinessUnitServiceTest {
 		assertNotEquals(nameBefore, bu.getNameEn());
 	}
 
+	@Tag("user_story_19389")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotEditBU() {
@@ -91,6 +93,7 @@ public class BusinessUnitServiceTest {
 		assertThrows(AccessDeniedException.class, () -> buService.saveBusinessUnit(bu));
 	}
 
+	@Tag("user_story_19401")
 	@WithAnonymousUser
 	@Test
 	public void test_findAllBUs() {
@@ -131,6 +134,7 @@ public class BusinessUnitServiceTest {
 		assertThrows(AccessDeniedException.class, () -> buService.findBusinessUnitRevisionsById(1L));
 	}
 
+	@Tag("user_story_19401")
 	@WithAnonymousUser
 	@Test
 	public void test_findBusinessUnitById_shouldThrowException() {
@@ -177,6 +181,7 @@ public class BusinessUnitServiceTest {
 		assertThrows(AccessDeniedException.class, () -> buService.findEdiAppPartDataForAuthorizedBUMember(1L));
 	}
 
+	@Tag("user_story_19401")
 	@WithAnonymousUser
 	@Test
 	public void test_findReultsForBrowseViewBU() {

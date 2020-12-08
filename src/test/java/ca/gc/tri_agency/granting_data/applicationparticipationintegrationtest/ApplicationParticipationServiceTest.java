@@ -84,6 +84,7 @@ public class ApplicationParticipationServiceTest {
 		assertThrows(AccessDeniedException.class, () -> apService.findAppPartById(5L));
 	}
 
+	@Tag("app_configuration_test")
 	@Test
 	public void test_repo() {
 		long initApRepoCount = apRepo.count();

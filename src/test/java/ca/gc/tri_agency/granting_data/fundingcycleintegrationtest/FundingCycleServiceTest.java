@@ -7,6 +7,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 
 import org.junit.jupiter.api.Tag;
@@ -43,6 +44,7 @@ public class FundingCycleServiceTest {
 	@Autowired
 	private FundingCycleRepository fcRepo;
 
+	@Tag("user_story_19207")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingCycleById() {
@@ -51,12 +53,14 @@ public class FundingCycleServiceTest {
 		assertThrows(DataRetrievalFailureException.class, () -> fcService.findFundingCycleById(Long.MIN_VALUE));
 	}
 
+	@Tag("user_story_19229")
 	@WithAnonymousUser
 	@Test
 	public void test_findAllFundingCycles() {
 		assertTrue(0 < fcService.findAllFundingCycles().size());
 	}
 
+	@Tag("user_story_14594")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingCyclesByFoId() {
@@ -64,6 +68,7 @@ public class FundingCycleServiceTest {
 		assertTrue(0 < fcService.findFundingCyclesByFundingOpportunityId(1L).size());
 	}
 
+	@Tag("user_story_19420")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingCyclesByFiscalYearId() {
@@ -254,11 +259,13 @@ public class FundingCycleServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findFCsForCalendar() {
-		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(1);
+		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2020, 11, 1)).getMonths();
+		
+		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(plusMinusMonth);
 
-		assertEquals(1, fcProjections.size(), "At the beginning of every month, we have to adjust the plusMinusMonth request"
+		assertEquals(2, fcProjections.size(), "At the beginning of every month, we have to adjust the plusMinusMonth request"
 				+ " param so that it corresponds to November 2020 which has 1 FundingCycle.");
-		assertEquals(LocalDate.of(2020, 11, 26), fcProjections.get(0).getStartDateNOI());
+		assertEquals(LocalDate.of(2020, 11, 26), fcProjections.get(1).getStartDateNOI());
 	}
 
 }

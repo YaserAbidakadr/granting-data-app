@@ -35,6 +35,7 @@ public class FiscalYearServiceTest {
 	@Autowired
 	private FiscalYearRepository fyRepo;
 	
+	@Tag("user_story_19201")
 	@WithAnonymousUser
 	@Test
 	public void test_findFiscalYearById() {
@@ -44,12 +45,14 @@ public class FiscalYearServiceTest {
 	}
 
 	@Tag("user_story_19201")
+	@Tag("user_story_19345")
 	@WithAnonymousUser
 	@Test
 	public void test_findAllFiscalYearsOrderedByYear() {
 		assertTrue(4 <= fyService.findAllFiscalYearProjectionsOrderByYear().size());
 	}
 
+	@Tag("user_story_19333")
 	@WithAnonymousUser
 	@Test
 	public void test_findFiscalYearByYear() {
@@ -57,6 +60,7 @@ public class FiscalYearServiceTest {
 		assertFalse(fyService.findFiscalYearByYear(Long.MAX_VALUE).isPresent());
 	}
 
+	@Tag("user_story_19333")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_adminCanCreateFiscalYear() {
@@ -71,12 +75,14 @@ public class FiscalYearServiceTest {
 		assertThrows(DataIntegrityViolationException.class, () -> fyService.saveFiscalYear(new FiscalYear(2040L)));
 	}
 
+	@Tag("user_story_19333")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotCreateFiscalYear() {
 		assertThrows(AccessDeniedException.class, () -> fyService.saveFiscalYear(new FiscalYear(2041L)));
 	}
 	
+	@Tag("user_story_19345")
 	@WithAnonymousUser
 	@Test
 	public void test_findNumAppsExpectedForEachFiscalYear() {

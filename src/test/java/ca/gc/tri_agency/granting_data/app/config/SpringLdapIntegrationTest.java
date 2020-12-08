@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.*;
 import java.util.List;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +22,7 @@ public class SpringLdapIntegrationTest {
 	@Autowired
 	private ADUserService adUserService;
 
+	@Tag("active_directory_configuration_test")
 	@Test
 	public void testFindAllADUsers() {
 		List<ADUser> users = adUserService.findAllADUsers();
@@ -28,6 +30,7 @@ public class SpringLdapIntegrationTest {
 		assertEquals(9, users.size());
 	}
 
+	@Tag("active_directory_configuration_test")
 	@Test
 	public void testFindAllADUserFullNames() {
 		List<String> persons = adUserService.findAllADUserFullNames();
@@ -35,6 +38,7 @@ public class SpringLdapIntegrationTest {
 		assertEquals(9, persons.size());
 	}
 
+	@Tag("active_directory_configuration_test")
 	@Test
 	public void testFindNsercADUser() {
 		ADUser user = adUserService.findADUserByDn("uid=admin,ou=NSERC_Users");
@@ -45,6 +49,7 @@ public class SpringLdapIntegrationTest {
 		assertNull(adUserService.findADUserByDn("uid=ZZZZZ,ou=ZZZZZ"));
 	}
 
+	@Tag("active_directory_configuration_test")
 	@Test
 	public void testFindSshrcADUser() {
 		ADUser user = adUserService.findADUserByDn("uid=sshrc-admin,ou=SSHRC_Users");
@@ -52,6 +57,7 @@ public class SpringLdapIntegrationTest {
 		assertEquals("SSHRC Admin", user.getFullName());
 	}
 	
+	@Tag("user_story_19187")
 	@Test
 	public void testSearchADUsersForMemberRoleCreation() {
 		assertEquals(6, adUserService.searchADUsers("user").size());

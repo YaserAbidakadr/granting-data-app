@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -43,6 +44,7 @@ public class FundingOpportunityControllerIntegrationTest {
 		mvc = MockMvcBuilders.webAppContextSetup(ctx).apply(SecurityMockMvcConfigurers.springSecurity()).build();
 	}
 
+	@Tag("user_story_19326")
 	@WithMockUser(username = "admin", roles = "MDM ADMIN")
 	@Test
 	public void test_adminCanAccessEditFOPage_shouldSucceedWith200() throws Exception {
@@ -51,6 +53,7 @@ public class FundingOpportunityControllerIntegrationTest {
 						.string(Matchers.containsString("id=\"editFundingOpportunityPage\"")));
 	}
 
+	@Tag("user_story_19326")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessEditFOPage_shouldReturn403() throws Exception {
@@ -59,6 +62,7 @@ public class FundingOpportunityControllerIntegrationTest {
 						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 	}
 
+	@Tag("user_story_19326")
 	@WithMockUser(username = "admin", roles = "MDM ADMIN")
 	@Test
 	public void test_adminCanEditFundingOpportunity_shouldSucceedWith302() throws Exception {
@@ -84,6 +88,7 @@ public class FundingOpportunityControllerIntegrationTest {
 		assertEquals(initFO.getBusinessUnit().getId(), editedFO.getBusinessUnit().getId());
 	}
 
+	@Tag("user_story_19326")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotEditFundingOpportunity_shouldReturn403() throws Exception {

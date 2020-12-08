@@ -10,9 +10,9 @@ import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers;
@@ -52,11 +52,13 @@ public class GoldenFundingOpportunityIntegrationTest {
 	@Autowired
 	private WebApplicationContext ctx;
 
-	@Mock
+	@MockBean
 	private BindingResult bindingResult;
-	@Mock
+	
+	@MockBean
 	private Model model;
-	@Mock
+	
+	@MockBean
 	private RedirectAttributes redirectAttributes;
 
 	private MockMvc mvc;
