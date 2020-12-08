@@ -41,7 +41,7 @@ public class BrowseFundingCycleIntegrationTest {
 	@WithAnonymousUser
 	@Test
 	public void test_anonUserCanAccessViewCalendarPage_shouldSucceedWith200() throws Exception {
-		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2021, 01, 01)).getMonths();
+		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2021, 01, LocalDate.now().getDayOfMonth())).getMonths();
 
 		Pattern startDateNoiRegex = Pattern.compile("class=\"cihr endDate\"");
 
