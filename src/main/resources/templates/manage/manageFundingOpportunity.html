@@ -70,7 +70,7 @@
 					<h3 th:text="#{h.gcs}" style="margin: 25px 0px;"></h3>
 				</div>
 
-				<table id="grantingCapabilitiesTable" class="wb-tables table table-striped table-hover dataTable" aria-live="polite">
+				<table id="grantingCapabilitiesTable" class="table table-striped table-hover dataTable" aria-live="polite">
 					<thead>
 						<tr>
 							<th th:text="#{th.grantingStage}"></th>
@@ -97,18 +97,16 @@
 
 				<a sec:authorize="hasRole('MDM ADMIN')" id="createGrantingCapabilityLink" class="btn btn-primary"
 					th:href="@{addGrantingCapabilities(foId=${param.id})}" role="button" th:text="#{link.addGc}"></a>
-
+<!-- 
 				<div class="form-group">
 					<h3 th:text="#{h.linkedSfcs}" style="margin: 25px 0px;"></h3>
 				</div>
 
-				<table id="systemFundingCycles" class="wb-tables table table-striped table-hover dataTable" aria-live="polite">
+				<table id="systemFundingCycles" class="table table-striped table-hover dataTable" aria-live="polite">
 					<thead>
 						<tr>
 							<th th:text="#{th.extId}"></th>
 							<th th:text="#{th.systemFo}"></th>
-							<!-- 						<td th:text="#{th.startDateSystemPlanned}"></td> -->
-							<!-- 						<td th:text="#{th.endDateSystemPlanned}"></td> -->
 							<th th:text="#{th.numApps}"></th>
 							<th th:text="#{th.yr}"></th>
 						</tr>
@@ -122,12 +120,12 @@
 						</tr>
 					</tbody>
 				</table>
-
+ -->
 				<div class="form-group">
 					<h3 th:text="#{h.linkedFCs}" style="margin: 25px 0px;"></h3>
 				</div>
 
-				<table id="fcTable" class="wb-tables table table-striped table-hover" aria-live="polite">
+				<table id="fcTable" class="table table-striped table-hover" aria-live="polite">
 					<thead>
 						<tr>
 							<th th:text="#{th.startDate}"></th>

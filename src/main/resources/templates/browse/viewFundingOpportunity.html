@@ -63,14 +63,11 @@
 				</div>
 
 				<div class="form-group">
-					<a class="btn btn-primary" th:href="@{/manage/manageFo(id=${param.id})}" role="button" th:text="#{link.manageFo}"></a>
-				</div>
-
-				<div class="form-group">
 					<h3 th:text="#{h.grantingCapabilities}"></h3>
 				</div>
+				
 
-				<table id="grantingCapabilitiesTable" class="wb-tables table table-striped table-hover dataTable" aria-live="polite">
+				<table id="grantingCapabilitiesTable" class="table table-striped table-hover dataTable" aria-live="polite">
 					<thead>
 						<tr>
 							<th th:text="#{th.grantingStage}"></th>
@@ -90,42 +87,13 @@
 				</table>
 
 				<div class="expd-clps-div">
-					<span th:text="#{h.linkedSfcs}"></span>
-					<button id="collapseExpandSFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedSfcs})}"
-						onclick="expandCollapseTable('systemFundingCyclesTable', 'collapseExpandSFCsBtn')">+</button>
-				</div>
-
-				<div id="systemFundingCyclesTable" hidden="true">
-					<table class="wb-tables table table-striped table-hover dataTable" aria-live="polite">
-						<thead>
-							<tr>
-								<th th:text="#{th.extId}"></th>
-								<th th:text="#{th.systemFo}"></th>
-								<!-- 						<th th:text="#{th.startDateSystemPlanned}"></th> -->
-								<!-- 						<th th:text="#{th.endDateSystemPlanned}"></th> -->
-								<th th:text="#{th.appsExpected}"></th>
-								<th th:text="#{th.fyr}"></th>
-							</tr>
-						</thead>
-						<tbody>
-							<tr th:each="sfc : ${sfcProjections}">
-								<td th:text="${sfc.getExtId()}"></td>
-								<td th:text="${#locale.language eq 'fr' ? sfc.getSystemFundingOpportunityNameFr() : sfc.getSystemFundingOpportunityNameEn()}"></td>
-								<td th:text="${#numbers.formatInteger(sfc.getNumAppsReceived(), 1, 'COMMA')}"></td>
-								<td th:text="${sfc.getFiscalYear()}"></td>
-							</tr>
-						</tbody>
-					</table>
-				</div>
-
-				<div class="expd-clps-div">
 					<span th:text="#{h.linkedFCs}"></span>
-					<button id="collapseExpandFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedFCs})}"
-						onclick="expandCollapseTable('fundingCyclesTable', 'collapseExpandFCsBtn')">+</button>
+<!-- 					<button id="collapseExpandFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedFCs})}" -->
+<!-- 						onclick="expandCollapseTable('fundingCyclesTable', 'collapseExpandFCsBtn')">+</button> -->
 				</div>
 
-				<div id="fundingCyclesTable" hidden="true">
-					<table class="wb-tables table table-striped table-hover" aria-live="polite">
+				<div id="fundingCyclesTable" >
+					<table class="table table-striped table-hover dataTable" aria-live="polite">
 						<thead>
 							<tr>
 								<th th:text="#{th.startDate}"></th>
@@ -155,8 +123,12 @@
 						</tbody>
 					</table>
 				</div>
-
-				<div sec:authorize="hasRole('MDM ADMIN')" class="expd-clps-div">
+<br/>
+				<div class="form-group">
+					<a class="btn btn-primary" th:href="@{/manage/manageFo(id=${param.id})}" role="button" th:text="#{link.manageFo}"></a>
+				</div>
+				
+				<div hidden="true" sec:authorize="hasRole('MDM ADMIN')" class="expd-clps-div">
 					<span th:text="#{h.auditLog}"></span>
 					<button id="collapseExpandAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}"
 						onclick="expandCollapseTable('auditTable', 'collapseExpandAuditTableBtn')">+</button>
@@ -211,6 +183,37 @@
 						</tbody>
 					</table>
 				</div>
+				
+
+<!-- 
+				<div class="expd-clps-div">
+					<span th:text="#{h.linkedSfcs}"></span>
+					<button id="collapseExpandSFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedSfcs})}"
+						onclick="expandCollapseTable('systemFundingCyclesTable', 'collapseExpandSFCsBtn')">+</button>
+				</div>
+
+				<div id="systemFundingCyclesTable" hidden="true">
+					<table class="wb-tables table table-striped table-hover dataTable" aria-live="polite">
+						<thead>
+							<tr>
+								<th th:text="#{th.extId}"></th>
+								<th th:text="#{th.systemFo}"></th>
+								<th th:text="#{th.appsExpected}"></th>
+								<th th:text="#{th.fyr}"></th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr th:each="sfc : ${sfcProjections}">
+								<td th:text="${sfc.getExtId()}"></td>
+								<td th:text="${#locale.language eq 'fr' ? sfc.getSystemFundingOpportunityNameFr() : sfc.getSystemFundingOpportunityNameEn()}"></td>
+								<td th:text="${#numbers.formatInteger(sfc.getNumAppsReceived(), 1, 'COMMA')}"></td>
+								<td th:text="${sfc.getFiscalYear()}"></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				-->
 
 			</div>
 
