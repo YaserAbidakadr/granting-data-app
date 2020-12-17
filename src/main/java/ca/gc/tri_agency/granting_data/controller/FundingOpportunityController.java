@@ -18,8 +18,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ca.gc.tri_agency.granting_data.form.FundingOpportunityFilterForm;
-import ca.gc.tri_agency.granting_data.ldap.ADUser;
-import ca.gc.tri_agency.granting_data.ldap.ADUserService;
 import ca.gc.tri_agency.granting_data.model.FundingOpportunity;
 import ca.gc.tri_agency.granting_data.model.SystemFundingOpportunity;
 import ca.gc.tri_agency.granting_data.security.SecurityUtils;
@@ -49,18 +47,15 @@ public class FundingOpportunityController {
 
 	private FundingCycleService fcService;
 
-	private ADUserService adUserService;
-
 	private MessageSource msgSource;
 
 	@Autowired
 	public FundingOpportunityController(FundingOpportunityService foService, GrantingCapabilityService gcService,
 			SystemFundingCycleService sfcService, AgencyService agencyService, SystemFundingOpportunityService sfoService,
-			BusinessUnitService buService, FundingCycleService fcService, MessageSource msgSource, ADUserService adUserService) {
+			BusinessUnitService buService, FundingCycleService fcService, MessageSource msgSource) {
 		this.foService = foService;
 		this.gcService = gcService;
 		this.sfcService = sfcService;
-		this.adUserService = adUserService;
 		this.agencyService = agencyService;
 		this.sfoService = sfoService;
 		this.fcService = fcService;
@@ -98,16 +93,6 @@ public class FundingOpportunityController {
 		}
 
 		return "browse/viewFundingOpportunity";
-	}
-
-	@GetMapping("/manage/searchUser")
-	public String searchUser(@RequestParam(value = "username", defaultValue = "") String username, Model model) {
-		if (!username.trim().isEmpty()) {
-			List<ADUser> matchingUsers = adUserService.searchADUsers(username.trim());
-			model.addAttribute("matchingUsers", matchingUsers);
-		}
-
-		return "manage/searchUser";
 	}
 
 	@GetMapping("/manage/manageFo")
