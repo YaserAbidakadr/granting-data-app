@@ -117,16 +117,6 @@ public class WebSecurityConfig {
 		}
 	}
 
-//	@Configuration
-//	@Order(1)
-//	public static class ApiWebSecurityConfigurationAdapter extends WebSecurityConfigurerAdapter {
-//		protected void configure(HttpSecurity http) throws Exception {
-//			http.antMatcher("/api/**").authorizeRequests().anyRequest()
-//					.hasAnyRole("NSERC_USER", "SSHRC_USER", "AGENCY_USER","nserc-user-edi").anyRequest().authenticated().and()
-//					.httpBasic();
-//		}
-//	}
-
 	@Profile("dev")
 	@Configuration
 	@Order(1)
@@ -136,7 +126,7 @@ public class WebSecurityConfig {
 
 			http.authorizeRequests()
 					.antMatchers("/", "/home", "/webjars/**", "/css/**", "/images/**", "/js/**", "/browse/**",
-							"/_WET_4-0/**")
+							"/assets/**", "/fonts/**", "/img/**")
 					.permitAll().and().authorizeRequests().antMatchers("/entities/**", "/reports/**")
 					.hasAnyRole("NSERC_USER", "SSHRC_USER", "AGENCY_USER").anyRequest().authenticated().and().formLogin()
 					.loginPage("/login").permitAll().and().exceptionHandling()
@@ -154,7 +144,7 @@ public class WebSecurityConfig {
 
 			http.authorizeRequests().antMatchers("/h2**").access("hasRole('MDM ADMIN')")
 					.antMatchers("/", "/home", "/webjars/**", "/css/**", "/images/**", "/js/**", "/browse/**",
-							"/_WET_4-0/**")
+							"/assets/**", "/fonts/**", "/img/**")
 					.permitAll().and().authorizeRequests().antMatchers("/entities/**", "/reports/**")
 					.hasAnyRole("NSERC_USER", "SSHRC_USER", "AGENCY_USER").anyRequest().authenticated().and().formLogin()
 					.loginPage("/login").permitAll().and().logout().logoutUrl("/logout").permitAll().and().exceptionHandling()

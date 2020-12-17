@@ -151,6 +151,13 @@
             <artifactId>hibernate-envers</artifactId>
         </dependency>
         
+        <!-- logging -->
+        <dependency>
+            <groupId>net.ttddyy</groupId>
+            <artifactId>datasource-proxy</artifactId>
+            <version>1.7</version>
+        </dependency>
+        
 	</dependencies>
 
 

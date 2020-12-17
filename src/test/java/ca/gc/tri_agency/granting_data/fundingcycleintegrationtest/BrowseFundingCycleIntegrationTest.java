@@ -45,7 +45,8 @@ public class BrowseFundingCycleIntegrationTest {
 	@WithAnonymousUser
 	@Test
 	public void test_anonUserCanAccessViewCalendarPage_shouldSucceedWith200() throws Exception {
-		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2021, 1, 1)).getMonths();
+		LocalDate today = LocalDate.now();
+		final int plusMinusMonth = Period.between(today, LocalDate.of(2021, 1, today.getDayOfMonth())).getMonths();
 		
 		Pattern startDateNoiRegex = Pattern.compile("class=\"cihr endDate\"");
 
@@ -62,12 +63,8 @@ public class BrowseFundingCycleIntegrationTest {
 			++numMatches;
 		}
 		
-		System.out.println(plusMinusMonth);
-		System.out.println(response);
-
-		Assertions.assertEquals(2, numMatches, "At the beginning of every month, we have to adjust the plusMinusMonth request"
-				+ " param so that it corresponds to January 2021; there are 2 Funding Cycles for CIHR that have a start"
-				+ " date in January 2021.");
+		Assertions.assertEquals(2, numMatches, "The plusMinusMonth request param must be relative to January 2021;"
+				+ " the calendar should contain 2 Funding Cycles for CIHR that have an end date in January 2021.");
 	}
 
 	@Tag("user_story_19420")
