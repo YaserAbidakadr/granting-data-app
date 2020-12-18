@@ -114,6 +114,7 @@ public class WebSecurityConfig {
 		} else {
 			auth.authenticationProvider(activeDirectoryLdapAuthenticationProviderNSERC());
 			auth.authenticationProvider(activeDirectoryLdapAuthenticationProviderSSHRC());
+			auth.authenticationProvider(activeDirectoryAuthenticationProviderDevUsers());
 		}
 	}
 
@@ -176,5 +177,17 @@ public class WebSecurityConfig {
 
 		return sshrcProvider;
 
+	}
+	
+	private AuthenticationProvider activeDirectoryAuthenticationProviderDevUsers() {
+		ActiveDirectoryLdapAuthenticationProvider devUsersProvider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomainNSERC,
+				ldapUrlNSERC, "ou=Dev_Users,dc=nserc,dc=ca");
+		CustomAuthoritiesMapper authMapper = new CustomAuthoritiesMapper();
+		authMapper.setDefaultAuthority("DEV_USER");
+		devUsersProvider.setConvertSubErrorCodesToExceptions(true);
+		devUsersProvider.setUseAuthenticationRequestCredentials(true);
+		devUsersProvider.setAuthoritiesMapper(authMapper);
+		
+		return devUsersProvider;
 	}
 }
