@@ -52,7 +52,7 @@ public class SpringLdapIntegrationTest {
 	@Tag("active_directory_configuration_test")
 	@Test
 	public void testFindSshrcADUser() {
-		ADUser user = adUserService.findADUserByDn("uid=sshrc-admin,ou=SSHRC_Users");
+		ADUser user = adUserService.findADUserByDn("uid=sshrc-admin,ou=SSHRC1_Users");
 		assertNotNull(user);
 		assertEquals("SSHRC Admin", user.getFullName());
 	}
