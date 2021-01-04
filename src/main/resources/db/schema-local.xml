@@ -5,10 +5,10 @@
     xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd
     http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
     
-    <changeSet id="00000000000002" author="jfs">
+    <changeSet id="1" author="jfs">
         <createSequence sequenceName="seq_agency" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000003" author="jfs">
+    <changeSet id="2" author="jfs">
         <createTable tableName="agency">
             <column name="id" type="BIGINT" valueSequenceNext="seq_agency">
                  <constraints primaryKey="true" nullable="false"/>
@@ -19,10 +19,10 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000004" author="jfs">
+    <changeSet id="3" author="jfs">
         <createSequence sequenceName="seq_fiscal_year" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000005" author="jfs">
+    <changeSet id="4" author="jfs">
         <createTable tableName="fiscal_year">
             <column name="id" type="BIGINT" valueSequenceNext="seq_fiscal_year">
                  <constraints primaryKey="true" nullable="false"/>
@@ -32,10 +32,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000006" author="jfs">
+    <changeSet id="5" author="jfs">
         <createSequence sequenceName="seq_funding_opportunity" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000007" author="jfs">
+    <changeSet id="6" author="jfs">
         <createTable tableName="funding_opportunity">
             <column name="id" type="BIGINT" valueSequenceNext="seq_funding_opportunity">
                  <constraints primaryKey="true" nullable="false"/>
@@ -54,18 +54,18 @@
             <column name="name_en" type="VARCHAR(255)"/>
             <column name="name_fr" type="VARCHAR(255)"/>
             <column name="partner_org" type="VARCHAR(255)"/>
-            <column name="isloi" type="BIT(1)">
+            <column name="is_loi" type="BIT(1)">
                 <constraints nullable="false"/>
             </column>
-            <column name="isnoi" type="BIT(1)">
+            <column name="is_noi" type="BIT(1)">
                 <constraints nullable="false"/>
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000008" author="jfs">
+    <changeSet id="7" author="jfs">
         <createSequence sequenceName="seq_funding_cycle" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000009" author="jfs">
+    <changeSet id="8" author="jfs">
         <createTable tableName="funding_cycle">
             <column name="id" type="BIGINT" valueSequenceNext="seq_funding_cycle">
                  <constraints primaryKey="true" nullable="false"/>
@@ -84,13 +84,13 @@
             <column name="funding_opportunity_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="fk_funding_cycle_funding_opportunity" references="funding_opportunity(id)"/>
             </column>
-            <column name="end_dateloi" type="date"/>
-            <column name="end_datenoi" type="date"/>
-            <column name="start_dateloi" type="date"/>
-            <column name="start_datenoi" type="date"/>
+            <column name="end_date_loi" type="date"/>
+            <column name="end_date_noi" type="date"/>
+            <column name="start_date_loi" type="date"/>
+            <column name="start_date_noi" type="date"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000010" author="jfs">
+    <changeSet id="9" author="jfs">
         <createTable tableName="funding_opportunity_participating_agencies">
             <column name="funding_opportunity_id" type="BIGINT">
                 <constraints nullable="false" foreignKeyName="fk_funding_opportunity_participating_agencies_funding_opportunity" references="funding_opportunity(id)"/>
@@ -100,10 +100,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000011" author="jfs">
+    <changeSet id="10" author="jfs">
         <createSequence sequenceName="seq_granting_capability" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000012" author="jfs">
+    <changeSet id="11" author="jfs">
         <createTable tableName="granting_capability">
             <column name="id" type="BIGINT"  valueSequenceNext="seq_granting_capability">
                  <constraints primaryKey="true" nullable="false"/>
@@ -117,10 +117,10 @@
             <column name="granting_system_id" type="BIGINT"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000013" author="jfs">
+    <changeSet id="12" author="jfs">
         <createSequence sequenceName="seq_granting_stage" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000014" author="jfs">
+    <changeSet id="13" author="jfs">
         <createTable tableName="granting_stage">
             <column name="id" type="BIGINT" valueSequenceNext="seq_granting_stage">
                  <constraints primaryKey="true" nullable="false"/>
@@ -129,10 +129,10 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000015" author="jfs">
+    <changeSet id="14" author="jfs">
         <createSequence sequenceName="seq_granting_system" startValue="1" incrementBy="1" />
     </changeSet>
-    <changeSet id="00000000000016" author="jfs">
+    <changeSet id="15" author="jfs">
         <createTable tableName="granting_system">
             <column name="id" type="BIGINT" valueSequenceNext="seq_granting_system">
                  <constraints primaryKey="true" nullable="false"/>
@@ -142,10 +142,10 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000017" author="jfs">
+    <changeSet id="16" author="jfs">
         <createSequence sequenceName="seq_system_funding_opportunity" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000018" author="jfs">
+    <changeSet id="17" author="jfs">
         <createTable tableName="system_funding_opportunity">
             <column name="id" type="BIGINT" valueSequenceNext="seq_system_funding_opportunity">
                  <constraints primaryKey="true" nullable="false"/>
@@ -161,10 +161,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000019" author="jfs">
+    <changeSet id="18" author="jfs">
         <createSequence sequenceName="seq_system_funding_cycle" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000020" author="jfs">
+    <changeSet id="19" author="jfs">
         <createTable tableName="system_funding_cycle">
             <column name="id" type="BIGINT" valueSequenceNext="seq_system_funding_cycle">
                  <constraints primaryKey="true" nullable="false"/>
@@ -177,13 +177,13 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000021" author="jfs">
+    <changeSet id="20" author="jfs">
         <addPrimaryKey columnNames="funding_opportunity_id, participating_agency_id" constraintName="PRIMARY5" tableName="funding_opportunity_participating_agencies"/>
     </changeSet>
-    <changeSet id="00000000000022" author="dev_aha">
+    <changeSet id="21" author="dev_aha">
         <createSequence sequenceName="seq_application_participation" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="000000000023" author="dev_aha">
+    <changeSet id="22" author="dev_aha">
         <createTable tableName="application_participation">
             <column name="id" type="BIGINT" valueSequenceNext="seq_application_participation">
                 <constraints primaryKey="true" nullable="false" />
@@ -214,10 +214,10 @@
             <column name="country" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000023" author="dev_aha">
+    <changeSet id="23" author="dev_aha">
         <createSequence sequenceName="seq_business_unit" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000024" author="dev_aha">
+    <changeSet id="24" author="dev_aha">
         <createTable tableName="business_unit">
             <column name="id" type="BIGINT" valueSequenceNext="seq_business_unit">
                 <constraints primaryKey="true" nullable="false"/>
@@ -231,17 +231,17 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000025" author="dev_aha">
+    <changeSet id="25" author="dev_aha">
         <addColumn tableName="funding_opportunity">
             <column name="business_unit_id" type="BIGINT">
                 <constraints nullable="true" foreignKeyName="fk_funding_opportunity_business_unit" references="business_unit(id)"/>
             </column>
         </addColumn>
     </changeSet>
-    <changeSet id="00000000000026" author="dev_aha">
+    <changeSet id="26" author="dev_aha">
         <createSequence sequenceName="seq_role" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000027" author="dev_aha">
+    <changeSet id="27" author="dev_aha">
         <createTable tableName="role">
             <column name="id" type="BIGINT" valueSequenceNext="seq_role">
                 <constraints nullable="false" primaryKey="true"/>
@@ -250,10 +250,10 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000028" author="dev_aha">
+    <changeSet id="28" author="dev_aha">
         <createSequence sequenceName="seq_member_role" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000029" author="dev_aha">
+    <changeSet id="29" author="dev_aha">
         <createTable tableName="member_role">
             <column name="id" type="BIGINT" valueSequenceNext="seq_member_role">
                 <constraints primaryKey="true" nullable="false"/>
@@ -267,10 +267,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000030" author="dev_aha">
+    <changeSet id="30" author="dev_aha">
         <createSequence sequenceName="seq_award" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000031" author="dev_aha">
+    <changeSet id="31" author="dev_aha">
         <createTable tableName="award">
             <column name="id" type="BIGINT" defaultValueSequenceNext="seq_award">
                 <constraints primaryKey="true" nullable="false"/>
@@ -285,7 +285,7 @@
             <column name="role_fr" type="VARCHAR(255)"/>
         </createTable>   
     </changeSet>
-    <changeSet id="00000000000032" author="dev_aha">
+    <changeSet id="32" author="dev_aha">
         <addColumn tableName="application_participation">
             <column name="edi_not_applicable" type="BIT(1)" defaultValueBoolean="false">
                 <constraints nullable="false"/>
@@ -304,7 +304,7 @@
             <column name="create_user_id" type="VARCHAR(3)"/>
         </addColumn>
     </changeSet>
-    <changeSet id="00000000000033" author="dev_aha">
+    <changeSet id="33" author="dev_aha">
         <addColumn tableName="member_role">
             <column name="edi_authorized" type="BIT(1)" defaultValueBoolean="false">
                 <constraints nullable="false"/>
@@ -313,7 +313,7 @@
     </changeSet>
     
     <!-- Added for the demo; should be removed afterwards -->
-    <changeSet id="00000000000034" author="dev_aha">
+    <changeSet id="34" author="dev_aha">
         <addColumn tableName="application_participation">
             <column name="is_deadline_passed" type="BIT(1)" defaultValueBoolean="false">
                 <constraints nullable="false" />
@@ -322,10 +322,10 @@
     </changeSet>
     
     <!-- Auditing Tables -->
-    <changeSet id="00000000000035" author="dev_aha">
+    <changeSet id="35" author="dev_aha">
         <createSequence sequenceName="seq_revision_info" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000036" author="dev_aha">
+    <changeSet id="36" author="dev_aha">
         <createTable tableName="revision_info">
             <column name="revision" type="BIGINT" valueSequenceNext="seq_revision_info">
                 <constraints primaryKey="true" nullable="false" />
@@ -334,7 +334,7 @@
             <column name="username" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000037" author="dev_aha">
+    <changeSet id="37" author="dev_aha">
         <createTable tableName="agency_history">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -353,7 +353,7 @@
                     baseTableName="agency_history" referencedColumnNames="revision"
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000038" author="dev_aha">
+    <changeSet id="38" author="dev_aha">
         <createTable tableName="business_unit_history">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -373,7 +373,7 @@
                     baseTableName="business_unit_history" referencedColumnNames="revision"
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000039" author="dev_aha">
+    <changeSet id="39" author="dev_aha">
         <createTable tableName="role_history">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false" />
@@ -390,7 +390,7 @@
                     baseTableName="role_history" referencedColumnNames="revision"
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000040" author="dev_aha">
+    <changeSet id="40" author="dev_aha">
         <createTable tableName="member_role_history">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -409,7 +409,7 @@
                     baseTableName="member_role_history" referencedColumnNames="revision"
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000041" author="dev_aha">
+    <changeSet id="41" author="dev_aha">
         <createTable tableName="granting_system_history">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -427,7 +427,7 @@
                     baseTableName="granting_system_history" referencedColumnNames="revision"
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000042" author="dev_aha">
+    <changeSet id="42" author="dev_aha">
             <createTable tableName="funding_opportunity_history">
                 <column name="id" type="BIGINT">
                     <constraints primaryKey="true" nullable="false"/>
@@ -444,8 +444,8 @@
                 <column name="name_en" type="VARCHAR(255)"/>
                 <column name="name_fr" type="VARCHAR(255)"/>
                 <column name="partner_org" type="VARCHAR(255)"/>
-                <column name="isloi" type="BIT(1)"/>
-                <column name="isnoi" type="BIT(1)"/>
+                <column name="is_loi" type="BIT(1)"/>
+                <column name="is_noi" type="BIT(1)"/>
                 <column name="business_unit_id" type="BIGINT"/>
             </createTable>
             <addForeignKeyConstraint constraintName="fk_funding_opportunity_revision_info" 
@@ -453,7 +453,7 @@
                     baseTableName="funding_opportunity_history" referencedColumnNames="revision"
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000043" author="dev_aha">
+    <changeSet id="43" author="dev_aha">
         <createTable tableName="system_funding_opportunity_history">
             <column name="id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -473,10 +473,10 @@
                     baseTableName="system_funding_opportunity_history" referencedColumnNames="revision" 
                     onDelete="NO ACTION" onUpdate="NO ACTION"/>
     </changeSet>
-    <changeSet id="00000000000044" author="dev_aha">
+    <changeSet id="44" author="dev_aha">
         <createSequence sequenceName="seq_gender" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000045" author="dev_aha">
+    <changeSet id="45" author="dev_aha">
         <createTable tableName="gender">
             <column name="id" type="BIGINT" valueSequenceNext="seq_gender">
                 <constraints primaryKey="true" nullable="false"/>
@@ -485,7 +485,7 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000046" author="dev_aha">
+    <changeSet id="46" author="dev_aha">
         <addColumn tableName="application_participation">
             <column name="gender_id" type="BIGINT"/>
         </addColumn>
@@ -493,10 +493,10 @@
                 referencedTableName="gender" baseColumnNames="gender_id" 
                 baseTableName="application_participation" referencedColumnNames="id"/>
     </changeSet>
-    <changeSet id="00000000000047" author="dev_aha">
+    <changeSet id="47" author="dev_aha">
         <createSequence sequenceName="seq_indigenous_identity" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000048" author="dev_aha">
+    <changeSet id="48" author="dev_aha">
         <createTable tableName="indigenous_identity">
             <column name="id" type="BIGINT" valueSequenceNext="seq_indigenous_identity">
                 <constraints primaryKey="true" nullable="false"/>
@@ -505,7 +505,7 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="0000000000049" author="dev_aha">
+    <changeSet id="49" author="dev_aha">
         <createTable tableName="app_part_indigenous_identity">
             <column name="application_participation_id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -515,10 +515,10 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="00000000000050" author="dev_aha">
+    <changeSet id="50" author="dev_aha">
         <createSequence sequenceName="seq_visible_minority" startValue="1" incrementBy="1"/>
     </changeSet>
-    <changeSet id="00000000000051" author="dev_aha">
+    <changeSet id="51" author="dev_aha">
         <createTable tableName="visible_minority">
             <column name="id" type="BIGINT" valueSequenceNext="seq_visible_minority">
                 <constraints primaryKey="true" nullable="false"/>
@@ -527,7 +527,7 @@
             <column name="name_fr" type="VARCHAR(255)"/>
         </createTable>
     </changeSet>
-    <changeSet id="0000000000052" author="dev_aha">
+    <changeSet id="52" author="dev_aha">
         <createTable tableName="app_part_visible_minority">
             <column name="application_participation_id" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
@@ -537,7 +537,7 @@
             </column>
         </createTable>
     </changeSet>
-    <changeSet id="0000000000053" author="dev_aha">
+    <changeSet id="53" author="dev_aha">
         <addColumn tableName="award">
             <column name="requested_amount" type="DOUBLE"/>
             <column name="program_id" type="VARCHAR(255)"/>
@@ -545,13 +545,18 @@
             <column name="program_name_fr" type="VARCHAR(255)"/>
         </addColumn>
     </changeSet>
-    <changeSet id="0000000000054" author="dev_aha">
+    <changeSet id="54" author="dev_aha">
         <addColumn tableName="business_unit">
             <column name="distribution" type="VARCHAR(255)"/>
         </addColumn>
         <addColumn tableName="business_unit_history">
             <column name="distribution" type="VARCHAR(255)"/>
         </addColumn>
+    </changeSet>
+    
+    <!-- Populates the database -->
+    <changeSet id="55" author="dev_aha" dbms="h2">
+        <sqlFile path="/data-local.sql" relativeToChangelogFile="true" />
     </changeSet>
     
 </databaseChangeLog>

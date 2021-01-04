@@ -14,12 +14,12 @@ objectclass: top
 objectclass: organizationalUnit
 ou: subgroups
 
-dn: ou=SSHRC_Users,dc=sshrc1,dc=ca
+dn: ou=SSHRC1_Users,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: organizationalUnit
-ou: SSHRC_Users
+ou: SSHRC1_Users
 
-dn: uid=sshrc-user,ou=SSHRC_Users,dc=sshrc1,dc=ca
+dn: uid=sshrc-user,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -30,7 +30,7 @@ uid: sshrc-user
 mail:cn@sshrc-crsh.gc.ca
 userPassword: password
 
-dn: uid=sshrc-admin,ou=SSHRC_Users,dc=sshrc1,dc=ca
+dn: uid=sshrc-admin,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -40,7 +40,7 @@ sn: SSHRC
 uid: sshrc-admin
 userPassword: password
 
-dn: uid=sshrc-user-edi,ou=SSHRC_Users,dc=sshrc1,dc=ca
+dn: uid=sshrc-user-edi,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: person
 objectclass: organizationalPerson
@@ -55,29 +55,29 @@ objectclass: top
 objectclass: groupOfUniqueNames
 cn: MDM Admin
 ou: MDM Admin
-uniqueMember: uid=sshrc-admin,ou=SSHRC_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=sshrc-admin,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 
 dn: cn=agency_user,ou=groups,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: groupOfUniqueNames
 cn: agency_user
 ou: agency_user
-uniqueMember: uid=sshrc-user,ou=SSHRC_Users,dc=sshrc1,dc=ca
-uniqueMember: uid=sshrc-user-edi,ou=SSHRC_Users,dc=sshrc1,dc=ca
-uniqueMember: uid=admin,ou=SSHRC_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=sshrc-user,ou=SSHRC1_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=sshrc-user-edi,ou=SSHRC1_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=admin,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 
 dn: cn=sshrc,ou=groups,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: groupOfUniqueNames
 cn: sshrc
 ou: sshrc
-uniqueMember: uid=sshrc-user,ou=SSHRC_Users,dc=sshrc1,dc=ca
-uniqueMember: uid=sshrc-user-edi,ou=SSHRC_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=sshrc-user,ou=SSHRC1_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=sshrc-user-edi,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 
 dn: cn=edi_authorized,ou=groups,dc=sshrc1,dc=ca
 objectclass: top
 objectclass: groupOfUniqueNames
 cn: sshrc
 ou: sshrc
-uniqueMember: uid=sshrc-user-edi,ou=SSHRC_Users,dc=sshrc1,dc=ca
+uniqueMember: uid=sshrc-user-edi,ou=SSHRC1_Users,dc=sshrc1,dc=ca
 

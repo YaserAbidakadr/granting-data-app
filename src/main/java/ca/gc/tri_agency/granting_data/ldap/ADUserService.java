@@ -77,8 +77,8 @@ public class ADUserService {
 
 	public String findDnByADUserLogin(String userLogin) {
 		String dn = null;
-		LdapQuery findByUidQuery = LdapQueryBuilder.query().countLimit(1).where("objectclass").is("person")
-				.and("sAMAccountName").is(userLogin);
+		LdapQuery findByUidQuery = LdapQueryBuilder.query().countLimit(1).where("objectclass").is("person").and("sAMAccountName")
+				.is(userLogin);
 
 		try {
 			dn = ldapTemplateNSERC.findOne(findByUidQuery, ADUser.class).getDn().toString();
@@ -100,8 +100,8 @@ public class ADUserService {
 
 	public List<ADUser> searchADUsers(String searchStr) {
 		searchStr = "*" + searchStr + "*";
-		LdapQuery searchQuery = LdapQueryBuilder.query().countLimit(25).where("objectclass").is("person").and(LdapQueryBuilder
-				.query().where("sAMAccountName").like(searchStr).or("cn").like(searchStr).or("sn").like(searchStr));
+		LdapQuery searchQuery = LdapQueryBuilder.query().countLimit(50).where("sAMAccountName").like(searchStr).or("cn").like(searchStr)
+				.or("sn").like(searchStr);
 
 		List<ADUser> adUsers = ldapTemplateNSERC.find(searchQuery, ADUser.class);
 		adUsers.addAll(ldapTemplateSSHRC.find(searchQuery, ADUser.class));

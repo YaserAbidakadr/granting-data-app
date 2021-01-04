@@ -19,6 +19,8 @@ import javax.validation.constraints.NotBlank;
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
 
+import com.ebay.xcelite.annotations.Column;
+
 import ca.gc.tri_agency.granting_data.model.util.LocalizedParametersModel;
 
 @Entity
@@ -42,9 +44,11 @@ public class FundingOpportunity implements LocalizedParametersModel {
 
 	private Boolean isJointInitiative = false;
 
-	private Boolean isNOI = false;
+	@Column(name = "is_noi")
+	private Boolean isNoi = false;
 
-	private Boolean isLOI = false;
+	@Column(name = "is_loi")
+	private Boolean isLoi = false;
 
 	private String partnerOrg;
 
@@ -154,20 +158,20 @@ public class FundingOpportunity implements LocalizedParametersModel {
 		this.isComplex = isComplex;
 	}
 
-	public Boolean getIsNOI() {
-		return isNOI;
+	public Boolean getIsNoi() {
+		return isNoi;
 	}
 
-	public void setIsNOI(Boolean nOI) {
-		isNOI = nOI;
+	public void setIsNoi(Boolean isNoi) {
+		this.isNoi = isNoi;
 	}
 
-	public Boolean getIsLOI() {
-		return isLOI;
+	public Boolean getIsLoi() {
+		return isLoi;
 	}
 
-	public void setIsLOI(Boolean islOI) {
-		isLOI = islOI;
+	public void setIsLoi(Boolean isLoi) {
+		this.isLoi = isLoi;
 	}
 
 	public BusinessUnit getBusinessUnit() {
@@ -232,9 +236,9 @@ public class FundingOpportunity implements LocalizedParametersModel {
 		builder.append(", isJointInitiative=");
 		builder.append(isJointInitiative);
 		builder.append(", isNOI=");
-		builder.append(isNOI);
+		builder.append(isNoi);
 		builder.append(", isLOI=");
-		builder.append(isLOI);
+		builder.append(isLoi);
 		builder.append(", partnerOrg=");
 		builder.append(partnerOrg);
 		builder.append(", isEdiRequired=");

@@ -156,8 +156,8 @@ public class FundingOpportunityServiceImpl implements FundingOpportunityService 
 					(fo.getIsComplex() != null) ? fo.getIsComplex().toString() : null,
 					(fo.getIsEdiRequired() != null) ? fo.getIsEdiRequired().toString() : null,
 					(fo.getIsJointInitiative() != null) ? fo.getIsJointInitiative().toString() : null,
-					(fo.getIsLOI() != null) ? fo.getIsLOI().toString() : null,
-					(fo.getIsNOI() != null) ? fo.getIsNOI().toString() : null, fo.getPartnerOrg(),
+					(fo.getIsLoi() != null) ? fo.getIsLoi().toString() : null,
+					(fo.getIsNoi() != null) ? fo.getIsNoi().toString() : null, fo.getPartnerOrg(),
 					(fo.getBusinessUnit() != null) ? fo.getBusinessUnit().getId().toString() : null,
 					revEntity.getRevTimestamp().toString()
 

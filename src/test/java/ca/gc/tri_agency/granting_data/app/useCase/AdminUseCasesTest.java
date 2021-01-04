@@ -5,7 +5,6 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -15,7 +14,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
@@ -37,13 +35,6 @@ public class AdminUseCasesTest {
 	@BeforeEach
 	public void setup() {
 		mvc = MockMvcBuilders.webAppContextSetup(context).apply(springSecurity()).build();
-	}
-
-	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
-	@Test
-	public void test_formVisibleOnSearchUserPage_shouldSucceedWith200() throws Exception {
-		mvc.perform(get("/manage/searchUser")).andExpect(status().isOk())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"searchUserForm\"")));
 	}
 
 	@Tag("user_story_14589")

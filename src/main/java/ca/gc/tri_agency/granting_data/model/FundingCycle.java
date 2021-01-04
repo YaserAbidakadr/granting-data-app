@@ -2,6 +2,7 @@ package ca.gc.tri_agency.granting_data.model;
 
 import java.time.LocalDate;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -43,15 +44,19 @@ public class FundingCycle implements LocalizedParametersModel {
 	private LocalDate startDate;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "start_date_noi")
 	private LocalDate startDateNOI;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "start_date_loi")
 	private LocalDate startDateLOI;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "end_date_noi")
 	private LocalDate endDateNOI;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	@Column(name = "end_date_loi")
 	private LocalDate endDateLOI;
 
 	@DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -272,7 +272,7 @@
     </changeSet>
     <changeSet id="31" author="dev_aha">
         <createTable tableName="award">
-            <column name="id" type="BIGINT" defaultValueSequenceNext="seq_award">
+            <column name="id" type="BIGINT" valueSequenceNext="seq_award">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
             <column name="awarded_amount" type="DOUBLE"/>
@@ -555,8 +555,8 @@
     </changeSet>
     
     <!-- Populates the database -->
-    <changeSet id="55" author="dev_aha" dbms="h2">
-        <sqlFile path="/data-test.sql" relativeToChangelogFile="true" />
+    <changeSet id="55" author="dev_aha" dbms="mssql">
+        <sqlFile path="/data-dev.sql" relativeToChangelogFile="true" />
     </changeSet>
     
 </databaseChangeLog>

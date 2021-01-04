@@ -504,8 +504,8 @@ public class ApplicationParticipationServiceImpl implements ApplicationParticipa
 		List<FundingOpportunity> foList = foService.findAllFundingOpportunities();
 		foList.forEach(fo -> {
 			if (fo.getFrequency() != null && !fo.getFrequency().equals("1/YR")) {
-				fo.setIsLOI(true);
-				fo.setIsNOI(true);
+				fo.setIsLoi(true);
+				fo.setIsNoi(true);
 			}
 			if (fo.getNameFr() == null) {
 				fo.setNameFr("Programme");
@@ -519,7 +519,7 @@ public class ApplicationParticipationServiceImpl implements ApplicationParticipa
 		List<FiscalYear> fyList = fyRepo.findAll();
 
 		foList.forEach(fo -> {
-			if (fo.getIsNOI() && fo.getIsLOI()) {
+			if (fo.getIsNoi() && fo.getIsLoi()) {
 				int day = generateRandNumBtw(1, 28);
 				int month = generateRandNumBtw(1, 12);
 				int year = generateRandNumBtw(2016, 4);

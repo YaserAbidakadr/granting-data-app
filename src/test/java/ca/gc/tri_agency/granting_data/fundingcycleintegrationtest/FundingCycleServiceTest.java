@@ -259,13 +259,14 @@ public class FundingCycleServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findFCsForCalendar() {
-		final int plusMinusMonth = Period.between(LocalDate.now(), LocalDate.of(2020, 11, 1)).getMonths();
+		LocalDate today = LocalDate.now();
+		final int plusMinusMonth = Period.between(today, LocalDate.of(2020, 11, today.getDayOfMonth())).getMonths();
 		
 		List<FundingCycleProjection> fcProjections = fcService.findFundingCyclesForCalendar(plusMinusMonth);
 
-		assertEquals(2, fcProjections.size(), "At the beginning of every month, we have to adjust the plusMinusMonth request"
-				+ " param so that it corresponds to November 2020 which has 1 FundingCycle.");
-		assertEquals(LocalDate.of(2020, 11, 26), fcProjections.get(1).getStartDateNOI());
+		assertEquals(1, fcProjections.size(), "The plusMinusMonth argument must be relative to November 2020;"
+				+ " there is only 1 FundingCycle entry in November 2020.");
+		assertEquals(LocalDate.of(2020, 11, 26), fcProjections.get(0).getStartDateNOI());
 	}
 
 }

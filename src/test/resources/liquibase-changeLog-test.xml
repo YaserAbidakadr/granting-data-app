@@ -4,12 +4,7 @@
    http://www.liquibase.org/xml/ns/dbchangelog 
    http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd">
 
-    <!-- Constructs the database -->
+    <!-- Constructs and populates the database -->
     <include file="db/schema-test.xml" />
-
-    <!-- Populates the database -->
-    <changeSet id="00000000000001" author="dev_aha" dbms="h2">
-        <sqlFile path="db/data-test.sql" relativeToChangelogFile="true" />
-    </changeSet>
 
 </databaseChangeLog>

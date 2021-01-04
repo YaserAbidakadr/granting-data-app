@@ -6,7 +6,7 @@ import org.springframework.ldap.odm.annotations.Attribute;
 import org.springframework.ldap.odm.annotations.Entry;
 import org.springframework.ldap.odm.annotations.Id;
 
-@Entry(objectClasses = { "person" })
+@Entry(objectClasses = "person")
 public final class ADUser {
 
 	@Id
@@ -24,15 +24,10 @@ public final class ADUser {
 	@Attribute(name = "mail", readonly = true)
 	private String email;
 
-	public ADUser() {
-	}
+	@Attribute(name = "uid", readonly = true)
+	private String ldapUserLogin;
 
-	public ADUser(Name dn, String userLogin, String fullName, String lastName, String email) {
-		this.dn = dn;
-		this.userLogin = userLogin;
-		this.fullName = fullName;
-		this.lastName = lastName;
-		this.email = email;
+	public ADUser() {
 	}
 
 	public Name getDn() {
@@ -40,6 +35,10 @@ public final class ADUser {
 	}
 
 	public String getUserLogin() {
+		if (ldapUserLogin != null) {
+			userLogin = ldapUserLogin;
+		}
+		
 		return userLogin;
 	}
 
@@ -53,26 +52,6 @@ public final class ADUser {
 
 	public String getEmail() {
 		return email;
-	}
-
-	public void setDn(Name dn) {
-		this.dn = dn;
-	}
-
-	public void setUserLogin(String userLogin) {
-		this.userLogin = userLogin;
-	}
-
-	public void setFullName(String fullName) {
-		this.fullName = fullName;
-	}
-
-	public void setLastName(String lastName) {
-		this.lastName = lastName;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
 	}
 
 	@Override
