@@ -135,8 +135,8 @@ public class GoldenFundingOpportunityIntegrationTest {
 				.param("nameFr", nameFr).param("businessUnit", "1")
 				.param("isJointInitiative", Boolean.toString(ji)).param("fundingType", ft).param("partnerOrg", po)
 				.param("frequency", frequency).param("isComplex", Boolean.toString(cpx))
-				.param("isEdiRequired", Boolean.toString(edi)).param("isNOI", Boolean.toString(noi))
-				.param("isLOI", Boolean.toString(loi)))
+				.param("isEdiRequired", Boolean.toString(edi)).param("isNoi", Boolean.toString(noi))
+				.param("isLoi", Boolean.toString(loi)))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/browse/fundingOpportunities")).andExpect(MockMvcResultMatchers.flash()
 						.attribute("actionMsg", "Created Funding Opportunity: " + nameEn));
@@ -153,8 +153,8 @@ public class GoldenFundingOpportunityIntegrationTest {
 		assertEquals(edi, newGfo.getIsEdiRequired());
 		assertEquals(frequency, newGfo.getFrequency());
 		assertEquals(ft, newGfo.getFundingType());
-		assertEquals(loi, newGfo.getIsLOI());
-		assertEquals(noi, newGfo.getIsNOI());
+		assertEquals(loi, newGfo.getIsLoi());
+		assertEquals(noi, newGfo.getIsNoi());
 		assertEquals(ji, newGfo.getIsJointInitiative());
 		assertEquals(nameEn, newGfo.getNameEn());
 		assertEquals(nameFr, newGfo.getNameFr());
