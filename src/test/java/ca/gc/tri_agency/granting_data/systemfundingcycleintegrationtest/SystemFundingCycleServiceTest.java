@@ -1,6 +1,5 @@
 package ca.gc.tri_agency.granting_data.systemfundingcycleintegrationtest;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -22,7 +21,7 @@ public class SystemFundingCycleServiceTest {
 
 	@Autowired
 	private SystemFundingCycleService sfcService;
-
+	
 	@WithAnonymousUser
 	@Test
 	public void test_findSystemFundingCycleById_shouldSucceed() {
@@ -39,7 +38,7 @@ public class SystemFundingCycleServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findAllSystemFundingCycleExtIds() {
-		assertEquals(10, sfcService.findAllSystemFundingCycleExtIds().size());
+		assertTrue(10 <= sfcService.findAllSystemFundingCycleExtIds().size());
 	}
 
 	@WithAnonymousUser
