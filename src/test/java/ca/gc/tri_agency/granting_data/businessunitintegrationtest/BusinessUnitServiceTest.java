@@ -48,7 +48,7 @@ public class BusinessUnitServiceTest {
 		long initBuCount = buRepo.count();
 
 		Agency agency = agencyService.findAllAgencies().get(0);
-		BusinessUnit bu = new BusinessUnit("EN NAME TEST", "FR NAME TEST", "EN ACRONYM TEST", "FR ACRONYM TEST", "TEST@EMAIL.COM",
+		BusinessUnit bu = new BusinessUnit("EN NAME TEST", "FR NAME TEST", "EN ACR", "FR ACR", "TEST@EMAIL.COM",
 				agency);
 		buService.saveBusinessUnit(bu);
 
