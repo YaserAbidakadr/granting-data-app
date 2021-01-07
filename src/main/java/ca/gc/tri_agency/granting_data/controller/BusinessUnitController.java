@@ -91,6 +91,9 @@ public class BusinessUnitController {
 	public String editBusinessUnitPost(@Valid @ModelAttribute("bu") BusinessUnit bu, BindingResult bindingResult, Model model,
 			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			
 			return "admin/editBU";
 		}
 		

@@ -2,6 +2,7 @@ package ca.gc.tri_agency.granting_data.businessunitintegrationtest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
@@ -44,8 +45,7 @@ public class EditBusinessUnitIntegrationTest {
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_editBULinkVisibileToAdmin_shouldSucceedWith200() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
+		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU").param("id", "1")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"editBULink\"")));
 	}
 
@@ -53,17 +53,15 @@ public class EditBusinessUnitIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_editBULinkNotVisibileToNonAdmin_shouldReturn200() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.not(Matchers.containsString("id=\"editBULink\""))));
+		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU").param("id", "1")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.not(Matchers.containsString("id=\"editBULink\""))));
 	}
 
 	@Tag("user_story_19389")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_adminCanAccessEditBUPage_shouldSucceedWith200() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/editBU").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isOk())
+		mvc.perform(MockMvcRequestBuilders.get("/admin/editBU").param("id", "1")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"editBusinessUnitPage\"")));
 	}
 
@@ -71,9 +69,8 @@ public class EditBusinessUnitIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessEditBUPage_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/editBU").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/editBU").param("id", "1")).andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 	}
 
 	@Tag("user_story_19389")
@@ -89,16 +86,14 @@ public class EditBusinessUnitIntegrationTest {
 		String acronymFr = RandomStringUtils.randomAlphabetic(5);
 		String agencyId = "2";
 
-		mvc.perform(MockMvcRequestBuilders.post("/admin/editBU").param("id", "1").param("nameEn", nameEn)
-				.param("nameFr", nameFr).param("acronymEn", acronymEn).param("acronymFr", acronymFr)
-				.param("agency", agencyId)).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+		mvc.perform(MockMvcRequestBuilders.post("/admin/editBU").param("id", "1").param("nameEn", nameEn).param("nameFr", nameFr)
+				.param("acronymEn", acronymEn).param("acronymFr", acronymFr).param("agency", agencyId))
+				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/browse/viewBU?id=1"))
-				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg",
-						"Successfully Edited Business Unit"));
+				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg", "Successfully Edited Business Unit"));
 
 		// when viewBUs page is refreshed, flash attribute should disappear
-		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU?id=1"))
-				.andExpect(MockMvcResultMatchers.flash().attributeCount(0));
+		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU?id=1")).andExpect(MockMvcResultMatchers.flash().attributeCount(0));
 
 		assertEquals(initBuRepoCount, buRepo.count());
 
@@ -121,15 +116,40 @@ public class EditBusinessUnitIntegrationTest {
 		String acronymFr = RandomStringUtils.randomAlphabetic(5);
 		String agencyId = "2";
 
-		mvc.perform(MockMvcRequestBuilders.post("/admin/editBU").param("id", "1").param("nameEn", nameEn)
-				.param("nameFr", nameFr).param("acronymEn", acronymEn).param("acronymFr", acronymFr)
-				.param("agencyId", agencyId)).andExpect(MockMvcResultMatchers.status().isForbidden());
+		mvc.perform(MockMvcRequestBuilders.post("/admin/editBU").param("id", "1").param("nameEn", nameEn).param("nameFr", nameFr)
+				.param("acronymEn", acronymEn).param("acronymFr", acronymFr).param("agencyId", agencyId))
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(initBuRepoCount, buRepo.count());
 
 		BusinessUnit buAfterFailedUpdate = buRepo.findById(1L).get();
 		assertEquals(buBeforeFailedUpate, buAfterFailedUpdate);
 		assertEquals(buBeforeFailedUpate.getId(), buAfterFailedUpdate.getId());
+	}
+
+	@Tag("user_story_19389")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_verifyEditBuFormValidationMsgs_shouldReturn200() throws Exception {
+		final Long buId = 1L;
+		BusinessUnit buBefore = buRepo.findById(buId).get();
+
+		// the Agency of a BU cannot be changed
+		String response = mvc
+				.perform(MockMvcRequestBuilders.post("/admin/editBU").param("id", buId.toString())
+						.param("agency", buBefore.getAgency().getId().toString()).param("nameEn", "").param("nameFr", "")
+						.param("acronymEn", "").param("acronymFr", ""))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		BusinessUnit buAfter = buRepo.findById(buId).get();
+
+		assertTrue(response.contains("id=\"editBusinessUnitPage\""));
+		assertTrue(response.contains("The form could not be submitted because 6 errors were found."));
+
+		assertEquals(buBefore.getNameEn(), buAfter.getNameEn());
+		assertEquals(buBefore.getNameFr(), buAfter.getNameFr());
+		assertEquals(buBefore.getAcronymEn(), buAfter.getAcronymEn());
+		assertEquals(buBefore.getAcronymFr(), buAfter.getAcronymFr());
 	}
 
 }

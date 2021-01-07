@@ -24,34 +24,110 @@
 
 					<form action="#" th:action="@{editBU}" th:object="${bu}" method="post">
 
-						<input th:hidden="true" th:type="text" th:field="*{id}" />
+						<section th:if="${#fields.hasAnyErrors()}" id="errors-section" class="alert alert-danger">
+						
+						    <h2 th:text="${topErrCounter.getQueueSize()} > 1 ? #{err.multipleFormErrors(${topErrCounter.getQueueSize()})}
+						        : #{err.oneFormError}"></h2>
+						        
+						    <ul>
+						        <li th:each="err : ${#fields.errors('nameEn')}">
+						            <a href="#nameEnDiv">
+						                <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.nameEn}, ${err})}"></span>
+						            </a>
+						        </li>
+						        <li th:each="err : ${#fields.errors('nameFr')}">
+						            <a href="#nameFrDiv">
+						                <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.nameFr}, ${err})}"></span>
+						            </a>
+						        </li>
+						        <li th:each="err : ${#fields.errors('acronymEn')}">
+						            <a href="#acronymEnDiv">
+						                <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.acronymEn}, ${err})}"></span>
+						            </a>
+						        </li>
+						        <li th:each="err : ${#fields.errors('acronymFr')}">
+						            <a href="#acronymFrDiv">
+						                <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.acronymFr}, ${err})}"></span>
+						            </a>  
+						        </li>
+						    </ul> 
+						
+						</section>
 
-						<div class="form-group">
-							<label for="nameEnInput" class="required"><span class="field-name" th:text="#{form.nameEn}"></span><strong class="required"
-								th:utext="#{form.required}"></strong></label> <input id="nameEnInput" th:type="text" th:field="*{nameEn}" class="form-control"
-								style="width: 400px;" />
-							<!-- <div class="col-sm-5" th:if="${#fields.hasErrors('nameEn')}" th:errors="*{nameEn}" th:text="#{err.nameErr}"></div> -->
+						<div class="form-group" id="nameEnDiv" th:classappend="${#fields.hasErrors('nameEn')} ? 'has-error'">
+						
+							<label for="nameEnInput" class="required">
+							    
+							    <span class="field-name" th:text="#{form.nameEn}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('nameEn')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
+							<input id="nameEnInput" th:type="text" th:field="*{nameEn}" class="form-control" style="width: 400px;" />
+								
 						</div>
 
-						<div class="form-group">
-							<label for="nameFrInput" class="required"><span class="field-name" th:text="#{form.nameFr}"></span><strong class="required"
-								th:utext="#{form.required}"></strong></label> <input id="nameFrInput" th:type="text" th:field="*{nameFr}" class="form-control"
-								style="width: 400px;" />
-							<!-- <div class="col-sm-5" th:if="${#fields.hasErrors('nameFr')}" th:errors="*{nameFr}"></div> -->
+						<div class="form-group" id="nameFrDiv" th:classappend="${#fields.hasErrors('nameFr')} ? 'has-error'">
+						
+							<label for="nameFrInput" class="required">
+							
+							    <span class="field-name" th:text="#{form.nameFr}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('nameFr')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label> 
+							
+							<input id="nameFrInput" th:type="text" th:field="*{nameFr}" class="form-control" style="width: 400px;" />
+							
 						</div>
 
-						<div class="form-group">
-							<label for="acronymEnInput" class="required"><span class="field-name" th:text="#{form.acronymEn}"></span><strong
-								class="required" th:utext="#{form.required}"></strong></label> <input id="acronymEnInput" type="text" th:field="*{acronymEn}"
-								class="form-control" />
-							<!-- <div class="col-sm-5" th:if="${#fields.hasErrors('acronymEn')}" th:errors="*{acronymEn}"></div> -->
+						<div class="form-group" id="acronymEnDiv" th:classappend="${#fields.hasErrors('acronymEn')} ? 'has-error'">
+							
+							<label for="acronymEnInput" class="required">
+							
+							    <span class="field-name" th:text="#{form.acronymEn}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							
+								<span th:each="err : ${#fields.errors('acronymEn')}">
+								    <br>
+								    <strong class="label label-danger" style="font-size: 100%;"
+								        th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+								</span>
+							
+							</label> 
+
+							<input id="acronymEnInput" type="text" th:field="*{acronymEn}" class="form-control" />
+							
 						</div>
 
-						<div class="form-group">
-							<label for="acronymFrInput" class="required"><span class="field-name" th:text="#{form.acronymFr}"></span><strong
-								class="required" th:utext="#{form.required}"></strong></label> <input id="acronymFrInput" type="text" th:field="*{acronymFr}"
-								class="form-control" />
-							<!-- <div class="col-sm-5" th:if="${#fields.hasErrors('acronymFr')}" th:errors="*{acronymFr}"></div> -->
+						<div class="form-group" id="acronymFrDiv" th:classappend="${#fields.hasErrors('acronymFr')} ? 'has-error'">
+						
+							<label for="acronymFrInput" class="required">
+							
+							    <span class="field-name" th:text="#{form.acronymFr}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('acronymFr')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label> 
+							
+							<input id="acronymFrInput" type="text" th:field="*{acronymFr}" class="form-control" />
+							
 						</div>
 
 						<div class="form-group ">
@@ -60,9 +136,9 @@
 								style="background-color: #f9f9f9; border: none; -webkit-box-shadow: none; box-shadow: none;"></label>
 						</div>
 
-						<div>
-							<input hidden="true" th:field="*{agency}">
-						</div>
+						<input hidden="true" th:field="*{agency}">
+						
+						<input th:hidden="true" th:type="text" th:field="*{id}" />
 
 						<div>
 							<input th:type="submit" class="btn btn-primary" role="button" th:value="#{input.submit}" /> <a class="btn btn-link"
