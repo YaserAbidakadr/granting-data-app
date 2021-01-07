@@ -9,7 +9,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -32,9 +32,11 @@ public class BusinessUnit implements LocalizedParametersModel {
 	private String nameFr;
 
 	@NotBlank
+	@Size(min = 2, max = 10, message = "{bu.acronym.size}") 	// TODO: REMOVE THIS WHEN CREATE BU FORM ERROR MESSAGES ARE PROPERLY DISPLAYED
 	private String acronymEn;
 
 	@NotBlank
+	@Size(min = 2, max = 10, message = "{bu.acronym.size}") 	// TODO: REMOVE THIS WHEN CREATE BU FORM ERROR MESSAGES ARE PROPERLY DISPLAYED
 	private String acronymFr;
 
 	// email address
@@ -43,7 +45,6 @@ public class BusinessUnit implements LocalizedParametersModel {
 	@NotAudited
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "agency_id")
-	@NotNull
 	private Agency agency;
 
 	public BusinessUnit() {
