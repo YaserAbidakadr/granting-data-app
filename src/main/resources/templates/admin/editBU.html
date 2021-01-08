@@ -24,7 +24,7 @@
 
 					<form action="#" th:action="@{editBU}" th:object="${bu}" method="post">
 
-						<section th:if="${#fields.hasAnyErrors()}" id="errors-section" class="alert alert-danger">
+						<section th:if="${#fields.hasAnyErrors()}" id="errorSection" class="alert alert-danger">
 						
 						    <h2 th:text="${topErrCounter.getQueueSize()} > 1 ? #{err.multipleFormErrors(${topErrCounter.getQueueSize()})}
 						        : #{err.oneFormError}"></h2>

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.gc.tri_agency.granting_data.form.FormErrorCountIterator;
 import ca.gc.tri_agency.granting_data.ldap.ADUser;
 import ca.gc.tri_agency.granting_data.ldap.ADUserService;
 import ca.gc.tri_agency.granting_data.model.MemberRole;
@@ -71,7 +72,10 @@ public class MemberRoleController {
 			@Valid @ModelAttribute("memberRole") MemberRole mr, BindingResult bindingResult, Model model,
 			RedirectAttributes redirectAttributes) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("adUserList", adUserService.searchADUsers(searchStr));
+			
 			return "admin/createMemberRole";
 		}
 		
