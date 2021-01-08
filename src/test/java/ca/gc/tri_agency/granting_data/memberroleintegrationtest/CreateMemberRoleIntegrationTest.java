@@ -97,7 +97,7 @@ public class CreateMemberRoleIntegrationTest {
 	@Tag("user_story_19187")
 	@WithMockUser(roles = "MDM ADMIN")
 	@Test
-	public void test_createMrFormErrValidationMsgs_shouldSucceedWith200() throws Exception {
+	public void test_createMrFormErrValidationMsgs_shouldReturn200() throws Exception {
 		long initMrCount = mrRepo.count();
 
 		// the searchStr request param is not part of the form submission; however, it is required by the

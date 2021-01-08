@@ -138,8 +138,8 @@ public class CreateBusinessUnitIntegrationTest {
 	public void test_verfiyFormValidationErrorMsgs_shouldReturn200() throws Exception {
 		long initBuCount = buRepo.count();
 
-		// the URL request parameter (agencyId) and hidden input element (agency) must be included in the
-		// request when testing to ensure that every validation constraint is working
+		// the URL request parameter (agencyId) and the hidden input element (agency) must both be included in the request
+		// in order to avoid a 400 response code
 		String response = mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", "2").param("agency", "2")
 				.param("nameEn", "").param("nameFr", "").param("acronymEn", "").param("acronymFr", ""))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();

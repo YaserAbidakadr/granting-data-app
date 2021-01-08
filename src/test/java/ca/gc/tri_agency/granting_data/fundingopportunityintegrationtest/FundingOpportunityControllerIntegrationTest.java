@@ -71,9 +71,10 @@ public class FundingOpportunityControllerIntegrationTest {
 		
 		String nameFr = RandomStringUtils.randomAlphabetic(25);
 		String frequency = RandomStringUtils.randomAlphabetic(10);
+		String fundingType = RandomStringUtils.randomAlphabetic(10);
 
 		mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", "1")
-				.param("frequency", frequency).param("nameFr", nameFr)
+				.param("frequency", frequency).param("nameFr", nameFr).param("fundingType", fundingType)
 				.param("nameEn", "Collaborative Health Research Projects (CHRP) (5640)").param("division", "MCT")
 				.param("_isJointInitiative", "on").param("_isComplex", "on").param("_isNOI", "on")
 				.param("_isLOI", "on").param("businessUnit", "1"))
@@ -85,6 +86,7 @@ public class FundingOpportunityControllerIntegrationTest {
 		assertEquals(initFOCount, foRepo.count());
 		assertEquals(nameFr, editedFO.getNameFr());
 		assertEquals(frequency, editedFO.getFrequency());
+		assertEquals(fundingType, editedFO.getFundingType());
 		assertEquals(initFO.getBusinessUnit().getId(), editedFO.getBusinessUnit().getId());
 	}
 

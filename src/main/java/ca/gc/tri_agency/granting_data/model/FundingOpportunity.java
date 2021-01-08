@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 import org.hibernate.envers.Audited;
 import org.hibernate.envers.NotAudited;
@@ -38,8 +39,10 @@ public class FundingOpportunity implements LocalizedParametersModel {
 	@NotBlank
 	private String nameFr;
 
+	@NotBlank
 	private String fundingType; // could be dropped
 
+	@NotBlank
 	private String frequency;
 
 	private Boolean isJointInitiative = false;
@@ -56,6 +59,7 @@ public class FundingOpportunity implements LocalizedParametersModel {
 
 	private Boolean isComplex = false;
 
+	@NotNull
 	@ManyToOne(optional = true, fetch = FetchType.LAZY)
 	@JoinColumn(name = "business_unit_id")
 	private BusinessUnit businessUnit;

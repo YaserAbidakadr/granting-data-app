@@ -17,12 +17,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.gc.tri_agency.granting_data.form.FormErrorCountIterator;
 import ca.gc.tri_agency.granting_data.form.FundingOpportunityFilterForm;
 import ca.gc.tri_agency.granting_data.model.FundingOpportunity;
 import ca.gc.tri_agency.granting_data.model.SystemFundingOpportunity;
 import ca.gc.tri_agency.granting_data.security.SecurityUtils;
 import ca.gc.tri_agency.granting_data.security.annotations.AdminOnly;
-import ca.gc.tri_agency.granting_data.service.AgencyService;
 import ca.gc.tri_agency.granting_data.service.BusinessUnitService;
 import ca.gc.tri_agency.granting_data.service.FundingCycleService;
 import ca.gc.tri_agency.granting_data.service.FundingOpportunityService;
@@ -39,8 +39,6 @@ public class FundingOpportunityController {
 
 	private SystemFundingCycleService sfcService;
 
-	private AgencyService agencyService;
-
 	private SystemFundingOpportunityService sfoService;
 
 	private BusinessUnitService buService;
@@ -51,12 +49,11 @@ public class FundingOpportunityController {
 
 	@Autowired
 	public FundingOpportunityController(FundingOpportunityService foService, GrantingCapabilityService gcService,
-			SystemFundingCycleService sfcService, AgencyService agencyService, SystemFundingOpportunityService sfoService,
+			SystemFundingCycleService sfcService, SystemFundingOpportunityService sfoService,
 			BusinessUnitService buService, FundingCycleService fcService, MessageSource msgSource) {
 		this.foService = foService;
 		this.gcService = gcService;
 		this.sfcService = sfcService;
-		this.agencyService = agencyService;
 		this.sfoService = sfoService;
 		this.fcService = fcService;
 		this.buService = buService;
@@ -148,7 +145,10 @@ public class FundingOpportunityController {
 	public String createFundingOpportunityPost(@Valid @ModelAttribute("fo") FundingOpportunity fo, BindingResult bindingResult,
 			Model model, RedirectAttributes redirectAttributes) throws Exception {
 		if (bindingResult.hasErrors()) {
-			model.addAttribute("allAgencies", agencyService.findAllAgencies());
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("allBusinessUnits", buService.findAllBusinessUnits());
+			
 			return "admin/createFo";
 		}
 		

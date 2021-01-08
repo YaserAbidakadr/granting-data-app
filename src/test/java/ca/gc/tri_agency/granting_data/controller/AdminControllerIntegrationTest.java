@@ -60,12 +60,11 @@ public class AdminControllerIntegrationTest {
 	public void test_nonAdminUserCannotAddFundingOpportunities_shouldFailWith403() throws Exception {
 		long numFos = foRepo.count();
 
-		mvc.perform(post("/admin/createFo").param("id", "26").param("nameEn", "ACE").param("nameFr", "BDF")
-				.param("division", "Q").param("isJointIntiative", "false")
-				.param("_isJointIntiative", "on").param("partnerOrg", "Z").param("isComplex", "false")
-				.param("_isComplex", "on").param("isEdiRequired", "false").param("_isEdiRequired", "on")
-				.param("fundingType", "E").param("frequency", "Once").param("isNOI", "false").param("_isNOI", "on")
-				.param("isLOI", "false").param("_isLOI", "on")).andExpect(status().isForbidden())
+		mvc.perform(post("/admin/createFo").param("nameEn", "ACE").param("nameFr", "BDF").param("division", "Q")
+				.param("isJointIntiative", "false").param("businessUnit", "1").param("_isJointIntiative", "on")
+				.param("partnerOrg", "Z").param("isComplex", "false").param("_isComplex", "on").param("isEdiRequired", "false")
+				.param("_isEdiRequired", "on").param("fundingType", "E").param("frequency", "Once").param("isNOI", "false")
+				.param("_isNOI", "on").param("isLOI", "false").param("_isLOI", "on")).andExpect(status().isForbidden())
 				.andExpect(content().string(containsString("id=\"forbiddenByRoleErrorPage\"")));
 
 		// verify that a FO was not added
@@ -96,12 +95,13 @@ public class AdminControllerIntegrationTest {
 	public void test_onlyAdminCanAddFundingOpportunities_shouldSucceedWith302() throws Exception {
 		long numFos = foRepo.count();
 
-		mvc.perform(post("/admin/createFo").param("nameEn", "ABC").param("nameFr", "BCD").param("division", "Q")
+		mvc.perform(post("/admin/createFo").param("nameEn", "ABC").param("nameFr", "BCD").param("businessUnit", "1")
 				.param("isJointIntiative", "false").param("_isJointIntiative", "on").param("partnerOrg", "Z")
 				.param("isComplex", "false").param("_isComplex", "on").param("isEdiRequired", "false")
 				.param("_isEdiRequired", "on").param("fundingType", "E").param("frequency", "Once")
 				.param("isNOI", "false").param("_isNOI", "on").param("isLOI", "false").param("_isLOI", "on"))
-				.andExpect(status().is3xxRedirection()).andExpect(MockMvcResultMatchers.redirectedUrl("/browse/fundingOpportunities"));
+				.andExpect(status().is3xxRedirection())
+				.andExpect(MockMvcResultMatchers.redirectedUrl("/browse/fundingOpportunities"));
 
 		// verify that a FO was added
 		assertEquals(numFos + 1, foRepo.count());
