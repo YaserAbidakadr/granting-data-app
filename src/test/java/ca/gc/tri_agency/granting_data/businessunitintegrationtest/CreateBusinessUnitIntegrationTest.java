@@ -145,7 +145,7 @@ public class CreateBusinessUnitIntegrationTest {
 				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
 
 		assertTrue(response.contains("id=\"createBusinessUnitPage\""));
-		assertTrue(response.contains("The form could not be submitted because 6 errors were found."));
+		assertTrue(response.contains("The form could not be submitted because 4 errors were found."));
 
 		assertEquals(initBuCount, buRepo.count());
 	}

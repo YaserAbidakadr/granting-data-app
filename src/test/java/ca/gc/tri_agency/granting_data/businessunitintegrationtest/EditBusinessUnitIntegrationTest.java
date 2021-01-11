@@ -144,7 +144,7 @@ public class EditBusinessUnitIntegrationTest {
 		BusinessUnit buAfter = buRepo.findById(buId).get();
 
 		assertTrue(response.contains("id=\"editBusinessUnitPage\""));
-		assertTrue(response.contains("The form could not be submitted because 6 errors were found."));
+		assertTrue(response.contains("The form could not be submitted because 4 errors were found."));
 
 		assertEquals(buBefore.getNameEn(), buAfter.getNameEn());
 		assertEquals(buBefore.getNameFr(), buAfter.getNameFr());
