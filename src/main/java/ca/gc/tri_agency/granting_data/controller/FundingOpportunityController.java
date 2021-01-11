@@ -115,6 +115,9 @@ public class FundingOpportunityController {
 	public String editFundingOpportunityPost(@Valid @ModelAttribute("fo") FundingOpportunity fo, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes,  Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			
 			return "/manage/editFundingOpportunity";
 		}
 		

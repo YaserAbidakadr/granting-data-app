@@ -2,6 +2,7 @@ package ca.gc.tri_agency.granting_data.fundingopportunityintegrationtest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
@@ -48,9 +49,8 @@ public class FundingOpportunityControllerIntegrationTest {
 	@WithMockUser(username = "admin", roles = "MDM ADMIN")
 	@Test
 	public void test_adminCanAccessEditFOPage_shouldSucceedWith200() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/manage/editFo").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"editFundingOpportunityPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/manage/editFo").param("id", "1")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"editFundingOpportunityPage\"")));
 	}
 
 	@Tag("user_story_19326")
@@ -58,8 +58,8 @@ public class FundingOpportunityControllerIntegrationTest {
 	@Test
 	public void test_nonAdminCannotAccessEditFOPage_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/editFo").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 	}
 
 	@Tag("user_story_19326")
@@ -68,21 +68,19 @@ public class FundingOpportunityControllerIntegrationTest {
 	public void test_adminCanEditFundingOpportunity_shouldSucceedWith302() throws Exception {
 		long initFOCount = foRepo.count();
 		FundingOpportunity initFO = foService.findFundingOpportunityById(1L);
-		
+
 		String nameFr = RandomStringUtils.randomAlphabetic(25);
 		String frequency = RandomStringUtils.randomAlphabetic(10);
 		String fundingType = RandomStringUtils.randomAlphabetic(10);
 
-		mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", "1")
-				.param("frequency", frequency).param("nameFr", nameFr).param("fundingType", fundingType)
-				.param("nameEn", "Collaborative Health Research Projects (CHRP) (5640)").param("division", "MCT")
-				.param("_isJointInitiative", "on").param("_isComplex", "on").param("_isNOI", "on")
-				.param("_isLOI", "on").param("businessUnit", "1"))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+		mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", "1").param("frequency", frequency).param("nameFr", nameFr)
+				.param("fundingType", fundingType).param("nameEn", "Collaborative Health Research Projects (CHRP) (5640)")
+				.param("division", "MCT").param("_isJointInitiative", "on").param("_isComplex", "on").param("_isNOI", "on")
+				.param("_isLOI", "on").param("businessUnit", "1")).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/browse/viewFo?id=1"));
 
 		FundingOpportunity editedFO = foService.findFundingOpportunityById(1L);
-		
+
 		assertEquals(initFOCount, foRepo.count());
 		assertEquals(nameFr, editedFO.getNameFr());
 		assertEquals(frequency, editedFO.getFrequency());
@@ -99,18 +97,47 @@ public class FundingOpportunityControllerIntegrationTest {
 		String nameFr = RandomStringUtils.randomAlphabetic(25);
 		String frequency = RandomStringUtils.randomAlphabetic(10);
 
-		mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", "1")
-				.param("frequency", frequency).param("nameFr", nameFr)
+		mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", "1").param("frequency", frequency).param("nameFr", nameFr)
 				.param("nameEn", "Collaborative Health Research Projects (CHRP) (5640)").param("division", "MCT")
-				.param("_isJointInitiative", "on").param("_isComplex", "on").param("_isNOI", "on")
-				.param("_isLOI", "on").param("_participatingAgencies", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.param("_isJointInitiative", "on").param("_isComplex", "on").param("_isNOI", "on").param("_isLOI", "on")
+				.param("_participatingAgencies", "1")).andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 
 		assertEquals(initFOCount, foRepo.count());
 		assertNotEquals(nameFr, foService.findFundingOpportunityById(1L).getNameFr());
 		assertNotEquals(frequency, foService.findFundingOpportunityById(1L).getFrequency());
 
+	}
+
+	@Tag("user_story_19326")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_editFoFormValidationErrMsgs_shouldReturn200() throws Exception {
+		final Long foId = 2L;
+
+		FundingOpportunity foBefore = foService.findFundingOpportunityById(foId);
+
+		String response = mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", foId.toString()))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		FundingOpportunity foAfter = foService.findFundingOpportunityById(foId);
+
+		System.out.println(response);
+		
+		assertTrue(response.contains("id=\"editFundingOpportunityPage\""));
+		assertTrue(response.contains("The form could not be submitted because 5 errors were found."));
+
+		assertEquals(foBefore.getNameEn(), foAfter.getNameEn());
+		assertEquals(foBefore.getNameFr(), foAfter.getNameFr());
+		assertEquals(foBefore.getIsJointInitiative(), foAfter.getIsJointInitiative());
+		assertEquals(foBefore.getPartnerOrg(), foAfter.getPartnerOrg());
+		assertEquals(foBefore.getIsComplex(), foAfter.getIsComplex());
+		assertEquals(foBefore.getIsEdiRequired(), foAfter.getIsEdiRequired());
+		assertEquals(foBefore.getFundingType(), foAfter.getFundingType());
+		assertEquals(foBefore.getFrequency(), foAfter.getFrequency());
+		assertEquals(foBefore.getIsNoi(), foAfter.getIsNoi());
+		assertEquals(foBefore.getIsLoi(), foAfter.getIsLoi());
+		assertEquals(foBefore.getBusinessUnit().getId(), foAfter.getBusinessUnit().getId());
 	}
 
 }
