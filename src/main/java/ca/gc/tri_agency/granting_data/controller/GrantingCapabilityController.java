@@ -56,8 +56,11 @@ public class GrantingCapabilityController {
 	public String editGrantingCapabilityPost(@Valid @ModelAttribute("gc") GrantingCapability gc, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
 			model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
+			
 			return "manage/editGrantingCapability";
 		}
 
