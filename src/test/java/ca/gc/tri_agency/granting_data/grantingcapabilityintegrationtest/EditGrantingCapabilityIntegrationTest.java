@@ -103,15 +103,16 @@ public class EditGrantingCapabilityIntegrationTest {
 		long initGcRepoCount = gcRepo.count();
 
 		String description = RandomStringUtils.randomAlphabetic(10);
-		String url = "www" + RandomStringUtils.randomAlphabetic(10) + ".ca";
+		String url = "http://www" + RandomStringUtils.randomAlphabetic(10) + ".ca";
 		String gStageId = "1";
 		String gSystemId = "1";
+		String foId = gcService.findGrantingCapabilityById(1L).getFundingOpportunity().getId().toString();
 
 		mvc.perform(MockMvcRequestBuilders.post("/manage/editGC").param("id", "1").param("description", description)
 				.param("url", url)
 				.param("fundingOpportunity", String
 						.valueOf(gcService.findGrantingCapabilityById(1L).getFundingOpportunity().getId()))
-				.param("grantingStage", gStageId).param("grantingSystem", gSystemId))
+				.param("grantingStage", gStageId).param("grantingSystem", gSystemId).param("fundingOpportunity", foId))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/manage/manageFo?id=" + String
 						.valueOf(gcService.findGrantingCapabilityById(1L).getFundingOpportunity().getId())))
@@ -128,6 +129,7 @@ public class EditGrantingCapabilityIntegrationTest {
 		assertEquals(url, gcAfterUpdate.getUrl());
 		assertEquals(gStageId, String.valueOf(gcAfterUpdate.getGrantingStage().getId()));
 		assertEquals(gSystemId, String.valueOf(gcAfterUpdate.getGrantingSystem().getId()));
+		assertEquals(foId, gcAfterUpdate.getFundingOpportunity().getId().toString());
 
 		assertEquals(initGcRepoCount, gcRepo.count());
 	}

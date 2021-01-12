@@ -8,6 +8,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.URL;
 
 @Entity
 public class GrantingCapability {
@@ -17,18 +21,24 @@ public class GrantingCapability {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_GRANTING_CAPABILITY")
 	private Long id;
 
+	@NotBlank
 	private String description;
 
+	@URL
+	@NotBlank
 	private String url;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_opportunity_id")
 	private FundingOpportunity fundingOpportunity;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "granting_stage_id")
 	private GrantingStage grantingStage;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "granting_system_id")
 	private GrantingSystem grantingSystem;
