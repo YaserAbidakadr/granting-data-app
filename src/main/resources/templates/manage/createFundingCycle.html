@@ -23,64 +23,216 @@
 				<div class="web-frmvld">
 
 					<form action="#" th:action="@{createFC(foId=${param.foId})}" th:object="${fundingCycle}" method="post">
+					
+					   <section th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
+					   
+					       <h2 th:text="${topErrCounter.getQueueSize()} > 1 ? #{err.multipleFormErrors(${topErrCounter.getQueueSize()})}
+					           : #{err.oneFormError}"></h2>
+					           
+					       <ul>
+					           <li th:each="err : ${#fields.errors('fiscalYear')}">
+					               <a href="#fiscalYearDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.fy}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('startDate')}">
+					               <a href="#startDateDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.startDate}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('endDate')}">
+					               <a href="#endDateDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.endDate}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('startDateNOI')}">
+					               <a href="#startDateNOIDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.startDateNOI}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('endDateNOI')}">
+					               <a href="#endDateNOIDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.endDateNOI}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('startDateLOI')}">
+					               <a href="#startDateLOIDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.startDateLOI}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('endDateLOI')}">
+					               <a href="#endDateLOIDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.endDateLOI}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('expectedApplications')}">
+					               <a href="#expectedAppsDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.numAppsExpected}, ${err})}"></span>
+					               </a>
+					           </li>
+					       </ul>
+					   
+					   </section>
 
-						<div class="form-group">
-							<label for="fiscalYearDropdown" class="required"><span class="field-name" th:text="#{form.fy}"></span><strong
-								class="required" th:utext="#{form.required}"></strong></label>
+						<div class="form-group" id="fiscalYearDiv" th:classappend="${#fields.hasErrors('fiscalYear')} ? 'has-error'">
+						
+							<label for="fiscalYearDropdown" class="required">
+							
+							    <span class="field-name" th:text="#{form.fy}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('fiscalYear')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
 							<div>
-								<select id="fiscalYearDropdown" th:field="*{fiscalYear}" class="form-control" required>
+							
+								<select id="fiscalYearDropdown" th:field="*{fiscalYear}" class="form-control" >
 									<option th:each="fy : ${fYrs}" th:value="${fy.getId()}" th:text="${fy.getYear()}"></option>
 								</select>
+								
 							</div>
+							
 						</div>
 
-						<label for="isOpen"><span class="field-name" th:text="#{form.isOpenEnded}"></span></label> <input id="isOpen" type="checkbox"
-							th:field="*{isOpen}" class="form-control" />
+						<label for="isOpen">
+						
+						    <span class="field-name" th:text="#{form.isOpenEnded}"></span>
+						
+						</label>
+						
+						<input id="isOpen" type="checkbox" th:field="*{isOpen}" class="form-control" />
 
-						<div class="form-group">
-							<label for="startDate" class="required"><span class="field-name" th:text="#{form.startDate}"></span><strong class="required"
-								th:utext="#{form.required}"></strong></label> <input id="startDate" type="date" th:field="*{startDate}" class="form-control"
-								data-rule-dateISO="true" style="height: 100%;" required />
+						<div class="form-group" id="startDateDiv" th:classappend="${#fields.hasErrors('startDate')} ? 'has-error'">
+							
+							<label for="startDate" class="required">
+							
+							    <span class="field-name" th:text="#{form.startDate}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('startDate')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
+							<input id="startDate" type="date" th:field="*{startDate}" class="form-control" data-rule-dateISO="true" style="height: 100%;" />
+							
 						</div>
 
-						<div class="form-group ">
-							<label for="endDate"><span class="field-name" th:text="#{form.endDate}"></span></label> <input id="endDate" type="date"
-								th:field="*{endDate}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+						<div class="form-group" id="endDateDiv" th:classappend="${#fields.hasErrors('endDate')} ? 'has-error'">
+							
+							<label for="endDate">
+							
+							    <span class="field-name" th:text="#{form.endDate}"></span>
+							    
+							    <span th:each="err : ${#fields.errors('endDate')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
+							<input id="endDate" type="date" th:field="*{endDate}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+							
 						</div>
 
-						<!-- <div th:if="${fo.isNoi}"> -->
-
-						<div class="form-group">
-							<label for="startDateNOI"><span class="field-name" th:text="#{form.startDateNOI}"></span></label> <input
-								id="startDateNOI" type="date" th:field="*{startDateNOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+						<div class="form-group" id="startDateNOIDiv" th:classappend="${#fields.hasErrors('startDateNOI')} ? 'has-error'">
+							
+							<label for="startDateNOI">
+							
+							    <span class="field-name" th:text="#{form.startDateNOI}"></span>
+							    
+							    <span th:each="err : ${#fields.errors('startDateNOI')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label> 
+							
+							<input id="startDateNOI" type="date" th:field="*{startDateNOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+						
 						</div>
 
-						<div class="form-group">
-							<label for="endDateNOI"><span class="field-name" th:text="#{form.endDateNOI}"></span></label> <input id="endDateNOI" type="date"
-								th:field="*{endDateNOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+						<div class="form-group" id="endDateNOIDiv" th:classappend="${#fields.hasErrors('endDateNOI')} ? 'has-error'">
+							
+							<label for="endDateNOI">
+							
+							    <span class="field-name" th:text="#{form.endDateNOI}"></span>
+							    
+							    <span th:each="err : ${#fields.errors('endDateNOI')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label> 
+							
+							<input id="endDateNOI" type="date" th:field="*{endDateNOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+							
 						</div>
 
-						<!-- </div> -->
-
-
-						<!-- <div th:if="${fo.isLoi}"> -->
-
-						<div class="form-group">
-							<label for="startDateLOI"><span class="field-name" th:text="#{form.startDateLOI}"></span></label> <input id="startDateLOI"
-								type="date" th:field="*{startDateLOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+						<div class="form-group" id="startDateLOIDiv" th:classappend="${#fields.hasErrors('startDateLOI')} ? 'has-error'">
+						
+							<label for="startDateLOI">
+							
+							    <span class="field-name" th:text="#{form.startDateLOI}"></span>
+							    
+							    <span th:each="err : ${#fields.errors('startDateLOI')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
+							<input id="startDateLOI" type="date" th:field="*{startDateLOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+							
 						</div>
 
-						<div class="form-group">
-							<label for="endDateLOI"><span class="field-name" th:text="#{form.endDateLOI}"></span></label> <input id="endDateLOI" type="date"
-								th:field="*{endDateLOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+						<div class="form-group" id="endDateLOIDiv" th:classappend="${#fields.hasErrors('endDateLOI')} ? 'has-error'">
+							
+							<label for="endDateLOI">
+							
+							    <span class="field-name" th:text="#{form.endDateLOI}"></span>
+							    
+							    <span th:each="err : ${#fields.errors('endDateLOI')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
+							<input id="endDateLOI" type="date" th:field="*{endDateLOI}" class="form-control" style="height: 100%;" data-rule-dateISO="true" />
+							
 						</div>
 
-						<!-- </div> -->
-
-						<div class="form-group">
-							<label for="numAppsInput" class="required"><span class="field-name" th:text="#{form.numAppsExpected}"></span><strong
-								class="required" th:utext="#{form.required}"></strong></label> <input id="numAppsInput" th:field="*{expectedApplications}"
-								class="form-control" th:type="number" min="1" required />
+						<div class="form-group" id="expectedAppsDiv" th:classappend="${#fields.hasErrors('expectedApplications')} ? 'has-error'">
+							
+							<label for="numAppsInput" class="required">
+							
+							    <span class="field-name" th:text="#{form.numAppsExpected}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('expectedApplications')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
+							<input id="numAppsInput" th:field="*{expectedApplications}" class="form-control" th:type="text" />
+							
 						</div>
 
 						<input type="hidden" name="fundingOpportunity" th:value="${param.foId}" />

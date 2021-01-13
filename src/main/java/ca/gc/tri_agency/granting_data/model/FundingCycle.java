@@ -26,20 +26,14 @@ public class FundingCycle implements LocalizedParametersModel {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FUNDING_CYCLE")
 	private Long id;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "fiscal_year_id")
 	private FiscalYear fiscalYear;
 
-	public FiscalYear getFiscalYear() {
-		return fiscalYear;
-	}
-
-	public void setFiscalYear(FiscalYear fiscalYear) {
-		this.fiscalYear = fiscalYear;
-	}
-
 	private Boolean isOpen = false;
 
+	@NotNull
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate startDate;
 
@@ -62,10 +56,11 @@ public class FundingCycle implements LocalizedParametersModel {
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate endDate;
 
-	@Min(1)
 	@NotNull
+	@Min(value = 1, message = "{fc.expectedApplications.min}")
 	private Long expectedApplications;
 
+	@NotNull
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "funding_opportunity_id")
 	private FundingOpportunity fundingOpportunity;
@@ -94,6 +89,14 @@ public class FundingCycle implements LocalizedParametersModel {
 
 	public Long getId() {
 		return id;
+	}
+	
+	public FiscalYear getFiscalYear() {
+		return fiscalYear;
+	}
+
+	public void setFiscalYear(FiscalYear fiscalYear) {
+		this.fiscalYear = fiscalYear;
 	}
 
 	public FundingOpportunity getFundingOpportunity() {
