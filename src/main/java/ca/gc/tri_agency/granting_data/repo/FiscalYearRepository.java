@@ -7,6 +7,7 @@ import javax.persistence.OrderBy;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +16,7 @@ import ca.gc.tri_agency.granting_data.model.projection.FiscalYearProjection;
 
 @Repository
 @Transactional(readOnly = true)
-public interface FiscalYearRepository extends JpaRepository<FiscalYear, Long> { // @formatter:off
+public interface FiscalYearRepository extends JpaRepository<FiscalYear, Long>, QueryByExampleExecutor<FiscalYear> { // @formatter:off
 
 	Optional<FiscalYear> findByYear(Long year);
 

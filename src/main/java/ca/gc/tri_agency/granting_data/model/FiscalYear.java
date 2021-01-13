@@ -6,9 +6,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.SequenceGenerator;
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.Range;
 
 @Entity
 public class FiscalYear {
@@ -18,9 +18,8 @@ public class FiscalYear {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_FISCAL_YEAR")
 	private Long id;
 
-	@NotNull(message = "{fy.year.null}")
-	@Min(value = 1999, message = "{fy.year.range}")
-	@Max(value = 2050, message = "{fy.year.range}")
+	@NotNull
+	@Range(min = 1999, max = 2050, message = "{fy.year.range}")
 	@Column(name = "year", unique = true)
 	private Long year;
 	

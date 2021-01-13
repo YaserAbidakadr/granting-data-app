@@ -3,6 +3,7 @@ package ca.gc.tri_agency.granting_data.fiscalyearintegrationtest;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
@@ -108,15 +109,25 @@ public class CreateFiscalYearIntegrationTest {
 	@Test
 	public void test_createFormValidation_shouldReturn200() throws Exception {
 		long initFYCount = fyRepo.count();
-		
+
 		mvc.perform(MockMvcRequestBuilders.post("/manage/createFY").param("year", String.valueOf(Integer.MAX_VALUE)))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("Year must be between 1999 and 2050")));
+						.string(Matchers.containsString("Please enter an integer between 1999 and 2050")));
 
 		mvc.perform(MockMvcRequestBuilders.post("/manage/createFY").param("year", "2020"))
 				.andExpect(MockMvcResultMatchers.status().isOk())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("That year already exists")));
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("2020 already exists")));
+
+		mvc.perform(MockMvcRequestBuilders.post("/manage/createFY").param("year", RandomStringUtils.random(10)))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
+						.string(Matchers.containsString("Please enter an integer between 1999 and 2050.")));
 		
+		String response = mvc.perform(MockMvcRequestBuilders.post("/manage/createFY")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andReturn().getResponse().getContentAsString();
+		
+		assertTrue(response.contains("id=\"createFiscalYearPage\""));
+		assertTrue(response.contains("The form could not be submitted because 1 error was found."));
+
 		assertEquals(initFYCount, fyRepo.count());
 	}
 }

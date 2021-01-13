@@ -22,4 +22,5 @@ public interface FiscalYearService {
 
 	List<FiscalYear> findAllFiscalYearEntitiesOrderByYear();
 
+	boolean checkIfFiscalYearExists(FiscalYear fy);
 }
