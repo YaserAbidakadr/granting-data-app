@@ -1,0 +1,455 @@
+/* Overide WET 4 classes to enable ordered lists*/
+
+.overflow-ellipsis{
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#step-nav ol { counter-reset: item }
+#step-nav li { display: block }
+#step-nav li:before { content: counters(item, ".") ". "; counter-increment: item }
+
+
+/******************************************
+EPI-14698: Align multiple line headings in 'step-nav'.
+******************************************/
+
+#step-nav.indent-list ol > li > ol > li:before { 
+  content: counters(item, ".") " ";
+  margin-right: 5px;
+}
+#step-nav.indent-list .list-group-item {
+  text-indent: -3.2em;
+  padding-left: 4em;
+}
+#step-nav.indent-list .list-group-item .glyphicon {
+  margin-right: 2em;
+}
+#step-nav.indent-list .grad-lt > .list-group {
+  margin-left: -3em;
+  margin-top: 10px;
+}
+#step-nav.indent-list .grad-lt > .list-group > .list-group-item {
+  text-indent: -4em;
+  padding-left: 5em;
+}
+#step-nav.indent-list .grad-lt > .list-group > .list-group-item.sub-cat {
+  padding-left: 4.7em;
+}
+
+.list-group-title:first-child {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.list-group-title {
+    background-color: #2572b4;
+    border-color: #2572b4;
+    color: #fff;
+    font-weight: bold;
+         font-size: 16px;
+         margin-top: 0;
+         line-height: 1.4375;
+}
+
+
+.list-group-item { 
+    list-style: decimal inside;
+    display: list-item;
+}
+
+.list-group-title + .list-group > .list-group-item:first-child {
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+    border-top: 0;
+}
+
+.list-group-item {
+    border: 1px solid #ddd;
+}
+
+.list-group-title, .list-group-item {
+    display: block;
+    margin-bottom: -1px;
+    padding: 10px 15px;
+    position: relative;
+}
+
+.list-group-item.done {
+    background-color: green;
+    border: 1px solid #ddd;
+    color: #333;
+}
+
+.list-inline-block {
+    display: inline-block;
+}
+
+.check-done {
+    background: #d8eeca none repeat scroll 0 0;
+    border-style: solid;
+    border-top-color: #fff;
+}
+
+.sub-cat {
+    background-color: #f5f5f5;
+    border: 1px solid #ddd;
+    border-left: 6px solid #333;
+    border-top: 1px;    
+    color: #333;
+}
+
+.grad-lt {
+    background: -webkit-linear-gradient(0deg, #f5f5f5, #fff);         /* Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(0deg, #f5f5f5, #fff);              /* Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(0deg, #f5f5f5, #fff);            /* Firefox 3.6 to 15 */
+    background: linear-gradient(0deg, #f5f5f5, #fff);                 /* Standard syntax */
+}
+
+fieldset {
+border-top: 0 none;
+}
+
+legend.formLegend {
+    border: medium none;
+    color: #333;
+    display: block;
+    font-size: 16px;
+    font-weight: 700;
+    line-height: inherit;
+    margin-bottom: 5px;
+    padding: 0;
+    width: 100%;
+}
+
+div.profileInfo {
+    background: #e0e0e0;
+    border: medium none;
+    display: block;
+    font-size: 100%;
+    margin: -0.4em 0 15px 0;
+    min-height: 0 !important;
+    padding: 0.1em;
+    text-align: right;
+    width: 100%;
+}
+
+ol.noStyleList {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+ol.noStyleList li {
+    display: inline;
+}
+
+.lt-grey {background-color: #f5f5f5;}
+.md-grey {background-color: #e0e0e0;}
+
+.md-blue {background-color: #2572b4;}
+.dk-blue {background-color: #335075;}
+
+/**
+ * Fix issue with tabs not being responsive: IDG-25
+ */
+@media (min-width:992px) {
+.ic-panel {
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    display: block;
+    padding: 6px 12px;
+    background:#ffffff;
+}
+.ic-tabs {
+    position: relative;
+    padding: 6px 12px;
+}
+.ic-tabs [role="tablist"] > li, .ic-tabs [role="tablist"] > li a, .ic-tabs [role="tablist"] > li span {
+    display: inline-block;
+}
+.ic-tabs > .tabpanels {
+    margin: -6px -12px;
+    padding: 6px 12px;
+    overflow: hidden;
+    position: relative;
+}
+.ic-tabs [role="tablist"] {
+    border-spacing: 10px 0;
+    display: table;
+    list-style: outside none none;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+.ic-tabs [role="tablist"] > li {
+    background: #ebf2fc none repeat scroll 0 0;
+    border-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+    color: #000;
+    cursor: pointer;
+    display: table-cell;
+    left: -10px;
+    margin: 0 10px 0 0;
+    position: relative;
+    text-align: center;
+}
+.ic-tabs [role="tablist"] > li a, .ic-tabs [role="tablist"] > li span {
+    color: #000;
+    padding: 10px;
+    text-decoration: none;
+}
+.ic-tabs [role="tablist"] > li:focus, .ic-tabs [role="tablist"] > li:hover {
+    background: rgba(204, 204, 204, 0.9) none repeat scroll 0 0;
+}
+.ic-tabs [role="tablist"] > li.active {
+    background: #fff none repeat scroll 0 0;
+    border-bottom: 0 none;
+    cursor: default;
+    padding-bottom: 1px;
+    z-index: 2;
+}
+.ic-tabs [role="tablist"] > li.active span {
+    border-color: #666;
+    border-style: solid;
+    border-width: 4px 0 0;
+    cursor: default;
+    padding-top: 6px;
+}
+.ic-tabs [role="tablist"] > li.tab-count {
+    line-height: normal;
+}
+.ic-tabs [role="tablist"] > li.tab-count > div {
+    position: relative;
+    top: 0.4em;
+}
+.ic-tabs [role="tablist"] > li.tab-count .curr-count {
+    font-size: 1.5em;
+}
+.ic-tabs [role="tablist"] > li.tab-count:focus, .ic-tabs [role="tablist"] > li.tab-count:hover {
+    background: rgba(0, 0, 0, 0) none repeat scroll 0 0;
+    cursor: default;
+}
+.ic-tabs .generated[role="tablist"] li {
+    top: 1px;
+}
+.ic-tabs .allow-wrap[role="tablist"] {
+    border-spacing: 0;
+    display: block;
+}
+.ic-tabs .allow-wrap[role="tablist"] li {
+    display: inline-block;
+    left: auto;
+}
+.wb-tabs [role="tabpanel"] {
+    background: #fff none repeat scroll 0 0 !important;
+}
+}
+@media (max-width: 991px) {
+.ic-tabs [role="tablist"] > li {
+    list-style:none;
+}
+
+.ic-tabs ul {
+    padding-left:0px;   
+}
+}
+.pad-0 {
+padding: 0;
+}
+
+.pad-sm {
+padding: 5px;
+}
+
+.pad-md {
+padding: 15px;
+}
+
+.pad-lg {
+padding: 30px;
+}
+
+.pad-xl {
+padding: 50px;
+}
+
+.pad-lft-0 {
+padding-left: 0;
+}
+
+.pad-lft-sm {
+padding-left: 5px;
+}
+
+.pad-lft-md {
+padding-left: 15px;
+}
+
+.pad-lft-lg {
+padding-left: 30px;
+}
+
+.pad-lft-xl {
+padding-left: 50px;
+}
+
+.pad-rght-0
+{padding-right: 0;}
+
+.pad-rght-sm {
+padding-right: 5px;
+}
+
+.pad-rght-md {
+padding-right: 15px;
+}
+
+.pad-rght-lg {
+padding-right: 30px;
+}
+
+.pad-rght-xl {
+padding-right: 50px;
+}
+
+.pad-tp-0 {
+padding-top: 0;
+}
+
+.pad-tp-sm {
+padding-top: 5px;
+}
+
+.pad-tp-md {
+padding-top: 15px;
+}
+
+.pad-tp-lg {
+padding-top: 30px;
+}
+
+.pad-tp-xl {
+padding-top: 50px;
+}
+
+.pad-bttm-0 {
+padding-bottom: 0;
+}
+
+.pad-bttm-sm {
+padding-bottom: 5px;
+}
+
+.pad-bttm-md {
+padding-bottom: 15px;
+}
+
+.pad-bttm-lg {
+padding-bottom: 30px;
+}
+
+.pad-bttm-xl {
+padding-bottom: 50px;
+} 
+
+.brdr-0 {
+    border: 0;
+}
+
+.brdr-top-0 {
+    border-top:0;
+}
+
+.brdr-rght-0 {
+    border-right:0;
+}
+
+.brdr-bttm-0 {
+    border-bottom:0;
+}
+
+.brdr-lft-0 {
+    border-left:0;
+}
+
+.min-hght-0 {
+    min-height: 0;
+}
+
+.min-wdth-0 {
+    min-width: 0;
+}
+
+.no-bold {
+font-weight: normal;
+}
+
+
+.radius-0.list-group-item-url:first-child, .radius-0.list-group-item:last-child {
+                border-radius: 0;
+}
+/**
+ * Fix issue with long labels: IDG-16
+*/
+.label{
+    display: inline-block;
+    vertical-align: baseline; 
+    white-space: inherit;
+    text-align: left;
+}
+
+.wb-tabs.carousel-s2 [role="tabpanel"] a
+{
+color: #0535d2;
+text-decoration: underline;
+background-color: transparent;
+}
+
+/** 
+ * Style display of data like horizontal form
+ */
+.data-display-group {
+    margin-bottom: 15px;
+}
+.data-display-label {
+    font-weight:bold;
+}
+
+@media (min-width: 768px) {
+.data-display-label {
+    text-align: right;
+}
+}
+/**
+ * Style tip details/summary box - IDG-23
+ */
+details summary.tip
+{ color: #555; }
+
+details summary.tip:focus, details summary.tip:hover
+{ background-color: #eee; color: #555; text-decoration: none; }
+
+details summary.tip.disabled, details summary.tip.disabled:focus, details summary.tip.disabled:hover
+{ background-color: #eee; color: #767676; cursor: not-allowed; } 
+
+/**
+ * Grouping pattern - IDG-34
+ */
+.grouping 
+{border-left-color: #335075; -moz-border-bottom-colors: none; -moz-border-left-colors: none; -moz-border-right-colors: none; -moz-border-top-colors: none; border-image: none; border-style: solid; border-width: 0 0 0 5px; margin: 20px 0; padding: 20px; }
+
+/**
+ * Adjust height of button for file upload in Chrome
+ */
+input[type="file"]::-webkit-file-upload-button
+{ height:37px; } 
+
+/** 
+ * IDG-39 
+ */
+.vertical-align-top {
+    vertical-align: top;
+}
