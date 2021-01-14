@@ -1,5 +1,6 @@
 package ca.gc.tri_agency.granting_data.grantingcapabilityintegrationtest;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.apache.commons.lang3.RandomStringUtils;
@@ -29,7 +30,7 @@ public class CreateGrantingCapabilityIntegrationTest {
 
 	@Autowired
 	private GrantingCapabilityService gcService;
-	
+
 	@Autowired
 	private GrantingCapabilityRepository gcRepo;
 
@@ -47,8 +48,8 @@ public class CreateGrantingCapabilityIntegrationTest {
 	@WithMockUser(username = "admin", roles = "MDM ADMIN")
 	@Test
 	public void test_createGCLinkVisibleToAdmin_shouldSucceedWith200() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/manage/manageFo").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
+		mvc.perform(MockMvcRequestBuilders.get("/manage/manageFo").param("id", "1")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content()
 						.string(Matchers.containsString("id=\"createGrantingCapabilityLink\"")));
 	}
 
@@ -56,8 +57,8 @@ public class CreateGrantingCapabilityIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_createGCLinkNotVisibleToNonAdmin_shouldReturn200() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/manage/manageFo").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
+		mvc.perform(MockMvcRequestBuilders.get("/manage/manageFo").param("id", "1")).andExpect(MockMvcResultMatchers.status().isOk())
+				.andExpect(MockMvcResultMatchers.content()
 						.string(Matchers.not(Matchers.containsString("id=\"createGrantingCapabilityLink\""))));
 	}
 
@@ -75,8 +76,8 @@ public class CreateGrantingCapabilityIntegrationTest {
 	@Test
 	public void test_nonAdminCannotAccessCreateGCPage_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/addGrantingCapabilities").param("foId", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 	}
 
 	@Tag("user_story_14572")
@@ -86,14 +87,13 @@ public class CreateGrantingCapabilityIntegrationTest {
 		long initGCCount = gcRepo.count();
 
 		String description = RandomStringUtils.randomAlphabetic(50);
-		String url = RandomStringUtils.randomAlphabetic(25);
+		String url = "https://www." + RandomStringUtils.randomAlphabetic(25) + ".com";
 
-		mvc.perform(MockMvcRequestBuilders.post("/manage/addGrantingCapabilities").param("foId", "1")
-				.param("description", description).param("url", url).param("fundingOpportunity", "1")
-				.param("grantingStage", "1").param("grantingSystem", "1"))
+		mvc.perform(MockMvcRequestBuilders.post("/manage/addGrantingCapabilities").param("description", description)
+				.param("url", url).param("fundingOpportunity", "1").param("grantingStage", "1").param("grantingSystem", "1"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.redirectedUrl("/manage/manageFo?id=1")).andExpect(MockMvcResultMatchers
-						.flash().attribute("actionMsg", "Successfully Added New Granting Capability"));
+				.andExpect(MockMvcResultMatchers.redirectedUrl("/manage/manageFo?id=1"))
+				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg", "Successfully Added New Granting Capability"));
 
 		mvc.perform(MockMvcRequestBuilders.get("/browse/viewFo").param("id", "1"))
 				.andExpect(MockMvcResultMatchers.flash().attributeCount(0));
@@ -112,12 +112,27 @@ public class CreateGrantingCapabilityIntegrationTest {
 	public void test_nonAdminCannotCreateGC_shouldReturn403() throws Exception {
 		long initGCCount = gcRepo.count();
 
-		mvc.perform(MockMvcRequestBuilders.post("/manage/addGrantingCapabilities").param("foId", "1")
-				.param("description", "test").param("url", "www.test.com").param("fundingOpportunity", "1")
-				.param("grantingStage", "1").param("grantinSystem", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden());
+		mvc.perform(MockMvcRequestBuilders.post("/manage/addGrantingCapabilities").param("foId", "1").param("description", "test")
+				.param("url", "www.test.com").param("fundingOpportunity", "1").param("grantingStage", "1")
+				.param("grantinSystem", "1")).andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(initGCCount, gcRepo.count());
+	}
+
+	@Tag("user_story_14572")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_verifyCreateGcFormValidationErrMsgs_shouldReturn200() throws Exception {
+		long initGcCount = gcRepo.count();
+
+		String response = mvc.perform(MockMvcRequestBuilders.post("/manage/addGrantingCapabilities").param("fundingOpportunity", "1")
+				.param("url", "ZZZZ"))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		assertTrue(response.contains("id=\"createGrantingCapabilityPage\""));
+		assertTrue(response.contains("The form could not be submitted because 4 errors were found."));
+
+		assertEquals(initGcCount, gcRepo.count());
 	}
 
 }

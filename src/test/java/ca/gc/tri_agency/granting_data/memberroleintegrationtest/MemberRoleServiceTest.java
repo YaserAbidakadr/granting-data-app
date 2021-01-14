@@ -195,11 +195,11 @@ public class MemberRoleServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findUserLoginBusinessUnitRole() {
-		MemberRoleProjection mrProjection = mrService.findMemberRoleBusinessUnitAcronymRoleName(3L);
+		MemberRoleProjection mrProjection = mrService.findMemberRoleBusinessUnitAcronymRoleName(5L);
 
 		assertEquals("rwi", mrProjection.getUserLogin());
 		assertEquals("Program Officer", mrProjection.getRoleEn());
-		assertEquals("MCT", mrProjection.getBusinessUnitAcronymEn());
+		assertEquals("SF", mrProjection.getBusinessUnitAcronymEn());
 	}
 
 }

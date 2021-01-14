@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.gc.tri_agency.granting_data.form.FormErrorCountIterator;
 import ca.gc.tri_agency.granting_data.model.FundingCycle;
 import ca.gc.tri_agency.granting_data.model.projection.FundingCycleProjection;
 import ca.gc.tri_agency.granting_data.model.util.CalendarGrid;
@@ -107,7 +108,7 @@ public class FundingCycleController {
 					SecurityUtils.getCurrentUsername() + " cannot create a FundingCycle for FundingOpportunity id=" + foId);
 		}
 
-		if (!foService.checkIfFundingOpportunityExists(foId)) {
+		if (!foService.checkIfFundingOpportunityExistsById(foId)) {
 			throw new DataRetrievalFailureException(Utility.returnNotFoundMsg("FundingOpportunity", foId));
 		}
 
@@ -122,7 +123,10 @@ public class FundingCycleController {
 	public String createFundingCyclePost(@RequestParam("foId") Long foId, @Valid @ModelAttribute("fundingCycle") FundingCycle fc,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws AccessDeniedException {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("fYrs", fyService.findAllFiscalYearProjectionsOrderByYear());
+			
 			return "manage/createFundingCycle";
 		}
 
@@ -150,7 +154,10 @@ public class FundingCycleController {
 	public String editFundingCyclePost(@RequestParam("id") Long fcId, @Valid @ModelAttribute("fc") FundingCycle fc,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws AccessDeniedException {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("fYrs", fyService.findAllFiscalYearProjectionsOrderByYear());
+			
 			return "manage/editFundingCycle";
 		}
 

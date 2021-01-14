@@ -51,16 +51,16 @@ public class CreateBusinessUnitIntegrationTest {
 	@Test
 	public void test_createBULinkVisibleToAdmin_shouldSucceedWith200() throws Exception {
 		// CREATE LINK ACCESSIBLE VROM VIEW AGENCY PAGE, ONLY ACCESSIBLE BY ADMIN
-		mvc.perform(get("/browse/viewAgency?id=1")).andExpect(status().isOk()).andExpect(
-				MockMvcResultMatchers.content().string(Matchers.containsString("id=\"createBusinessUnit\"")));
+		mvc.perform(get("/browse/viewAgency?id=1")).andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"createBusinessUnit\"")));
 	}
 
 	@Tag("user_story_19048")
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_createBULinkNotVisibleToNonAdmin_shouldReturn200() throws Exception {
-		mvc.perform(get("/browse/viewAgency?id=1")).andExpect(status().isOk()).andExpect(
-				MockMvcResultMatchers.content().string(not(Matchers.containsString("id=\"createBusinessUnit\""))));
+		mvc.perform(get("/browse/viewAgency?id=1")).andExpect(status().isOk())
+				.andExpect(MockMvcResultMatchers.content().string(not(Matchers.containsString("id=\"createBusinessUnit\""))));
 	}
 
 	@Tag("user_story_19048")
@@ -92,13 +92,11 @@ public class CreateBusinessUnitIntegrationTest {
 		String acronymFr = RandomStringUtils.randomAlphabetic(5);
 		Long agencyId = 1L;
 
-		mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", Long.toString(agencyId))
-				.param("nameEn", nameEn).param("nameFr", nameFr).param("acronymEn", acronymEn)
-				.param("acronymFr", acronymFr).param("agency", Long.toString(agencyId)))
-				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
+		mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", Long.toString(agencyId)).param("nameEn", nameEn)
+				.param("nameFr", nameFr).param("acronymEn", acronymEn).param("acronymFr", acronymFr)
+				.param("agency", Long.toString(agencyId))).andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/browse/viewAgency?id=" + Long.toString(agencyId)))
-				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg",
-						"Created Business Unit: " + nameEn));
+				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg", "Created Business Unit: " + nameEn));
 
 		// when viewBU page is refreshed, flash attribute should disappear
 		mvc.perform(MockMvcRequestBuilders.get("/browse/viewAgency?id=" + Long.toString(agencyId)))
@@ -127,10 +125,27 @@ public class CreateBusinessUnitIntegrationTest {
 		Long agencyId = 1L;
 
 		assertTrue(mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", Long.toString(agencyId))
-				.param("nameEn", nameEn).param("nameFr", nameFr).param("acronymEn", acronymEn)
-				.param("acronymFr", acronymFr).param("agency", Long.toString(agencyId)))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn().getResponse().getContentAsString()
-				.contains("id=\"forbiddenByRoleErrorPage\""));
+				.param("nameEn", nameEn).param("nameFr", nameFr).param("acronymEn", acronymEn).param("acronymFr", acronymFr)
+				.param("agency", Long.toString(agencyId))).andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn()
+				.getResponse().getContentAsString().contains("id=\"forbiddenByRoleErrorPage\""));
+
+		assertEquals(initBuCount, buRepo.count());
+	}
+
+	@Tag("user_story_19048")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_verfiyFormValidationErrorMsgs_shouldReturn200() throws Exception {
+		long initBuCount = buRepo.count();
+
+		// the URL request parameter (agencyId) and the hidden input element (agency) must both be included in the request
+		// in order to avoid a 400 response code
+		String response = mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", "2").param("agency", "2")
+				.param("nameEn", "").param("nameFr", "").param("acronymEn", "").param("acronymFr", ""))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		assertTrue(response.contains("id=\"createBusinessUnitPage\""));
+		assertTrue(response.contains("The form could not be submitted because 4 errors were found."));
 
 		assertEquals(initBuCount, buRepo.count());
 	}

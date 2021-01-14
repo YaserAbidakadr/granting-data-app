@@ -180,8 +180,8 @@ public class FundingOpportunityServiceImpl implements FundingOpportunityService 
 	}
 
 	@Override
-	public boolean checkIfFundingOpportunityExists(Long foId) {
-		return foRepo.findIfItExists(foId).getCount() == 1L;
+	public boolean checkIfFundingOpportunityExistsById(Long foId) {
+		return foRepo.existsById(foId);
 	}
 
 	@Override

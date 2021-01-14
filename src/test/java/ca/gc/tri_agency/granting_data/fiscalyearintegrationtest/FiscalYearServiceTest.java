@@ -34,13 +34,13 @@ public class FiscalYearServiceTest {
 
 	@Autowired
 	private FiscalYearRepository fyRepo;
-	
+
 	@Tag("user_story_19201")
 	@WithAnonymousUser
 	@Test
 	public void test_findFiscalYearById() {
 		assertNotNull(fyService.findFiscalYearById(1L));
-		
+
 		assertThrows(DataRetrievalFailureException.class, () -> fyService.findFiscalYearById(Long.MAX_VALUE));
 	}
 
@@ -71,7 +71,7 @@ public class FiscalYearServiceTest {
 
 		assertNotNull(newFy.getId());
 		assertEquals(initFYCount + 1, fyRepo.count());
-		
+
 		assertThrows(DataIntegrityViolationException.class, () -> fyService.saveFiscalYear(new FiscalYear(2040L)));
 	}
 
@@ -81,14 +81,33 @@ public class FiscalYearServiceTest {
 	public void test_nonAdminCannotCreateFiscalYear() {
 		assertThrows(AccessDeniedException.class, () -> fyService.saveFiscalYear(new FiscalYear(2041L)));
 	}
-	
+
 	@Tag("user_story_19345")
 	@WithAnonymousUser
 	@Test
 	public void test_findNumAppsExpectedForEachFiscalYear() {
 		List<FiscalYearProjection> results = fyService.findNumAppsExpectedForEachFiscalYear();
-		
-		assertEquals(4, results.size());
+
+		assertTrue(results.size() >= 4);
 		assertEquals(159_845L, results.get(2).getNumAppsReceived());
 	}
+
+	@Tag("user_story_19333")
+	@Test
+	public void test_checkIfFiscalYearExists() {
+		FiscalYear fy1 = new FiscalYear();
+		fy1.setYear(2020L);
+
+		assertTrue(fyService.checkIfFiscalYearExists(fy1));
+
+		FiscalYear fy2 = new FiscalYear();
+		fy2.setYear(Long.MAX_VALUE);
+
+		assertFalse(fyService.checkIfFiscalYearExists(fy2));
+		
+		FiscalYear fy3 = new FiscalYear();
+		
+		assertFalse(fyService.checkIfFiscalYearExists(fy3));
+	}
+
 }

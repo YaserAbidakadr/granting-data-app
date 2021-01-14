@@ -2,6 +2,7 @@ package ca.gc.tri_agency.granting_data.memberroleintegrationtest;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
@@ -46,12 +47,12 @@ public class CreateMemberRoleIntegrationTest {
 		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU").param("id", "1"))
 				.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
 						.string(Matchers.containsString("id=\"createMemberRoleLink\"")));
-		
+
 		// verify an admin can access createMR page
 		mvc.perform(MockMvcRequestBuilders.get("/admin/createMR").param("buId", "1"))
 		.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
 				.string(Matchers.containsString("id=\"createMemberRolePage\"")));
-		
+
 		// verify an admin can create a MemberRole
 		long initMRCount = mrRepo.count();
 
@@ -72,24 +73,43 @@ public class CreateMemberRoleIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void testController_nonAdminCannotCreateMR_shouldReturn403() throws Exception {
-		// verify "Create Member Role" button not visible to a non-admin 
+		// verify "Create Member Role" button not visible to a non-admin
 		mvc.perform(MockMvcRequestBuilders.get("/browse/viewBU").param("id", "1"))
 		.andExpect(MockMvcResultMatchers.status().isOk()).andExpect(MockMvcResultMatchers.content()
 				.string(Matchers.not(containsString("id=\"createMemberRoleLink\""))));
-		
+
 		// verify createMR page not accessible by a non-admin
 		mvc.perform(MockMvcRequestBuilders.get("/admin/createMR").param("buId", "1"))
-		.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-				.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
-		
+				.andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+
 		// verify non-admin cannot create a MemberRole
 		long initMRCount = mrRepo.count();
 
 		mvc.perform(MockMvcRequestBuilders.post("/admin/createMR").param("buId", "1").param("businessUnit", "1")
 				.param("searchStr", "user").param("userLogin", "adm").param("role", "2").param("ediAuthorized", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden())
+				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
 
 		assertEquals(initMRCount, mrRepo.count());
 	}
+
+	@Tag("user_story_19187")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_createMrFormErrValidationMsgs_shouldReturn200() throws Exception {
+		long initMrCount = mrRepo.count();
+
+		// the searchStr request param is not part of the form submission; however, it is required by the
+		// URL in order to prevent a 400 response code
+		String response = mvc.perform(MockMvcRequestBuilders.post("/admin/createMR").param("buId", "1").param("businessUnit", "")
+				.param("role", "").param("ediAuthorized", "").param("userLogin", "").param("searchStr", ""))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		assertTrue(response.contains("id=\"createMemberRolePage\""));
+		assertTrue(response.contains("The form could not be submitted because 3 errors were found."));
+
+		assertEquals(initMrCount, mrRepo.count());
+	}
+
 }

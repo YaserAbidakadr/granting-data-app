@@ -1,6 +1,7 @@
 package ca.gc.tri_agency.granting_data.grantingcapabilityintegrationtest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -16,13 +17,25 @@ import org.springframework.test.context.ActiveProfiles;
 
 import ca.gc.tri_agency.granting_data.app.GrantingDataApp;
 import ca.gc.tri_agency.granting_data.model.GrantingCapability;
+import ca.gc.tri_agency.granting_data.repo.FundingOpportunityRepository;
 import ca.gc.tri_agency.granting_data.repo.GrantingCapabilityRepository;
+import ca.gc.tri_agency.granting_data.repo.GrantingStageRepository;
+import ca.gc.tri_agency.granting_data.repo.GrantingSystemRepository;
 import ca.gc.tri_agency.granting_data.service.GrantingCapabilityService;
 
 @SpringBootTest(classes = GrantingDataApp.class)
 @ActiveProfiles("test")
 public class GrantingCapabilityServiceTest {
 
+	@Autowired
+	private FundingOpportunityRepository foRepo;
+	
+	@Autowired
+	private GrantingStageRepository gStageRepo;
+	
+	@Autowired
+	private GrantingSystemRepository gSysRepo;
+	
 	@Autowired
 	private GrantingCapabilityService gcService;
 
@@ -58,6 +71,11 @@ public class GrantingCapabilityServiceTest {
 		GrantingCapability gc = gcService.findGrantingCapabilityById(1L);
 		String editDescription = "TEST DESCRIPTION EDIT";
 		gc.setDescription(editDescription);
+		gc.setUrl("https://www.testurl.com/");
+		gc.setGrantingStage(gStageRepo.getOne(1L));
+		gc.setGrantingSystem(gSysRepo.getOne(1L));
+		gc.setFundingOpportunity(foRepo.getOne(1L));
+		
 		gcService.saveGrantingCapability(gc);
 
 		assertTrue(gcService.findGrantingCapabilityById(1L).getDescription().equals(editDescription));
@@ -82,6 +100,25 @@ public class GrantingCapabilityServiceTest {
 
 		assertEquals("PromoScience (5390)", gc.getFundingOpportunity().getNameEn());
 		assertThrows(DataRetrievalFailureException.class, () -> gcService.findGrantingCapabilityAndFO(Long.MAX_VALUE));
+	}
+	
+	@Tag("user_story_14572")
+	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
+	@Test
+	public void test_createGrantingCapabaility() {
+		GrantingCapability newGc = new GrantingCapability();
+		
+		newGc.setDescription("TEST GRANTING CAPABILITY");
+		newGc.setUrl("https://www.testGrantingCapability.com");
+		newGc.setGrantingStage(gStageRepo.getOne(1L));
+		newGc.setGrantingSystem(gSysRepo.getOne(1L));
+		newGc.setFundingOpportunity(foRepo.getOne(1L));
+
+		GrantingCapability addedGc = gcService.saveGrantingCapability(newGc);
+
+		assertNotNull(addedGc.getId());
+		assertEquals(addedGc.getDescription(), newGc.getDescription());
+		assertEquals(1L, addedGc.getFundingOpportunity().getId());
 	}
 
 }

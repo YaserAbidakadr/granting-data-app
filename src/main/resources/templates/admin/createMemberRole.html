@@ -42,32 +42,92 @@
 				<div class="web-frmvld" th:if="${adUserList != null and !adUserList.isEmpty()}" id="searchResultsDiv">
 
 					<form action="#" th:action="@{createMR(buId=${param.buId})}" method="post" th:object="${memberRole}">
-
-						<div class="form-group">
-							<label for="hiddenRoleDropDown" class="required"><span class="field-name" th:text="#{form.role}"></span><strong
-								class="required" th:utext="#{form.required}"></strong></label>
+					
+					   <section th:if="${#fields.hasAnyErrors()}" id="errorSection" class="alert alert-danger">
+					   
+					       <h2 th:text="${topErrCounter.getQueueSize()} > 1 ? #{err.multipleFormErrors(${topErrCounter.getQueueSize()})}
+					           : #{err.oneFormError}"></h2>
+					           
+					       <ul>
+					           <li th:each="err : ${#fields.errors('role')}">
+					               <a href="#roleDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.role}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('ediAuthorized')}">
+					               <a href="#ediAuthorizedDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{form.ediAuthorized}, ${err})}"></span>
+					               </a>
+					           </li>
+					           <li th:each="err : ${#fields.errors('userLogin')}">
+					               <a href="#userLoginDiv">
+					                   <span th:text="#{err.field.aboveForm(${topErrCounter.getNextErrNum()}, #{label.selUser}, ${err})}"></span>
+					               </a>
+					           </li>
+					       </ul>
+					   
+					   </section>
+						
+						<div class="form-group" id="roleDiv" th:classappend="${#fields.hasErrors('role')} ? 'has-error'">
+							
+							<label for="roleDropDown" class="required">
+							
+							    <span class="field-name" th:text="#{form.role}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('role')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
 							<div>
-								<select class="form-control" id="hiddenRoleDropDown" th:field="*{role}" required>
+								<select class="form-control" id="roleDropDown" th:field="*{role}" required>
 									<option th:each="role : ${@roleServiceImpl.findAllRoles()}" th:text="${role.getLocalizedAttribute('name')}" th:value="${role.id}">
 								</select>
 							</div>
+							
 						</div>
 
-						<div class="form-group">
-							<label for="ediAuthorizedDropDown" class="required"><span class="field-name" th:text="#{form.ediAuthorized}"></span><strong
-								class="required" th:utext="#{form.required}"></strong></label> <select id="ediAuthorizedDropDown" th:field="*{ediAuthorized}"
-								class="form-control" required>
+						<div class="form-group" id="ediAuthorizedDiv" th:classappend="${#fields.hasErrors('ediAuthorized')} ? 'has-error'">
+							
+							<label for="ediAuthorizedDropDown" class="required">
+							
+							    <span class="field-name" th:text="#{form.ediAuthorized}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('ediAuthorized')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label> 
+							
+							<select id="ediAuthorizedDropDown" th:field="*{ediAuthorized}" class="form-control" required>
 								<option th:text="#{msg.no}" th:value="0">
 								<option th:text="#{msg.yes}" th:value="1">
 							</select>
+							
 						</div>
 
-						<input type="hidden" th:value="${businessUnit}" th:field="*{businessUnit}" /> <input hidden="true" name="searchStr"
-							th:value="${param.searchStr}" />
-
-						<div class="form-group">
-							<label for="memberRoleTable" class="required" style="margin-top: 20px; margin-bottom: 30px;"><span class="field-name"
-								th:text="#{label.selUser}"></span><strong class="required" th:utext="#{form.required}"></strong></label>
+						<div class="form-group" id="userLoginDiv">
+							
+							<label for="memberRoleTable" class="required" style="margin-top: 20px; margin-bottom: 30px;">
+							
+							    <span class="field-name" th:text="#{label.selUser}"></span>
+							    <strong class="required" th:utext="#{form.required}"></strong>
+							    
+							    <span th:each="err : ${#fields.errors('userLogin')}">
+							        <br>
+							        <strong class="label label-danger" style="font-size: 100%;"
+							            th:text="#{err.field(${formErrCounter.getNextErrNum()}, ${err})}"></strong>
+							    </span>
+							    
+							</label>
+							
 							<table id="memberRoleTable" class="wb-tables table table-striped table-hover dataTable">
 								<thead>
 									<tr>
@@ -86,12 +146,16 @@
 							</table>
 						</div>
 
+                        <input type="hidden" th:value="${businessUnit}" th:field="*{businessUnit}" /> 
+                        
+                        <!-- This input is not part of the form submission and is instead required for the URL 
+                             when reloading the page when the user tries to submit the form with errors in it. -->
+                        <input hidden="true" name="searchStr" th:value="${param.searchStr}" />
+
 						<div>
 							<input type="submit" class="btn btn-primary" th:value="#{input.submit}" /> <a th:href="@{/browse/viewBU(id=${param.buId})}"
 								th:text="#{msg.cancel}" class="btn btn-link"></a>
 						</div>
-
-						<!-- <div th:if="${#fields.hasErrors('userLogin')}" th:errors="*{userLogin}" style="color: red;" th:text="#{err.userLogin}"></div> -->
 
 					</form>
 

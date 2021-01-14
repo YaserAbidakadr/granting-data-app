@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import ca.gc.tri_agency.granting_data.form.FormErrorCountIterator;
 import ca.gc.tri_agency.granting_data.model.GrantingCapability;
 import ca.gc.tri_agency.granting_data.security.annotations.AdminOnly;
 import ca.gc.tri_agency.granting_data.service.GrantingCapabilityService;
@@ -55,8 +56,11 @@ public class GrantingCapabilityController {
 	public String editGrantingCapabilityPost(@Valid @ModelAttribute("gc") GrantingCapability gc, BindingResult bindingResult,
 			RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
 			model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
+			
 			return "manage/editGrantingCapability";
 		}
 
@@ -90,9 +94,9 @@ public class GrantingCapabilityController {
 
 	@AdminOnly
 	@GetMapping("/manage/addGrantingCapabilities")
-	public String createGrantingCapabilityGet(@RequestParam("foId") long foId, Model model) {
-		model.addAttribute("foId", foId);
+	public String createGrantingCapabilityGet(@RequestParam("foId") Long foId, Model model) {
 		model.addAttribute("gc", new GrantingCapability());
+		model.addAttribute("foId", foId);
 		model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
 		model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
 
@@ -101,9 +105,15 @@ public class GrantingCapabilityController {
 
 	@AdminOnly
 	@PostMapping("/manage/addGrantingCapabilities")
-	public String createGrantingCapabilityPost(@Valid @ModelAttribute("gc") GrantingCapability gc, BindingResult bindingResult,
-			RedirectAttributes redirectAttributes) {
+	public String createGrantingCapabilityPost(@RequestParam("fundingOpportunity") Long foId, @Valid @ModelAttribute("gc") GrantingCapability gc,
+			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("foId", foId);
+			model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
+			model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
+
 			return "manage/addGrantingCapabilities";
 		}
 

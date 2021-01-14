@@ -161,4 +161,30 @@ public class EditFundingCycleIntegrationTest {
 		assertNotEquals(newNumAppsReceived, fcService.findFundingCycleById(fcId).getExpectedApplications());
 	}
 
+	@Tag("user_story_19207")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_verifyEditFcFormValidationErrMsgs_shouldReturn200() throws Exception {
+		final long fcId = 1L;
+		FundingCycle fcBefore = fcService.findFundingCycleById(fcId);
+
+		// fundingOpportunity is a hidden input
+		String response = mvc
+				.perform(MockMvcRequestBuilders.post("/manage/editFC").param("id", String.valueOf(fcId))
+						.param("fundingOpportunity", "1"))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		FundingCycle fcAfter = fcService.findFundingCycleById(fcId);
+		
+		System.out.println(response);
+
+		assertTrue(response.contains("id=\"editFundingCyclePage\""));
+		assertTrue(response.contains("The form could not be submitted because 3 errors were found."));
+
+		assertEquals(fcBefore.getFiscalYear().getId(), fcAfter.getFiscalYear().getId());
+		assertEquals(fcBefore.getStartDate(), fcAfter.getStartDate());
+		assertEquals(fcBefore.getExpectedApplications(), fcAfter.getExpectedApplications());
+		assertEquals(fcBefore.getFundingOpportunity().getId(), fcAfter.getFundingOpportunity().getId());
+	}
+
 }

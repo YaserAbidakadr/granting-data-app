@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.DataRetrievalFailureException;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import ca.gc.tri_agency.granting_data.model.FiscalYear;
@@ -56,5 +57,15 @@ public class FiscalYearServiceImpl implements FiscalYearService {
 	@Override
 	public List<FiscalYear> findAllFiscalYearEntitiesOrderByYear() {
 		return fyRepo.findAll();
+	}
+
+	@Override
+	public boolean checkIfFiscalYearExists(FiscalYear fy) {
+		if (fy.getYear() == null) {
+			return false;
+		}
+		
+		Example<FiscalYear> fyExample = Example.of(fy);
+		return fyRepo.exists(fyExample);
 	}
 }

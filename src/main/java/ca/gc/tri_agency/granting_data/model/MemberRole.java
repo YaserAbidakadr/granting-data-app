@@ -8,6 +8,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.envers.Audited;
@@ -21,7 +22,7 @@ public class MemberRole {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_MEMBER_ROLE")
 	private Long id;
 
-//	@NotEmpty(message = "{userLogin.NotNull}")
+	@NotBlank
 	private String userLogin;
 
 	@NotNull
@@ -34,7 +35,6 @@ public class MemberRole {
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "business_unit_id")
-	@NotNull
 	private BusinessUnit businessUnit;
 
 	public MemberRole() {

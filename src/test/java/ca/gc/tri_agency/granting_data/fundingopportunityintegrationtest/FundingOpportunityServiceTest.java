@@ -2,6 +2,7 @@ package ca.gc.tri_agency.granting_data.fundingopportunityintegrationtest;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -96,7 +97,7 @@ public class FundingOpportunityServiceTest {
 	@Test
 	public void test_adminCanFindAllFundingOpportunitiesRevisions() {
 		long numFOs = foRepo.count();
-		
+
 		long numAdds = 0;
 
 		List<String[]> foRevs = foService.findAllFundingOpportunitiesRevisions();
@@ -136,15 +137,22 @@ public class FundingOpportunityServiceTest {
 				"Bourse pour ambassadeurs autochtones des sciences naturelles et du génie", "ICSP", "FR ICSP",
 				"SP Secure Upload", "NAMIS" }, tableRow);
 	}
-	
+
 	@Tag("user_story_19326")
 	@WithAnonymousUser
 	@Test
 	public void test_findFundingOpportunityAndBU() {
 		FundingOpportunity fo = foService.findFundingOpportunityEager(23L).get(0);
-		
+
 		assertEquals(3L, fo.getBusinessUnit().getId());
 		assertThrows(DataRetrievalFailureException.class, () -> foService.findFundingOpportunityEager(Long.MAX_VALUE));
+	}
+
+	@Tag("user_story_19201")
+	@Test
+	public void test_checkIfFundingOpportunityExists() {
+		assertTrue(foService.checkIfFundingOpportunityExistsById(1L));
+		assertFalse(foService.checkIfFundingOpportunityExistsById(Long.MAX_VALUE));
 	}
 
 }

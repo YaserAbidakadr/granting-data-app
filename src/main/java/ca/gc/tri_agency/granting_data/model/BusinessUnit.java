@@ -40,10 +40,10 @@ public class BusinessUnit implements LocalizedParametersModel {
 	// email address
 	private String distribution;
 
+	@NotNull
 	@NotAudited
 	@ManyToOne(optional = false, fetch = FetchType.LAZY)
 	@JoinColumn(name = "agency_id")
-	@NotNull
 	private Agency agency;
 
 	public BusinessUnit() {

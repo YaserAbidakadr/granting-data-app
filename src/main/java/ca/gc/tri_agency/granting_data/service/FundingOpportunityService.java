@@ -28,7 +28,7 @@ public interface FundingOpportunityService {
 	
 	List<FundingOpportunityProjection> findBrowseViewFoResult(Long foId);
 	
-	boolean checkIfFundingOpportunityExists(Long foId);
+	boolean checkIfFundingOpportunityExistsById(Long foId);
 	
 	FundingOpportunityProjection findFundingOpportunityName(Long foId);
 

@@ -103,13 +103,30 @@ public class CreateFundingCycleIntegrationTest {
 
 		// verify Admin can create a FundingCycle
 		assertTrue(mvc.perform(MockMvcRequestBuilders.post("/manage/createFC").param("foId", "1").param("fiscalYear", "1")
-				.param("open", "true").param("expectedApplications", "123").param("fundingOpportunity", "1"))
+				.param("open", "true").param("expectedApplications", "123").param("fundingOpportunity", "1")
+				.param("startDate", "2021-01-01").param("businessUnit", "2"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/manage/manageFo?id=1")).andReturn().getFlashMap()
 				.containsValue("Successfully Created a Funding Cycle for this Funding Opportunity"),
 				"Created FundingCycle flash attribute is missing");
 
 		assertEquals(initFCCount + 1, fcRepo.count());
+	}
+
+	@Tag("user_story_19201")
+	@WithMockUser(roles = "MDM ADMIN")
+	@Test
+	public void test_createFcFormValidationErrMsgs_shouldReturn200() throws Exception {
+		long initFcCount = fcRepo.count();
+
+		// foId request parameter is required for the URL
+		String response = mvc.perform(MockMvcRequestBuilders.post("/manage/createFC").param("foId", "1"))
+				.andExpect(MockMvcResultMatchers.status().isOk()).andReturn().getResponse().getContentAsString();
+
+		assertTrue(response.contains("id=\"createFundingCyclePage\""));
+		assertTrue(response.contains("The form could not be submitted because 4 errors were found."));
+
+		assertEquals(initFcCount, fcRepo.count());
 	}
 
 }
