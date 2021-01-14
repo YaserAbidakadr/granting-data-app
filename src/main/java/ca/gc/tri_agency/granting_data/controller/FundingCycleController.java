@@ -154,7 +154,10 @@ public class FundingCycleController {
 	public String editFundingCyclePost(@RequestParam("id") Long fcId, @Valid @ModelAttribute("fc") FundingCycle fc,
 			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) throws AccessDeniedException {
 		if (bindingResult.hasErrors()) {
+			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
+			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("fYrs", fyService.findAllFiscalYearProjectionsOrderByYear());
+			
 			return "manage/editFundingCycle";
 		}
 
