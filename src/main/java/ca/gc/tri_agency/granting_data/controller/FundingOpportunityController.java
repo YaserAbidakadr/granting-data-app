@@ -129,7 +129,8 @@ public class FundingOpportunityController {
 		return "redirect:/browse/viewFo?id=" + fo.getId();
 	}
 
-	@GetMapping("/admin/createFo")
+	@AdminOnly
+	@GetMapping("/admin/createFO")
 	public String createFundingOpportunityGet(Model model, @RequestParam("sfoId") Optional<Long> sfoId) {
 		FundingOpportunity fo = new FundingOpportunity();
 		if (sfoId.isPresent()) {
@@ -141,10 +142,11 @@ public class FundingOpportunityController {
 		model.addAttribute("fo", fo);
 		model.addAttribute("allBusinessUnits", buService.findAllBusinessUnits());
 		
-		return "admin/createFo";
+		return "admin/createFundingOpportunity";
 	}
 
-	@PostMapping("/admin/createFo")
+	@AdminOnly
+	@PostMapping("/admin/createFO")
 	public String createFundingOpportunityPost(@Valid @ModelAttribute("fo") FundingOpportunity fo, BindingResult bindingResult,
 			Model model, RedirectAttributes redirectAttributes) throws Exception {
 		if (bindingResult.hasErrors()) {
@@ -152,7 +154,7 @@ public class FundingOpportunityController {
 			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("allBusinessUnits", buService.findAllBusinessUnits());
 			
-			return "admin/createFo";
+			return "admin/createFundingOpportunity";
 		}
 		
 		foService.saveFundingOpportunity(fo);

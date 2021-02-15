@@ -176,8 +176,6 @@ public class EditFundingCycleIntegrationTest {
 
 		FundingCycle fcAfter = fcService.findFundingCycleById(fcId);
 		
-		System.out.println(response);
-
 		assertTrue(response.contains("id=\"editFundingCyclePage\""));
 		assertTrue(response.contains("The form could not be submitted because 3 errors were found."));
 

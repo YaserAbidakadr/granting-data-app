@@ -32,7 +32,7 @@
 						<tr th:each="fy : ${fiscalYearStats}" class="form-group row">
 							<td th:text="${fy.getYear()}"></td>
 							<td th:text="${fy.getNumAppsReceived() gt 0 ? #numbers.formatInteger(fy.getNumAppsReceived(), 1, 'COMMA') : 0}"></td>
-							<td><a th:if="${fy.getNumAppsReceived() gt 0}" class="btn btn-primary" th:href="@{viewFcFromFy(fyId=${fy.getId()})}" role="button"
+							<td><a th:if="${fy.getNumAppsReceived() gt 0}" class="btn btn-primary" th:href="@{viewFCsForFY(fyId=${fy.getId()})}" role="button"
 								th:text="#{msg.view}"></a><span th:if="${fy.getNumAppsReceived() eq null}" th:text="#{msg.none}"></span></td>
 						</tr>
 					</tbody>

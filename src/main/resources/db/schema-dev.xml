@@ -556,7 +556,165 @@
     
     <!-- Populates the database -->
     <changeSet id="55" author="dev_aha" dbms="mssql">
-        <sqlFile path="/data-dev.sql" relativeToChangelogFile="true" />
+        <sqlFile path="/db/data-dev.sql" relativeToChangelogFile="false" />
+    </changeSet>
+    
+    <!-- Foreign Key Indexes -->
+    <changeSet id="56" author="dev_aha">
+        <createIndex tableName="agency_history" indexName="ix_agency_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="57" author="dev_aha">
+        <createIndex tableName="application_participation" indexName="ix_application_participation_gender_id">
+            <column name="gender_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="58" author="dev_aha">
+        <createIndex tableName="app_part_indigenous_identity" indexName="ix_ap_ii_application_participation_id">
+            <column name="application_participation_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="59" author="dev_aha">
+        <createIndex tableName="app_part_indigenous_identity" indexName="ix_ap_ii_indigenous_identity_id">
+            <column name="indigenous_identity_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="60" author="dev_aha">
+        <createIndex tableName="app_part_visible_minority" indexName="ix_ap_vm_application_participation_id">
+            <column name="application_participation_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="61" author="dev_aha">
+        <createIndex tableName="app_part_visible_minority" indexName="ix_ap_vm_visible_minority_id">
+            <column name="visible_minority_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="62" author="dev_aha">
+        <createIndex tableName="business_unit" indexName="ix_business_unit_agency">
+            <column name="agency_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="63" author="dev_aha">
+        <createIndex tableName="business_unit_history" indexName="ix_business_unit_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="64" author="dev_aha">
+        <createIndex tableName="funding_cycle" indexName="ix_funding_cycle_fiscal_year_id">
+            <column name="fiscal_year_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="65" author="dev_aha">
+        <createIndex tableName="funding_cycle" indexName="ix_funding_cycle_funding_opportunity_id">
+            <column name="funding_opportunity_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="66" author="dev_aha">
+        <createIndex tableName="funding_opportunity" indexName="ix_funding_opportunity_business_unit_id">
+            <column name="business_unit_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="67" author="dev_aha">
+        <createIndex tableName="funding_opportunity_history" indexName="ix_funding_opportunity_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="68" author="dev_aha">
+        <createIndex tableName="funding_opportunity_participating_agencies" indexName="ix_fo_pa_funding_opportunity_id">
+            <column name="funding_opportunity_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="69" author="dev_aha">
+        <createIndex tableName="funding_opportunity_participating_agencies" indexName="ix_fo_pa_participating_agency_id">
+            <column name="participating_agency_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="70" author="dev_aha">
+        <createIndex tableName="granting_capability" indexName="ix_granting_capability_funding_opportunity_id">
+            <column name="funding_opportunity_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="71" author="dev_aha">
+        <createIndex tableName="granting_capability" indexName="ix_granting_capability_granting_stage_id">
+            <column name="granting_stage_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="72" author="dev_aha">
+        <createIndex tableName="granting_capability" indexName="ix_granting_capability_granting_system_id">
+            <column name="granting_system_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="73" author="dev_aha">
+        <createIndex tableName="granting_system_history" indexName="ix_granting_system_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="74" author="dev_aha">
+        <createIndex tableName="member_role" indexName="ix_member_role_business_unit_id">
+            <column name="business_unit_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="75" author="dev_aha">
+        <createIndex tableName="member_role" indexName="ix_member_role_role_id">
+            <column name="role_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="76" author="dev_aha">
+        <createIndex tableName="member_role_history" indexName="ix_member_role_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="77" author="dev_aha">
+        <createIndex tableName="role_history" indexName="ix_role_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="78" author="dev_aha">
+        <createIndex tableName="system_funding_cycle" indexName="ix_system_funding_cycle_system_funding_opportunity_id">
+            <column name="system_funding_opportunity_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="79" author="dev_aha">
+        <createIndex tableName="system_funding_opportunity" indexName="ix_system_funding_opportunity_funding_opportunity_id">
+            <column name="linked_funding_opportunity_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="80" author="dev_aha">
+        <createIndex tableName="system_funding_opportunity" indexName="ix_system_funding_opportunity_granting_system_id">
+            <column name="granting_system_id" />
+        </createIndex>
+    </changeSet>
+    <changeSet id="81" author="dev_aha">
+        <createIndex tableName="system_funding_opportunity_history" indexName="ix_system_funding_opportunity_history_revision">
+            <column name="revision" />
+        </createIndex>
+    </changeSet>
+    
+    <!-- Missing Foreign Key Constraints -->
+    <changeSet id="82" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_ii_application_participation" referencedTableName="application_participation"
+            baseColumnNames="application_participation_id" baseTableName="app_part_indigenous_identity" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="83" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_ii_indigenous_identity" referencedTableName="indigenous_identity"
+            baseColumnNames="indigenous_identity_id" baseTableName="app_part_indigenous_identity" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="84" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_vm_application_participation" referencedTableName="application_participation"
+            baseColumnNames="application_participation_id" baseTableName="app_part_visible_minority" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="85" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_vm_visible_minority" referencedTableName="visible_minority" 
+            baseColumnNames="visible_minority_id" baseTableName="app_part_visible_minority" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="86" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_granting_capability_granting_stage" referencedTableName="granting_stage" 
+            baseColumnNames="granting_stage_id" baseTableName="granting_capability" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="87" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_granting_capability_granting_system" referencedTableName="granting_system"
+            baseColumnNames="granting_system_id" baseTableName="granting_capability" referencedColumnNames="id" />
     </changeSet>
     
 </databaseChangeLog>

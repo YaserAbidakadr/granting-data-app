@@ -26,7 +26,7 @@
 
 				<div class="web-frmvld">
 
-					<form action="#" th:action="@{/manage/deleteFC}" method="post">
+					<form action="#" th:action="@{/manage/deleteFC(id=${fc.getId()})}" method="post">
 					
 						<input type="hidden" th:value="${fc.getId()}" th:name="fcId">
 

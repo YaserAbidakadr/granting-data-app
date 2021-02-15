@@ -45,8 +45,7 @@ public class AdminController {
 		model.addAttribute("fileRows", fileRows);
 		model.addAttribute("actionRowIds", adminService.generateActionableFoCycleIds(fileRows));
 		// filtering options
-		model.addAttribute("distinctFCs",
-				fileRows.stream().map(FundingCycleDatasetRow::getFoCycle).distinct().sorted().iterator());
+		model.addAttribute("distinctFCs", fileRows.stream().map(FundingCycleDatasetRow::getFoCycle).distinct().sorted().iterator());
 		model.addAttribute("distinctFOs",
 				fileRows.stream().map(row -> row.getLocalizedAttribute("programName")).distinct().sorted().iterator());
 
@@ -54,18 +53,14 @@ public class AdminController {
 	}
 
 	@PostMapping("/analyzeFoUploadData")
-	public String compareData_uploadSelectedNames_post(@RequestParam String filename,
-			@RequestParam("idToAction") String[] idsToAction, final RedirectAttributes redirectAttrs) {
+	public String compareData_uploadSelectedNames_post(@RequestParam String filename, @RequestParam("idToAction") String[] idsToAction,
+			final RedirectAttributes redirectAttrs) {
 		long numChances = adminService.applyChangesFromFileByIds(filename, idsToAction);
-		String actionMsg = msgSource.getMessage("msg.successfullyRegisteredFCs", new Object[] { new Long(numChances) },
+		String actionMsg = msgSource.getMessage("msg.successfullyRegisteredFCs", new Object[] { Long.valueOf(numChances) },
 				LocaleContextHolder.getLocale());
 		redirectAttrs.addFlashAttribute("actionMsg", actionMsg);
-		return "redirect:/admin/home";
-	}
 
-	@GetMapping("/home")
-	public String home() {
-		return "admin/home";
+		return "redirect:/home";
 	}
 
 	@GetMapping("/auditLogs")

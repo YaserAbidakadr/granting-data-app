@@ -91,7 +91,7 @@
 							
 							<div>
 							
-								<select id="fiscalYearDropdown" th:field="*{fiscalYear}" class="form-control" >
+								<select id="fiscalYearDropdown" th:field="*{fiscalYear.id}" class="form-control" >
 									<option th:each="fy : ${fYrs}" th:value="${fy.getId()}" th:text="${fy.getYear()}"></option>
 								</select>
 								

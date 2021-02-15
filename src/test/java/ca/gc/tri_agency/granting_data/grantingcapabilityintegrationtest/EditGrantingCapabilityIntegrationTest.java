@@ -91,8 +91,7 @@ public class EditGrantingCapabilityIntegrationTest {
 	@Test
 	public void test_nonAdminCannotAccessEditGCPage_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/editGC").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19004")
@@ -146,8 +145,7 @@ public class EditGrantingCapabilityIntegrationTest {
 				.param("fundingOpportunity",
 						String.valueOf(gcService.findGrantingCapabilityById(1L).getFundingOpportunity().getId()))
 				.param("grantingStage", gStageId).param("grantingSystem", gSystemId))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		GrantingCapability gcAfterFailedUpdate = gcService.findGrantingCapabilityById(1L);
 
@@ -174,8 +172,6 @@ public class EditGrantingCapabilityIntegrationTest {
 
 		GrantingCapability gcAfter = gcService.findGrantingCapabilityById(gcId);
 
-		System.out.println(response);
-		
 		assertTrue(response.contains("id=\"editGrantingCapabilityPage\""));
 		assertTrue(response.contains("The form could not be submitted because 4 errors were found."));
 

@@ -99,9 +99,9 @@ public class SystemFundingOpportunityControllerTest {
 	@Test
 	public void test_unlinkFoConfirmationPageNotAccessableByNonAdminUsers_shouldReturn403() throws Exception {
 		assertNotNull(sfoService.findSystemFundingOpportunityById(1L).getLinkedFundingOpportunity());
-		assertTrue(mvc.perform(MockMvcRequestBuilders.get("/admin/confirmUnlink").param("sfoId", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn().getResponse().getContentAsString()
-				.contains("id=\"forbiddenByRoleErrorPage\""));
+
+		mvc.perform(MockMvcRequestBuilders.get("/admin/confirmUnlink").param("sfoId", "1"))
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_14659")
@@ -171,8 +171,7 @@ public class SystemFundingOpportunityControllerTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessAnalyzeSystemFundingOpportunitiesPage_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/analyzeSFOs")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/analyzeSFOs")).andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19301")
@@ -197,8 +196,7 @@ public class SystemFundingOpportunityControllerTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessAuditLogForAllSystemFundingOpportunities_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogSFO")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogSFO")).andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19301")

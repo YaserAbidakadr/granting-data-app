@@ -54,7 +54,7 @@ public class ApplicationParticipationController {
 	public String post_generateTestParticipations(RedirectAttributes redirectAttrs) {
 		long numCreated = apService.generateTestAppParicipationsForAllSystemFundingOpportunities();
 		redirectAttrs.addFlashAttribute("actionMsg", "Successfully created " + numCreated + " Test App Participations");
-		return "redirect:/admin/home";
+		return "redirect:/home";
 	}
 
 	@GetMapping("/browse/viewAP")

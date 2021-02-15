@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import ca.gc.tri_agency.granting_data.model.GrantingCapability;
 import ca.gc.tri_agency.granting_data.model.GrantingSystem;
+import ca.gc.tri_agency.granting_data.model.projection.GrantingSystemProjection;
 import ca.gc.tri_agency.granting_data.model.util.Utility;
 import ca.gc.tri_agency.granting_data.repo.GrantingSystemRepository;
 import ca.gc.tri_agency.granting_data.security.annotations.AdminOnly;
@@ -81,6 +82,11 @@ public class GrantingSystemServiceImpl implements GrantingSystemService {
 			retval.get(c.getFundingOpportunity().getId()).add(c.getGrantingSystem());
 		}
 		return retval;
+	}
+
+	@Override
+	public List<GrantingSystemProjection> findAllGrantingSystemAcronyms() {
+		return gsRepo.findAllAcronyms();
 	}
 
 }

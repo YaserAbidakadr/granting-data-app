@@ -73,7 +73,7 @@ public class GoldenFundingOpportunityIntegrationTest {
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_nameFieldsEmptyOnAddFoPageWhenNewSfoNotLinkedWithSfo() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/createFo")).andExpect(MockMvcResultMatchers.status().isOk())
+		mvc.perform(MockMvcRequestBuilders.get("/admin/createFO")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("name=\"nameEn\" value=\"\"")));
 	}
 
@@ -81,7 +81,7 @@ public class GoldenFundingOpportunityIntegrationTest {
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void test_nameFieldsAutoFilledOnAddFoPageWhenLinkingNewFoWithSfo() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/createFo").param("sfoId", "4")).andExpect(MockMvcResultMatchers.status().isOk())
+		mvc.perform(MockMvcRequestBuilders.get("/admin/createFO").param("sfoId", "4")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("value=\"Insight Grants\"")));
 	}
 
@@ -101,13 +101,12 @@ public class GoldenFundingOpportunityIntegrationTest {
 		String nameFr = RandomStringUtils.randomAlphabetic(25);
 		String po = RandomStringUtils.randomAlphabetic(25);
 
-		mvc.perform(MockMvcRequestBuilders.post("/admin/createFo").param("nameEn", nameEn).param("nameFr", nameFr)
-				.param("division", div).param("isJointInitiative", Boolean.toString(ji)).param("fundingType", ft)
-				.param("partnerOrg", po).param("frequency", frequency).param("isComplex", Boolean.toString(cpx))
+		mvc.perform(MockMvcRequestBuilders.post("/admin/createFO").param("nameEn", nameEn).param("nameFr", nameFr).param("division", div)
+				.param("isJointInitiative", Boolean.toString(ji)).param("fundingType", ft).param("partnerOrg", po)
+				.param("frequency", frequency).param("isComplex", Boolean.toString(cpx))
 				.param("isEdiRequired", Boolean.toString(edi)).param("isNOI", Boolean.toString(noi))
 				.param("isLOI", Boolean.toString(loi)).param("businessUnit", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_14593")
@@ -128,7 +127,7 @@ public class GoldenFundingOpportunityIntegrationTest {
 		List<FundingOpportunity> fos = foRepo.findAll();
 		String idParam = String.valueOf(fos.get(fos.size() - 1).getId() + 1L);
 
-		mvc.perform(MockMvcRequestBuilders.post("/admin/createFo").param("id", idParam).param("nameEn", nameEn).param("nameFr", nameFr)
+		mvc.perform(MockMvcRequestBuilders.post("/admin/createFO").param("id", idParam).param("nameEn", nameEn).param("nameFr", nameFr)
 				.param("businessUnit", "1").param("isJointInitiative", Boolean.toString(ji)).param("fundingType", ft)
 				.param("partnerOrg", po).param("frequency", frequency).param("isComplex", Boolean.toString(cpx))
 				.param("isEdiRequired", Boolean.toString(edi)).param("isNoi", Boolean.toString(noi))
@@ -137,7 +136,8 @@ public class GoldenFundingOpportunityIntegrationTest {
 				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg", "Created Funding Opportunity: " + nameEn));
 
 		// when the page is refreshed, the flash attribute should disappear
-		mvc.perform(MockMvcRequestBuilders.get("/admin/home")).andExpect(MockMvcResultMatchers.flash().attributeCount(0));
+		mvc.perform(MockMvcRequestBuilders.get("/browse/fundingOpportunities"))
+				.andExpect(MockMvcResultMatchers.flash().attributeCount(0));
 
 		fos = foRepo.findAll();
 		FundingOpportunity newGfo = fos.get(fos.size() - 1);
@@ -177,11 +177,9 @@ public class GoldenFundingOpportunityIntegrationTest {
 	public void test_createFoFromValidationErrMsgs_shouldReturn200() throws Exception {
 		long initFoCount = foRepo.count();
 
-		String response = mvc.perform(MockMvcRequestBuilders.post("/admin/createFo")).andExpect(MockMvcResultMatchers.status().isOk())
+		String response = mvc.perform(MockMvcRequestBuilders.post("/admin/createFO")).andExpect(MockMvcResultMatchers.status().isOk())
 				.andReturn().getResponse().getContentAsString();
 
-		System.out.println(response);
-		
 		assertTrue(response.contains("id=\"createFundingOpportunityPage\""));
 		assertTrue(response.contains("The form could not be submitted because 5 errors were found."));
 

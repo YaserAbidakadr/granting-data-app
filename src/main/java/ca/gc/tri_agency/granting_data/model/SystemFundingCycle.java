@@ -36,6 +36,10 @@ public class SystemFundingCycle implements LocalizedParametersModel {
 	public Long getId() {
 		return id;
 	}
+	
+	public void setId(Long id) {
+		this.id = id;
+	}
 
 	public String getExtId() {
 		return extId;

@@ -48,24 +48,21 @@ public class WebSecurityConfig {
 	@Value("${ldap.user.dn.pattern.sshrc}")
 	private String ldapUserDnPatternSSHRC;
 
+	@Value("${ldap.login.dn}")
+	private String userDn;
+
+	@Value("${ldap.login.password}")
+	private String password;
+
 	@Bean
 	@Profile("dev")
 	public LdapContextSource contextSourceNSERC() {
 		LdapContextSource contextSource = new LdapContextSource();
 		contextSource.setUrl(ldapUrlNSERC);
 		contextSource.setBase(ldapBaseDnNSERC);
-		contextSource.setUserDn("CN=MDMService,CN=Managed Service Accounts,DC=nserc,DC=ca");
-		contextSource.setPassword("Password1");
-		return contextSource;
-	}
-	
-	@Bean(name = "contextSourceNSERC")
-	@Profile({ "local", "test"})
-	public LdapContextSource contextSourceNSERCLocalAndTest() {
-		LdapContextSource contextSource = new LdapContextSource();
-		contextSource.setUrl(ldapUrlNSERC);
-		contextSource.setBase(ldapBaseDnNSERC);
-		contextSource.setAnonymousReadOnly(true);
+		contextSource.setUserDn(userDn);
+		contextSource.setPassword(password);
+		
 		return contextSource;
 	}
 
@@ -75,11 +72,23 @@ public class WebSecurityConfig {
 		LdapContextSource contextSource = new LdapContextSource();
 		contextSource.setUrl(ldapUrlSSHRC);
 		contextSource.setBase(ldapBaseDnSSHRC);
-		contextSource.setUserDn("CN=MDMService,CN=Managed Service Accounts,DC=nserc,DC=ca");
-		contextSource.setPassword("Password1");
+		contextSource.setUserDn(userDn);
+		contextSource.setPassword(password);
+		
 		return contextSource;
 	}
-	
+
+	@Bean(name = "contextSourceNSERC")
+	@Profile({ "local", "test" })
+	public LdapContextSource contextSourceNSERCLocalAndTest() {
+		LdapContextSource contextSource = new LdapContextSource();
+		contextSource.setUrl(ldapUrlNSERC);
+		contextSource.setBase(ldapBaseDnNSERC);
+		contextSource.setAnonymousReadOnly(true);
+		
+		return contextSource;
+	}
+
 	@Bean(name = "contextSourceSSHRC")
 	@Profile({ "local", "test" })
 	public LdapContextSource contextSourceSSHRCLocalAndTest() {
@@ -87,6 +96,7 @@ public class WebSecurityConfig {
 		contextSource.setUrl(ldapUrlSSHRC);
 		contextSource.setBase(ldapBaseDnSSHRC);
 		contextSource.setAnonymousReadOnly(true);
+		
 		return contextSource;
 	}
 
@@ -94,6 +104,7 @@ public class WebSecurityConfig {
 	public LdapTemplate ldapTemplateNSERC() {
 		LdapTemplate retval = new LdapTemplate(contextSourceNSERC());
 		retval.setIgnorePartialResultException(true);
+		
 		return retval;
 	}
 
@@ -101,6 +112,7 @@ public class WebSecurityConfig {
 	public LdapTemplate ldapTemplateSSHRC() {
 		LdapTemplate retval = new LdapTemplate(contextSourceSSHRC());
 		retval.setIgnorePartialResultException(true);
+		
 		return retval;
 	}
 
@@ -126,12 +138,11 @@ public class WebSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 
 			http.authorizeRequests()
-					.antMatchers("/", "/home", "/webjars/**", "/css/**", "/images/**", "/js/**", "/browse/**",
-							"/assets/**", "/fonts/**", "/img/**")
+					.antMatchers("/", "/home", "/webjars/**", "/css/**", "/images/**", "/js/**", "/browse/**", "/assets/**",
+							"/fonts/**", "/img/**")
 					.permitAll().and().authorizeRequests().antMatchers("/entities/**", "/reports/**")
 					.hasAnyRole("NSERC_USER", "SSHRC_USER", "AGENCY_USER").anyRequest().authenticated().and().formLogin()
-					.loginPage("/login").permitAll().and().exceptionHandling()
-					.accessDeniedPage("/exception/forbidden-by-role");
+					.loginPage("/login").permitAll();
 		}
 
 	}
@@ -144,13 +155,12 @@ public class WebSecurityConfig {
 		protected void configure(HttpSecurity http) throws Exception {
 
 			http.authorizeRequests().antMatchers("/h2**").access("hasRole('MDM ADMIN')")
-					.antMatchers("/", "/home", "/webjars/**", "/css/**", "/images/**", "/js/**", "/browse/**",
-							"/assets/**", "/fonts/**", "/img/**")
+					.antMatchers("/", "/home", "/webjars/**", "/css/**", "/images/**", "/js/**", "/browse/**", "/assets/**",
+							"/fonts/**", "/img/**")
 					.permitAll().and().authorizeRequests().antMatchers("/entities/**", "/reports/**")
 					.hasAnyRole("NSERC_USER", "SSHRC_USER", "AGENCY_USER").anyRequest().authenticated().and().formLogin()
-					.loginPage("/login").permitAll().and().logout().logoutUrl("/logout").permitAll().and().exceptionHandling()
-					.accessDeniedPage("/exception/forbidden-by-role").and().headers().frameOptions().disable().and().csrf()
-					.disable();
+					.loginPage("/login").permitAll().and().logout().logoutUrl("/logout").permitAll().and().headers()
+					.frameOptions().disable().and().csrf().disable();
 		}
 	}
 
@@ -178,7 +188,7 @@ public class WebSecurityConfig {
 		return sshrcProvider;
 
 	}
-	
+
 	private AuthenticationProvider activeDirectoryAuthenticationProviderDevUsers() {
 		ActiveDirectoryLdapAuthenticationProvider devUsersProvider = new ActiveDirectoryLdapAuthenticationProvider(ldapDomainNSERC,
 				ldapUrlNSERC, "ou=Dev_Users,dc=nserc,dc=ca");
@@ -187,7 +197,7 @@ public class WebSecurityConfig {
 		devUsersProvider.setConvertSubErrorCodesToExceptions(true);
 		devUsersProvider.setUseAuthenticationRequestCredentials(true);
 		devUsersProvider.setAuthoritiesMapper(authMapper);
-		
+
 		return devUsersProvider;
 	}
 }

@@ -1,6 +1,5 @@
 package ca.gc.tri_agency.granting_data.app.config;
 
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -56,11 +55,9 @@ public class UserRedirectionIntegrationTest {
 	@WithAnonymousUser
 	@Test
 	public void testAdminControllerAccess_withNonLoggedInUser_shouldRedirectToLogin302() throws Exception {
-		mvc.perform(get("/admin/home")).andExpect(status().is3xxRedirection())
-				.andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
 		mvc.perform(get("/admin/selectFileForComparison")).andExpect(status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
-		mvc.perform(get("/admin/importProgramsFromFile")).andExpect(status().is3xxRedirection())
+		mvc.perform(get("/admin/createFO")).andExpect(status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("http://localhost/login"));
 	}
 
@@ -68,19 +65,13 @@ public class UserRedirectionIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER", "nserc-user-edi" })
 	@Test
 	public void testAdminControllerAccess_withLoggedInNonAdminUser_shouldBeForbidden() throws Exception {
-		String responseString = mvc.perform(get("/admin/home")).andExpect(status().isForbidden()).andReturn()
-				.getResponse().getContentAsString();
-		assertTrue(responseString.contains("id=\"forbiddenByRoleErrorPage\""));
-		responseString = mvc.perform(get("/admin/selectFileForComparison")).andExpect(status().isForbidden())
-				.andReturn().getResponse().getContentAsString();
-		assertTrue(responseString.contains("id=\"forbiddenByRoleErrorPage\""));
+		mvc.perform(get("/admin/selectFileForComparison")).andExpect(status().isForbidden());
 	}
 
 	@Tag("web_configuration_test")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void testAdminControllerAccess_withAdminUser_shouldSucceed200() throws Exception {
-		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().isOk());
 		mvc.perform(get("/admin/selectFileForComparison").contentType(MediaType.APPLICATION_XHTML_XML))
 				.andExpect(status().isOk());
 	}

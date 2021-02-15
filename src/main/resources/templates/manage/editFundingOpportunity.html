@@ -22,7 +22,7 @@
 
 				<div class="web-frmvld">
 
-					<form action="#" th:action="@{editFo}" th:object="${fo}" method="post">
+					<form action="#" th:action="@{editFo(id=${fo.id})}" th:object="${fo}" method="post">
 
 						<section th:if="${#fields.hasAnyErrors()}" id="errorSection" class="alert alert-danger">
 						

@@ -18,6 +18,8 @@
 
 		<h3 th:text="#{p.home.browse}"></h3>
 
+        <p th:if="${actionMsg != null}" th:text="${actionMsg}"></p>
+
 		<div class="row">
 			<div class="col-md-6">
 				<div class="well">

@@ -36,7 +36,8 @@ public class AwardController {
 		int numAwards = awardService.generateTestAwards(appPartService.getAllowedRecords(), 10).size();
 		redirectAttributes.addFlashAttribute("actionMsg",
 				"Successfully created Awards for " + numAwards + " of the Test App Participations");
-		return "redirect:/admin/home";
+		
+		return "redirect:/home";
 	}
 
 	@GetMapping("/browse/awards")

@@ -22,7 +22,7 @@
 
 				<div class="web-frmvld">
 
-					<form action="#" th:action="@{editBU}" th:object="${bu}" method="post">
+					<form action="#" th:action="@{editBU(id=${bu.id})}" th:object="${bu}" method="post">
 
 						<section th:if="${#fields.hasAnyErrors()}" id="errorSection" class="alert alert-danger">
 						
@@ -136,9 +136,11 @@
 								style="background-color: #f9f9f9; border: none; -webkit-box-shadow: none; box-shadow: none;"></label>
 						</div>
 
-						<input hidden="true" th:field="*{agency}">
+						<input hidden="true" th:field="*{id}" th:value="${bu.id}"/>
+
+                        <input hidden="true" th:field="*{distribution}" th:value="${bu.distribution}"/>
 						
-						<input th:hidden="true" th:type="text" th:field="*{id}" />
+						<input hidden="true" th:field="*{agency}" th:value="${bu.agency.id}">
 
 						<div>
 							<input th:type="submit" class="btn btn-primary" role="button" th:value="#{input.submit}" /> <a class="btn btn-link"

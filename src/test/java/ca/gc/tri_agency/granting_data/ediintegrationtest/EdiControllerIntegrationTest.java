@@ -65,8 +65,7 @@ public class EdiControllerIntegrationTest {
 	@Test
 	public void test_unauthorizedEdiUseCannotViewBuEdiData_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/viewBuEdiData").param("buId", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19147")

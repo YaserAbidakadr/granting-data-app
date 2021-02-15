@@ -22,7 +22,7 @@
 
 				<div class="web-frmvld">
 
-					<form action="#" th:action="@{addGrantingCapabilities}" th:object="${gc}" method="post">
+					<form action="#" th:action="@{addGrantingCapabilities(foId=${foId})}" th:object="${gc}" method="post">
 
                         <section th:if="${#fields.hasAnyErrors()}" class="alert alert-danger">
                         
@@ -108,8 +108,9 @@
 							
 							<div>
 								
-								<select id="stageDropdown" class="form-control" th:field="*{grantingStage}" >
-									<option th:each="stage : ${grantingStages}" th:value="${stage.id}" th:text="${stage.getLocalizedAttribute('name')}"></option>
+								<select id="stageDropdown" class="form-control" th:field="*{grantingStage.id}" >
+									<option th:each="stage : ${grantingStages}" th:value="${stage.getId()}" 
+									   th:text="${#locale.language eq 'fr' ? stage.getNameFr() : stage.getNameEn()}"></option>
 								</select>
 								
 							</div>
@@ -133,8 +134,9 @@
 							
 							<div>
 							
-								<select id="systemDropdown" class="form-control" th:field="*{grantingSystem}" >
-									<option th:each="system : ${grantingSystems}" th:value="${system.id}" th:text="${system.acronym}"></option>
+								<select id="systemDropdown" class="form-control" th:field="*{grantingSystem.id}" >
+									<option th:each="system : ${grantingSystems}" th:value="${system.getId()}" 
+									   th:text="${system.getAcronym()}"></option>
 								</select>
 							
 							</div>
@@ -144,7 +146,7 @@
                         <input type="hidden" name="fundingOpportunity" th:value="${foId}" />
 
 						<input type="submit" class="btn btn-primary" th:value="#{input.submit}" />
-						<a class="btn btn-link" th:href="@{/manage/manageFo(id=${param.foId})}" th:text="#{msg.cancel}"></a>
+						<a class="btn btn-link" th:href="@{/manage/manageFo(id=${foId})}" th:text="#{msg.cancel}"></a>
 
 					</form>
 

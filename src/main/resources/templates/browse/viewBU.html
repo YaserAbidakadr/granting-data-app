@@ -66,8 +66,7 @@
 
 				<div sec:authorize="hasRole('MDM ADMIN')" class="expd-clps-div">
 					<span th:text="#{h.auditLog}"></span>
-					<button id="expandCollapseAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}"
-						onclick="expandCollapseTable('auditLogTable', 'expandCollapseAuditTableBtn')">+</button>
+					<button id="expandCollapseAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}">+</button>
 				</div>
 
 				<div id="auditLogTable" hidden="true">

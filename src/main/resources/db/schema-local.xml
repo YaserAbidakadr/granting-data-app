@@ -342,7 +342,7 @@
             <column name="revision" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="revision_type" type="SMALLINT"/>
+            <column name="revision_type" type="TINYINT"/>
             <column name="acronym_en" type="VARCHAR(255)"/>
             <column name="acronym_fr" type="VARCHAR(255)"/>
             <column name="name_en" type="VARCHAR(255)"/>
@@ -361,7 +361,7 @@
             <column name="revision" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="revision_type" type="SMALLINT"/>
+            <column name="revision_type" type="TINYINT"/>
             <column name="name_en" type="VARCHAR(255)"/>
             <column name="name_fr" type="VARCHAR(255)"/>
             <column name="acronym_en" type="VARCHAR(255)"/>
@@ -381,7 +381,7 @@
             <column name="revision" type="BIGINT">
                 <constraints primaryKey="true" nullable="false" />
             </column>
-            <column name="revision_type" type="SMALLINT" />
+            <column name="revision_type" type="TINYINT" />
             <column name="name_en" type="VARCHAR(255)" />
             <column name="name_fr" type="VARCHAR(255)" />
         </createTable>
@@ -398,7 +398,7 @@
             <column name="revision" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="revision_type" type="SMALLINT"/>
+            <column name="revision_type" type="TINYINT"/>
             <column name="user_login" type="VARCHAR(255)"/>
             <column name="edi_authorized" type="BIT(1)"/>
             <column name="role_id" type="BIGINT"/>
@@ -417,7 +417,7 @@
             <column name="revision" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="revision_type" type="SMALLINT"/>
+            <column name="revision_type" type="TINYINT"/>
             <column name="acronym" type="VARCHAR(255)"/>
             <column name="name_en" type="VARCHAR(255)"/>
             <column name="name_fr" type="VARCHAR(255)"/>
@@ -435,7 +435,7 @@
                 <column name="revision" type="BIGINT">
                     <constraints primaryKey="true" nullable="false"/>
                 </column>
-                <column name="revision_type" type="SMALLINT"/>
+                <column name="revision_type" type="TINYINT"/>
                 <column name="frequency" type="VARCHAR(255)"/>
                 <column name="funding_type" type="VARCHAR(255)"/>
                 <column name="is_complex" type="BIT(1)"/>
@@ -461,7 +461,7 @@
             <column name="revision" type="BIGINT">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="revision_type" type="SMALLINT"/>
+            <column name="revision_type" type="TINYINT"/>
             <column name="ext_id" type="VARCHAR(255)"/>
             <column name="name_en" type="VARCHAR(255)"/>
             <column name="name_fr" type="VARCHAR(255)"/>
@@ -556,7 +556,33 @@
     
     <!-- Populates the database -->
     <changeSet id="55" author="dev_aha" dbms="h2">
-        <sqlFile path="/data-local.sql" relativeToChangelogFile="true" />
+        <sqlFile path="/db/data-local.sql" relativeToChangelogFile="false" />
+    </changeSet>
+    
+    <!-- Missing Foreign Key Constraints -->
+    <changeSet id="56" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_ii_application_participation" referencedTableName="application_participation"
+            baseColumnNames="application_participation_id" baseTableName="app_part_indigenous_identity" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="57" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_ii_indigenous_identity" referencedTableName="indigenous_identity"
+            baseColumnNames="indigenous_identity_id" baseTableName="app_part_indigenous_identity" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="58" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_vm_application_participation" referencedTableName="application_participation"
+            baseColumnNames="application_participation_id" baseTableName="app_part_visible_minority" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="59" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_ap_vm_visible_minority" referencedTableName="visible_minority" 
+            baseColumnNames="visible_minority_id" baseTableName="app_part_visible_minority" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="60" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_granting_capability_granting_stage" referencedTableName="granting_stage" 
+            baseColumnNames="granting_stage_id" baseTableName="granting_capability" referencedColumnNames="id" />
+    </changeSet>
+    <changeSet id="61" author="dev_aha">
+        <addForeignKeyConstraint constraintName="fk_granting_capability_granting_system" referencedTableName="granting_system"
+            baseColumnNames="granting_system_id" baseTableName="granting_capability" referencedColumnNames="id" />
     </changeSet>
     
 </databaseChangeLog>

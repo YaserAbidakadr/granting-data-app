@@ -92,8 +92,7 @@ public class DeleteGrantingCapabilityIntegrationTest {
 	@Test
 	public void test_nonAdminCannotAccessDeleteGCPage_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/deleteGC").param("id", "102"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden()).andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19005")
@@ -123,8 +122,7 @@ public class DeleteGrantingCapabilityIntegrationTest {
 		long numGCs = gcRepo.count();
 
 		mvc.perform(MockMvcRequestBuilders.post("/manage/deleteGC").param("id", "104").param("foId", "106"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(numGCs, gcRepo.count());
 	}

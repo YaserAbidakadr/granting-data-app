@@ -74,7 +74,7 @@
 				</div>
 
 				<div th:if="${sfo.getFundingOpportunityId() == null}" class="form-group">
-					<a th:href="@{'/admin/createFo'(sfoId=${sfo.getId()})}" th:text="#{link.createFoFromFc}" class="btn btn-link"></a>
+					<a th:href="@{'/admin/createFO'(sfoId=${sfo.getId()})}" th:text="#{link.createFoFromFc}" class="btn btn-link"></a>
 				</div>
 
 				<div th:unless="${sfo.getFundingOpportunityId() == null}" class="form-group">
@@ -85,8 +85,7 @@
 
 				<div class="expd-clps-div">
 					<span th:text="#{h.auditLog}"></span>
-					<button id="collapseExpandAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}"
-						onclick="expandCollapseTable('auditLogTable', 'collapseExpandAuditTableBtn')">+</button>
+					<button id="expandCollapseAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}">+</button>
 				</div>
 
 				<div id="auditLogTable" hidden="true">

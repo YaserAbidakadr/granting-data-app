@@ -74,15 +74,13 @@ public class DeleteMemberRoleIntegrationTest {
 
 		// verifies that a non-admin cannot access the delete MemberRole confirmation page
 		mvc.perform(MockMvcRequestBuilders.get("/admin/deleteMR").param("id", "3"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		// verifies a non-admin cannot delete a MemberRole
 		long initMRCount = mrRepo.count();
 
 		mvc.perform(MockMvcRequestBuilders.post("/admin/deleteMR").param("id", "3"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(initMRCount, mrRepo.count());
 	}

@@ -66,4 +66,19 @@ public class GrantingSystem implements LocalizedParametersModel {
 		this.id = id;
 	}
 
+	@Override
+	public String toString() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("GrantingSystem [id=");
+		builder.append(id);
+		builder.append(", nameEn=");
+		builder.append(nameEn);
+		builder.append(", nameFr=");
+		builder.append(nameFr);
+		builder.append(", acronym=");
+		builder.append(acronym);
+		builder.append("]");
+		return builder.toString();
+	}
+
 }

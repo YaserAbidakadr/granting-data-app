@@ -76,8 +76,7 @@ public class CreateBusinessUnitIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdmminCannotAccessCreateBUPage_Return403() throws Exception {
-		assertTrue(mvc.perform(get("/admin/createBU?agencyId=1")).andExpect(status().isForbidden()).andReturn().getResponse()
-				.getContentAsString().contains("id=\"forbiddenByRoleErrorPage\""));
+		mvc.perform(get("/admin/createBU?agencyId=1")).andExpect(status().isForbidden());
 	}
 
 	@Tag("user_story_19048")
@@ -124,10 +123,9 @@ public class CreateBusinessUnitIntegrationTest {
 		String acronymFr = RandomStringUtils.randomAlphabetic(5);
 		Long agencyId = 1L;
 
-		assertTrue(mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", Long.toString(agencyId))
+		mvc.perform(MockMvcRequestBuilders.post("/admin/createBU").param("agencyId", Long.toString(agencyId))
 				.param("nameEn", nameEn).param("nameFr", nameFr).param("acronymEn", acronymEn).param("acronymFr", acronymFr)
-				.param("agency", Long.toString(agencyId))).andExpect(MockMvcResultMatchers.status().isForbidden()).andReturn()
-				.getResponse().getContentAsString().contains("id=\"forbiddenByRoleErrorPage\""));
+				.param("agency", Long.toString(agencyId))).andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(initBuCount, buRepo.count());
 	}
