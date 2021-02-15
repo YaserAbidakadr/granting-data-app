@@ -66,8 +66,8 @@ public class GrantingCapabilityServiceImpl implements GrantingCapabilityService 
 	}
 
 	@Override
-	public GrantingCapability findGrantingCapabilityAndFO(Long gcId) {
-		GrantingCapability gc = gcRepo.findEagerFO(gcId);
+	public GrantingCapability findGrantingCapabilityEager(Long gcId) {
+		GrantingCapability gc = gcRepo.findByIdEager(gcId);
 		
 		if (gc == null) {
 			throw new DataRetrievalFailureException(Utility.returnNotFoundMsg(ENTITY_TYPE, gcId));

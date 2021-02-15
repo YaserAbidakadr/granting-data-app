@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import ca.gc.tri_agency.granting_data.model.GrantingSystem;
+import ca.gc.tri_agency.granting_data.model.projection.GrantingSystemProjection;
 
 public interface GrantingSystemService {
 
@@ -18,5 +19,7 @@ public interface GrantingSystemService {
 	Map<Long, GrantingSystem> findApplySystemsByFundingOpportunityMap();
 	
 	Map<Long, List<GrantingSystem>> findAwardSystemsByFundingOpportunityMap();
+	
+	List<GrantingSystemProjection> findAllGrantingSystemAcronyms();
 	
 }

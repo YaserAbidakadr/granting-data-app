@@ -77,7 +77,6 @@ public class AdminServiceImpl implements AdminService {
 		try {
 			rows = reader.read();
 		} catch (NoSuchElementException nse) {
-			nse.printStackTrace();
 			LOG.error("That file contains no FundingCycleDataSetRows");
 			return new ArrayList<FundingCycleDatasetRow>();
 		}

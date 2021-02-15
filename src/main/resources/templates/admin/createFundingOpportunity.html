@@ -24,7 +24,7 @@
 
 				<div class="web-frmvld">
 
-					<form action="#" th:action="@{createFo}" th:object="${fo}" method="post">
+					<form action="#" th:action="@{createFO}" th:object="${fo}" method="post">
 					
 					   <section th:if="${#fields.hasAnyErrors()}" id="errorSection" class="alert alert-danger">
 					       
@@ -116,7 +116,7 @@
 							</label>
 
 							<div>
-								<select th:field="*{businessUnit}" class="form-control" id="bu">
+								<select th:field="*{businessUnit.id}" class="form-control" id="bu" name="businessUnit">
 									<option th:each="bu : ${allBusinessUnits}" th:value="${bu.id}" th:text="${bu.getLocalizedAttribute('acronym')}"></option>
 								</select>
 							</div>

@@ -76,8 +76,7 @@ public class CreateGrantingCapabilityIntegrationTest {
 	@Test
 	public void test_nonAdminCannotAccessCreateGCPage_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/addGrantingCapabilities").param("foId", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_14572")
@@ -90,7 +89,7 @@ public class CreateGrantingCapabilityIntegrationTest {
 		String url = "https://www." + RandomStringUtils.randomAlphabetic(25) + ".com";
 
 		mvc.perform(MockMvcRequestBuilders.post("/manage/addGrantingCapabilities").param("description", description)
-				.param("url", url).param("fundingOpportunity", "1").param("grantingStage", "1").param("grantingSystem", "1"))
+				.param("url", url).param("fundingOpportunity", "1").param("grantingStage", "1").param("grantingSystem.id", "1"))
 				.andExpect(MockMvcResultMatchers.status().is3xxRedirection())
 				.andExpect(MockMvcResultMatchers.redirectedUrl("/manage/manageFo?id=1"))
 				.andExpect(MockMvcResultMatchers.flash().attribute("actionMsg", "Successfully Added New Granting Capability"));

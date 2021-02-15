@@ -24,11 +24,14 @@
 
 				<div class="web-frmvld">
 
-					<form action="#" th:action="@{/manage/deleteGC}" th:object="${gc}" method="post">
+					<form action="#" th:action="@{/manage/deleteGC(id=${gc.id})}" th:object="${gc}" method="post">
 
-						<input type="hidden" th:field="*{id}" /> <input type="hidden" name="foId" th:value="${gc.fundingOpportunity.id}" /> <input type="submit"
-							class="btn btn-primary" th:value="#{form.delete}" /> <a class="btn btn-link"
-							th:href="@{/manage/manageFo(id=${gc.fundingOpportunity.id})}" th:text="#{msg.cancel}"></a>
+						<input type="hidden" th:field="*{id}" th:value="${gc.id}"/> 
+						
+						<input type="hidden" name="foId" th:value="${gc.fundingOpportunity.id}" />
+						
+						<input type="submit" class="btn btn-primary" th:value="#{form.delete}" /> 
+						<a class="btn btn-link" th:href="@{/manage/manageFo(id=${gc.fundingOpportunity.id})}" th:text="#{msg.cancel}"></a>
 
 					</form>
 
@@ -44,7 +47,5 @@
 
 	<footer th:insert="fragments/general :: footer(~{})"></footer>
 
-</body>
-</html>
 </body>
 </html>

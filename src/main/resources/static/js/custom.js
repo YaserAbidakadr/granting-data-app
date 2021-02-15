@@ -1,13 +1,17 @@
-function expandCollapseTable(tableId, btnId) {
-	var table = document.getElementById(tableId);
-	var btn = document.getElementById(btnId);
-				
-	if (btn.innerHTML == '+') {
-		table.hidden = false;
-		btn.innerHTML = '-';
-	} else if (btn.innerHTML == '-') {
-		table.hidden = true;					
-		btn.innerHTML = '+';
-	}
-};
+// Don't forget to place the link for this script below the 'footer' fragment since that fragement contains the link for the jQuery script.
+$(document).ready(() => {
+                
+    $('.expd-clps-btn').click(function (event) {
+        const btn = $(event.currentTarget);
+                   
+        if (btn.html() == '+') {
+            btn.html('-');
+        } else if (btn.html() == '-') {
+            btn.html('+');
+        }
+                
+        btn.parent().next().toggle();
+    });
+
+});
 			

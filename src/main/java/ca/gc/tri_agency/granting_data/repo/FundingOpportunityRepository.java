@@ -6,7 +6,6 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -57,5 +56,8 @@ public interface FundingOpportunityRepository extends JpaRepository<FundingOppor
 	@Query("SELECT id AS id, nameEn AS nameEn, nameFr AS nameFr"
 			+ " FROM FundingOpportunity") 
 	List<FundingOpportunityProjection> findAllNames();
+
+	@Query("SELECT id AS id FROM FundingOpportunity WHERE id = ?1")
+	Optional<FundingOpportunityProjection> findId(Long id);
 	
 } // @formatter:on

@@ -96,10 +96,13 @@ public class GrantingCapabilityServiceTest {
 	@WithAnonymousUser
 	@Test
 	public void test_findGrantingCapabilityAndFO() {
-		GrantingCapability gc = gcService.findGrantingCapabilityAndFO(155L);
+		GrantingCapability gc = gcService.findGrantingCapabilityEager(155L);
 
 		assertEquals("PromoScience (5390)", gc.getFundingOpportunity().getNameEn());
-		assertThrows(DataRetrievalFailureException.class, () -> gcService.findGrantingCapabilityAndFO(Long.MAX_VALUE));
+		assertEquals("AWARD", gc.getGrantingStage().getNameEn());
+		assertEquals("NAMIS", gc.getGrantingSystem().getAcronym());
+		
+		assertThrows(DataRetrievalFailureException.class, () -> gcService.findGrantingCapabilityEager(Long.MAX_VALUE));
 	}
 	
 	@Tag("user_story_14572")

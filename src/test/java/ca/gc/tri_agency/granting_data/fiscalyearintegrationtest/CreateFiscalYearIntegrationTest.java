@@ -71,8 +71,7 @@ public class CreateFiscalYearIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessCreateFYPage_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/manage/createFY")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/manage/createFY")).andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19333")
@@ -98,8 +97,7 @@ public class CreateFiscalYearIntegrationTest {
 		long initFYCount = fyRepo.count();
 
 		mvc.perform(MockMvcRequestBuilders.post("/manage/createFY").param("year", "2025"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(initFYCount, fyRepo.count());
 	}

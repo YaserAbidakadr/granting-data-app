@@ -1,20 +1,17 @@
 package ca.gc.tri_agency.granting_data.controller;
 
-import static org.hamcrest.CoreMatchers.containsString;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
@@ -60,12 +57,11 @@ public class AdminControllerIntegrationTest {
 	public void test_nonAdminUserCannotAddFundingOpportunities_shouldFailWith403() throws Exception {
 		long numFos = foRepo.count();
 
-		mvc.perform(post("/admin/createFo").param("nameEn", "ACE").param("nameFr", "BDF").param("division", "Q")
+		mvc.perform(post("/admin/createFO").param("nameEn", "ACE").param("nameFr", "BDF").param("division", "Q")
 				.param("isJointIntiative", "false").param("businessUnit", "1").param("_isJointIntiative", "on")
 				.param("partnerOrg", "Z").param("isComplex", "false").param("_isComplex", "on").param("isEdiRequired", "false")
 				.param("_isEdiRequired", "on").param("fundingType", "E").param("frequency", "Once").param("isNOI", "false")
-				.param("_isNOI", "on").param("isLOI", "false").param("_isLOI", "on")).andExpect(status().isForbidden())
-				.andExpect(content().string(containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.param("_isNOI", "on").param("isLOI", "false").param("_isLOI", "on")).andExpect(status().isForbidden());
 
 		// verify that a FO was not added
 		assertEquals(numFos, foRepo.count());
@@ -77,7 +73,7 @@ public class AdminControllerIntegrationTest {
 	public void test_anonUserCannotAddFundingOpportunities_shouldRedirectToLoginWith302() throws Exception {
 		long numFos = foRepo.count();
 
-		mvc.perform(post("/admin/createFo").param("id", "26").param("nameEn", "A").param("nameFr", "B")
+		mvc.perform(post("/admin/createFO").param("id", "26").param("nameEn", "A").param("nameFr", "B")
 				.param("division", "Q").param("isJointIntiative", "false")
 				.param("_isJointIntiative", "on").param("partnerOrg", "Z").param("isComplex", "false")
 				.param("_isComplex", "on").param("isEdiRequired", "false").param("_isEdiRequired", "on")
@@ -95,7 +91,7 @@ public class AdminControllerIntegrationTest {
 	public void test_onlyAdminCanAddFundingOpportunities_shouldSucceedWith302() throws Exception {
 		long numFos = foRepo.count();
 
-		mvc.perform(post("/admin/createFo").param("nameEn", "ABC").param("nameFr", "BCD").param("businessUnit", "1")
+		mvc.perform(post("/admin/createFO").param("nameEn", "ABC").param("nameFr", "BCD").param("businessUnit", "1")
 				.param("isJointIntiative", "false").param("_isJointIntiative", "on").param("partnerOrg", "Z")
 				.param("isComplex", "false").param("_isComplex", "on").param("isEdiRequired", "false")
 				.param("_isEdiRequired", "on").param("fundingType", "E").param("frequency", "Once")
@@ -108,25 +104,18 @@ public class AdminControllerIntegrationTest {
 	}
 
 	@Tag("web_configuration_test")
-	@WithAnonymousUser
-	@Test
-	public void givenAnonymousRequestOnAdminUrl_shouldFailWith301() throws Exception {
-		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().is3xxRedirection());
-	}
-
-	@Tag("web_configuration_test")
 	@WithMockUser(username = "sshrc-user", roles = { "SSHRC" })
 	@Test
 	public void givenSshrcRequestOnAdminUrl_shouldFailWithForbiddenByRoleError() throws Exception {
-		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML))
-				.andExpect(content().string(containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(get("/admin/auditLogs").contentType(MediaType.APPLICATION_XHTML_XML))
+				.andExpect(status().isForbidden());
 	}
 
 	@Tag("web_configuration_test")
 	@WithMockUser(username = "admin", roles = { "MDM ADMIN" })
 	@Test
 	public void givenAdminAuthRequestOnAdminUrl_shouldSucceedWith200() throws Exception {
-		mvc.perform(get("/admin/home").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().isOk());
+		mvc.perform(get("/admin/auditLogs").contentType(MediaType.APPLICATION_XHTML_XML)).andExpect(status().isOk());
 	}
 
 	@Tag("user_story_19290")
@@ -160,9 +149,7 @@ public class AdminControllerIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessAuditLogForAllMemberRoles_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogMR")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogMR")).andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19290")
@@ -190,8 +177,8 @@ public class AdminControllerIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessAuditLogForOneMemberRole_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogMR").param("id", "2")).andExpect(
-				MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogMR").param("id", "2"))
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19279")
@@ -219,9 +206,7 @@ public class AdminControllerIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessAuditLogForAllFundingOpportunities_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogFO")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content()
-						.string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/auditLogFO")).andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19279")

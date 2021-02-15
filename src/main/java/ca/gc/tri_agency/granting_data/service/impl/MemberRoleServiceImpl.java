@@ -132,7 +132,13 @@ public class MemberRoleServiceImpl implements MemberRoleService {
 
 	@Override
 	public MemberRoleProjection findMemberRoleBusinessUnitAcronymRoleName(Long mrId) {
-		return mrRepo.findUserLoginBusinessUnitNameRoleName(mrId);
+		MemberRoleProjection mr = mrRepo.findUserLoginBusinessUnitNameRoleName(mrId);
+		
+		if (mr == null) {
+			throw new DataRetrievalFailureException(Utility.returnNotFoundMsg(ENTITY_TYPE, mrId));
+		}
+		
+		return mr;
 	}
 
 }

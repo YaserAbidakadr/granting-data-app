@@ -84,7 +84,7 @@
 							</label>
 							
 							<div>
-								<select class="form-control" id="roleDropDown" th:field="*{role}" required>
+								<select class="form-control" id="roleDropDown" th:field="*{role.id}" required>
 									<option th:each="role : ${@roleServiceImpl.findAllRoles()}" th:text="${role.getLocalizedAttribute('name')}" th:value="${role.id}">
 								</select>
 							</div>

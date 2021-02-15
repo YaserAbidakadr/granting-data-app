@@ -1,5 +1,6 @@
 package ca.gc.tri_agency.granting_data.controller;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,13 +45,13 @@ public class GrantingCapabilityController {
 	@AdminOnly
 	@GetMapping("/manage/editGC")
 	public String editGrantingCapabilityGet(@RequestParam("id") Long id, Model model) {
-		model.addAttribute("gc", gcService.findGrantingCapabilityAndFO(id));
-		model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
-		model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
+		model.addAttribute("gc", gcService.findGrantingCapabilityEager(id));
+		model.addAttribute("grantingStages", gStageService.findAllGrantingStageNames());
+		model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystemAcronyms());
 
 		return "manage/editGrantingCapability";
 	}
-
+	
 	@AdminOnly
 	@PostMapping("/manage/editGC")
 	public String editGrantingCapabilityPost(@Valid @ModelAttribute("gc") GrantingCapability gc, BindingResult bindingResult,
@@ -58,8 +59,8 @@ public class GrantingCapabilityController {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
-			model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
-			model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
+			model.addAttribute("grantingStages", gStageService.findAllGrantingStageNames());
+			model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystemAcronyms());
 			
 			return "manage/editGrantingCapability";
 		}
@@ -96,24 +97,24 @@ public class GrantingCapabilityController {
 	@GetMapping("/manage/addGrantingCapabilities")
 	public String createGrantingCapabilityGet(@RequestParam("foId") Long foId, Model model) {
 		model.addAttribute("gc", new GrantingCapability());
-		model.addAttribute("foId", foId);
-		model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
 		model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
+		model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
+		model.addAttribute("foId", foId);
 
 		return "manage/addGrantingCapabilities";
 	}
-
+	
 	@AdminOnly
 	@PostMapping("/manage/addGrantingCapabilities")
 	public String createGrantingCapabilityPost(@RequestParam("fundingOpportunity") Long foId, @Valid @ModelAttribute("gc") GrantingCapability gc,
-			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model) {
+			BindingResult bindingResult, RedirectAttributes redirectAttributes, Model model, HttpServletRequest request) {
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("topErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
 			model.addAttribute("formErrCounter", new FormErrorCountIterator(bindingResult.getFieldErrorCount()));
-			model.addAttribute("foId", foId);
 			model.addAttribute("grantingStages", gStageService.findAllGrantingStages());
 			model.addAttribute("grantingSystems", gSystemService.findAllGrantingSystems());
-
+			model.addAttribute("foId", foId);
+			
 			return "manage/addGrantingCapabilities";
 		}
 

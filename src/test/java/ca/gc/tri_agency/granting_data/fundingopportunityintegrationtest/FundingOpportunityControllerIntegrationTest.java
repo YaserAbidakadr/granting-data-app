@@ -58,8 +58,7 @@ public class FundingOpportunityControllerIntegrationTest {
 	@Test
 	public void test_nonAdminCannotAccessEditFOPage_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/manage/editFo").param("id", "1"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19326")
@@ -100,8 +99,7 @@ public class FundingOpportunityControllerIntegrationTest {
 		mvc.perform(MockMvcRequestBuilders.post("/manage/editFo").param("id", "1").param("frequency", frequency).param("nameFr", nameFr)
 				.param("nameEn", "Collaborative Health Research Projects (CHRP) (5640)").param("division", "MCT")
 				.param("_isJointInitiative", "on").param("_isComplex", "on").param("_isNOI", "on").param("_isLOI", "on")
-				.param("_participatingAgencies", "1")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.param("_participatingAgencies", "1")).andExpect(MockMvcResultMatchers.status().isForbidden());
 
 		assertEquals(initFOCount, foRepo.count());
 		assertNotEquals(nameFr, foService.findFundingOpportunityById(1L).getNameFr());
@@ -122,8 +120,6 @@ public class FundingOpportunityControllerIntegrationTest {
 
 		FundingOpportunity foAfter = foService.findFundingOpportunityById(foId);
 
-		System.out.println(response);
-		
 		assertTrue(response.contains("id=\"editFundingOpportunityPage\""));
 		assertTrue(response.contains("The form could not be submitted because 5 errors were found."));
 

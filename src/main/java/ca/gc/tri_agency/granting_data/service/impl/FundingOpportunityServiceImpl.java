@@ -207,5 +207,9 @@ public class FundingOpportunityServiceImpl implements FundingOpportunityService 
 	public List<FundingOpportunityProjection> findAllFundingOpportunityNames() {
 		return foRepo.findAllNames();
 	}
+	
+	public FundingOpportunityProjection findFoId(Long id) {
+		return foRepo.findId(id).get();
+	}
 
 }

@@ -7,6 +7,7 @@ import org.springframework.dao.DataRetrievalFailureException;
 import org.springframework.stereotype.Service;
 
 import ca.gc.tri_agency.granting_data.model.GrantingStage;
+import ca.gc.tri_agency.granting_data.model.projection.GrantingStageProjection;
 import ca.gc.tri_agency.granting_data.model.util.Utility;
 import ca.gc.tri_agency.granting_data.repo.GrantingStageRepository;
 import ca.gc.tri_agency.granting_data.service.GrantingStageService;
@@ -31,6 +32,11 @@ public class GrantingStageServiceImpl implements GrantingStageService {
 	@Override
 	public List<GrantingStage> findAllGrantingStages() {
 		return gStageRepo.findAll();
+	}
+
+	@Override
+	public List<GrantingStageProjection> findAllGrantingStageNames() {
+		return gStageRepo.findAllNames();
 	}
 
 }

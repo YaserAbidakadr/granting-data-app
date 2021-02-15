@@ -95,6 +95,7 @@
 					</tbody>
 				</table>
 
+                <br>
 				<a sec:authorize="hasRole('MDM ADMIN')" id="createGrantingCapabilityLink" class="btn btn-primary"
 					th:href="@{addGrantingCapabilities(foId=${param.id})}" role="button" th:text="#{link.addGc}"></a>
 <!-- 

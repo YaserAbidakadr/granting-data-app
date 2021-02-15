@@ -93,8 +93,7 @@ public class BrowseApplicationParticipationIntegrationTest {
 	@Test
 	public void test_nonBuMemberCannotViewOneLinkedAppPart_shouldReturn403() throws Exception {
 		mvc.perform(MockMvcRequestBuilders.get("/browse/viewAP").param("id", "3"))
-				.andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 }

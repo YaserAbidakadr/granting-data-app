@@ -4,7 +4,6 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,13 +23,15 @@ public interface GrantingCapabilityRepository extends JpaRepository<GrantingCapa
 			+ " FROM GrantingCapability gc"
 			+ " JOIN GrantingStage gStg ON gc.grantingStage.id = gStg.id"
 			+ " JOIN GrantingSystem gSys ON gc.grantingSystem.id = gSys.id"
-			+ " WHERE gc.fundingOpportunity.id = :foId")
-	List<GrantingCapabilityProjection> findForBrowseViewFO(@Param("foId") Long foId);
+			+ " WHERE gc.fundingOpportunity.id = ?1")
+	List<GrantingCapabilityProjection> findForBrowseViewFO(Long foId);
 
-	@Query("SELECT gc, fo"
+	@Query("SELECT gc, fo, gstg, gsys"
 			+ " FROM GrantingCapability gc"
 			+ " LEFT JOIN FETCH FundingOpportunity fo ON gc.fundingOpportunity.id = fo.id"
+			+ " LEFT JOIN FETCH GrantingStage gstg ON gc.grantingStage.id = gstg.id"
+			+ " LEFT JOIN FETCH GrantingSystem gsys ON gc.grantingSystem.id = gsys.id"
 			+ " WHERE gc.id = ?1")
-	GrantingCapability findEagerFO(Long gcId);
+	GrantingCapability findByIdEager(Long gcId);
 
 } // @formatter:on

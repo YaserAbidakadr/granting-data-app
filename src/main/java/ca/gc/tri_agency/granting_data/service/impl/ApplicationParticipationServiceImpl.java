@@ -243,6 +243,7 @@ public class ApplicationParticipationServiceImpl implements ApplicationParticipa
 		return retval;
 	}
 
+	@Transactional
 	@Override
 	public long generateTestAppParicipationsForAllSystemFundingOpportunities() {
 		List<ApplicationParticipation> participations = new ArrayList<ApplicationParticipation>();
@@ -418,7 +419,7 @@ public class ApplicationParticipationServiceImpl implements ApplicationParticipa
 
 	@Transactional(readOnly = true)
 	@Override
-	public ApplicationParticipation getAllowdRecord(Long id) {
+	public ApplicationParticipation getAllowedRecord(Long id) {
 		ApplicationParticipation retval = appParticipationRepo.findById(id)
 				.orElseThrow(() -> new DataRetrievalFailureException(Utility.returnNotFoundMsg(ENTITY_TYPE, id)));
 		if (!SecurityUtils.isCurrentUserAdmin()) {

@@ -88,8 +88,7 @@
 
 				<div class="expd-clps-div">
 					<span th:text="#{h.linkedFCs}"></span>
-<!-- 					<button id="collapseExpandFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedFCs})}" -->
-<!-- 						onclick="expandCollapseTable('fundingCyclesTable', 'collapseExpandFCsBtn')">+</button> -->
+<!-- 					<button id="collapseExpandFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedFCs})}">+</button> -->
 				</div>
 
 				<div id="fundingCyclesTable" >
@@ -130,8 +129,7 @@
 				
 				<div hidden="true" sec:authorize="hasRole('MDM ADMIN')" class="expd-clps-div">
 					<span th:text="#{h.auditLog}"></span>
-					<button id="collapseExpandAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}"
-						onclick="expandCollapseTable('auditTable', 'collapseExpandAuditTableBtn')">+</button>
+					<button id="expandCollapseAuditTableBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.auditLog})}">+</button>
 				</div>
 
 				<div id="auditTable" hidden="true">
@@ -188,8 +186,7 @@
 <!-- 
 				<div class="expd-clps-div">
 					<span th:text="#{h.linkedSfcs}"></span>
-					<button id="collapseExpandSFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedSfcs})}"
-						onclick="expandCollapseTable('systemFundingCyclesTable', 'collapseExpandSFCsBtn')">+</button>
+					<button id="collapseExpandSFCsBtn" class="btn-xs expd-clps-btn" th:title="#{msg.expandCollapse(#{h.linkedSfcs})}">+</button>
 				</div>
 
 				<div id="systemFundingCyclesTable" hidden="true">
@@ -214,6 +211,7 @@
 				</div>
 
 				-->
+				
 
 			</div>
 

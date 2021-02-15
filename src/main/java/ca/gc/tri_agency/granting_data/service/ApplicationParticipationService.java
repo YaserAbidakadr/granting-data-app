@@ -42,7 +42,7 @@ public interface ApplicationParticipationService {
 
 	List<ApplicationParticipation> getAllowedRecords();
 
-	ApplicationParticipation getAllowdRecord(Long id);
+	ApplicationParticipation getAllowedRecord(Long id);
 
 	ApplicationParticipation findAppPartByApplId(String applId);
 

@@ -1,5 +1,6 @@
 package ca.gc.tri_agency.granting_data.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -44,15 +45,6 @@ public class GrantingCapability {
 	private GrantingSystem grantingSystem;
 
 	public GrantingCapability() {
-	}
-
-	public GrantingCapability(String description, String url, FundingOpportunity fundingOpportunity, GrantingStage grantingStage,
-			GrantingSystem grantingSystem) {
-		this.description = description;
-		this.url = url;
-		this.fundingOpportunity = fundingOpportunity;
-		this.grantingStage = grantingStage;
-		this.grantingSystem = grantingSystem;
 	}
 
 	public Long getId() {

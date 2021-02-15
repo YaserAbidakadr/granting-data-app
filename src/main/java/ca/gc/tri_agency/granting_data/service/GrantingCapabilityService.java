@@ -21,5 +21,5 @@ public interface GrantingCapabilityService {
 
 	List<GrantingCapabilityProjection> findGrantingCapabilitiesForBrowseViewFO(Long foId);
 
-	GrantingCapability findGrantingCapabilityAndFO(Long gcId);
+	GrantingCapability findGrantingCapabilityEager(Long gcId);
 }

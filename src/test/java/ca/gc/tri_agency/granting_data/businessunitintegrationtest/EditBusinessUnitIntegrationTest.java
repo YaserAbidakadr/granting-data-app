@@ -69,8 +69,8 @@ public class EditBusinessUnitIntegrationTest {
 	@WithMockUser(roles = { "NSERC_USER", "SSHRC_USER", "AGENCY_USER" })
 	@Test
 	public void test_nonAdminCannotAccessEditBUPage_shouldReturn403() throws Exception {
-		mvc.perform(MockMvcRequestBuilders.get("/admin/editBU").param("id", "1")).andExpect(MockMvcResultMatchers.status().isForbidden())
-				.andExpect(MockMvcResultMatchers.content().string(Matchers.containsString("id=\"forbiddenByRoleErrorPage\"")));
+		mvc.perform(MockMvcRequestBuilders.get("/admin/editBU").param("id", "1"))
+				.andExpect(MockMvcResultMatchers.status().isForbidden());
 	}
 
 	@Tag("user_story_19389")
